@@ -50,6 +50,7 @@ function Home() {
   return (
     <div className="home-page">
       {/* Navigation */}
+      {/*
       <header className="home-navbar">
         <a
           href="#home"
@@ -70,7 +71,7 @@ function Home() {
         <a href="#contact" className="home-contact-button">
           Contact Us <span>↗</span>
         </a>
-      </header>
+      </header> */}
 
       <main>
         {/* Hero Section */}
@@ -382,6 +383,7 @@ function Home() {
       </main>
 
       {/* Footer */}
+      {/*}
       <footer className="home-footer" id="contact">
         <div className="home-footer-content">
           <div className="home-footer-brand">
@@ -423,6 +425,7 @@ function Home() {
           <span>Learn. Apply. Grow.</span>
         </div>
       </footer>
+      */}
     </div>
   );
 }
