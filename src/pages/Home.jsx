@@ -1,7 +1,7 @@
-
+import { Link } from 'react-router-dom';
 import './Home.css';
-import logo from './assets/OM.png';
-import heroImg from './assets/hero.png';
+import logo from '../assets/OM.png';
+import heroImg from '../assets/hero.png';
 
 const services = [
   {
@@ -150,6 +150,35 @@ function Home() {
             <div className="home-visual-caption">
               <span></span> LEARN. APPLY. GROW.
             </div>
+          </div>
+        </section>
+
+        {/* About Us Brief */}
+        <section className="home-about" id="about">
+          <div className="home-about-visual">
+            <div className="home-about-circle">
+              <img src={logo} alt="Our Memories EduTech" />
+            </div>
+            <span className="home-about-decoration">LEARN · APPLY · GROW</span>
+          </div>
+
+          <div className="home-about-content">
+            <span className="home-section-label">WELCOME TO OUR MEMORIES EDUTECH</span>
+            <h2>Helping you turn opportunities into <span>progress.</span></h2>
+            <p>
+              Our Memories EduTech is committed to helping learners,
+              students and job seekers access educational support,
+              application assistance and career services.
+            </p>
+            <p>
+              We aim to make important next steps clearer through
+              practical guidance, learning opportunities and accessible services.
+            </p>
+
+            {/* UPDATED LINK HERE */}
+            <Link to="/about" className="home-text-link">
+              Read Our Full Story <span>→</span>
+            </Link>
           </div>
         </section>
 

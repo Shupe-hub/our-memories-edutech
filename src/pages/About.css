@@ -8,14 +8,28 @@
     --text-dark: #1a1a1a;
     --text-muted: #555555;
     --bg-light: #f8fafc;
+    --bg-white: #ffffff;
     --border-color: #e2e8f0;
+}
+
+/* ----- DARK THEME OVERRIDES ----- */
+[data-theme="dark"] {
+    --brand-teal: #14b8a6;
+    --brand-teal-light: #134e4a;
+
+    --text-dark: #f8fafc;
+    --text-muted: #94a3b8;
+    --bg-light: #1e293b;
+    --bg-white: #0f172a;
+    --border-color: #334155;
 }
 
 .about-page {
     font-family: 'Montserrat', sans-serif;
-    background-color: #ffffff;
+    background-color: var(--bg-white); /* FIXED: Adapts to dark mode */
     color: var(--text-dark);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Reusable */
@@ -34,6 +48,7 @@
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 1.5rem;
+    color: var(--text-dark);
 }
 
 .section-title span {
@@ -56,7 +71,7 @@
 
 .btn-primary {
     background-color: var(--brand-orange);
-    color: #ffffff;
+    color: #ffffff; /* Hardcoded white for orange background */
     border: 2px solid var(--brand-orange);
 }
 
@@ -70,7 +85,7 @@
 /* 1. Hero */
 .about-hero {
     background-color: var(--brand-teal);
-    color: #ffffff;
+    color: #ffffff; /* Hardcoded white for teal background */
     padding: 6rem 2rem;
     text-align: center;
     border-bottom: 5px solid var(--brand-orange);
@@ -80,6 +95,7 @@
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
+    color: #ffffff;
 }
 
 .about-hero p {
@@ -133,8 +149,9 @@
 
 /* 3. Mission Vision */
 .about-mv {
-    background-color: var(--bg-light);
+    background-color: var(--bg-light); /* Adapts to dark mode */
     padding: 6rem 2rem;
+    transition: background-color 0.3s ease;
 }
 
 .about-mv-container {
@@ -146,12 +163,13 @@
 }
 
 .mv-card {
-    background-color: #ffffff;
+    background-color: var(--bg-white); /* Adapts to dark mode */
+    color: var(--text-dark);
     padding: 3rem;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     border-top: 5px solid var(--brand-teal);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .mv-card:hover { transform: translateY(-5px); }
@@ -169,7 +187,7 @@
     margin-bottom: 1.5rem;
 }
 
-.mv-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+.mv-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-dark); }
 .mv-card p { color: var(--text-muted); }
 
 /* 4. Values */
@@ -193,6 +211,7 @@
     border: 1px solid var(--border-color);
     border-radius: 16px;
     transition: all 0.3s ease;
+    background-color: var(--bg-white);
 }
 
 .value-card:hover {
@@ -201,13 +220,13 @@
 }
 
 .value-icon { font-size: 2.5rem; color: var(--brand-orange); margin-bottom: 1.5rem; }
-.value-card h4 { font-size: 1.2rem; margin-bottom: 1rem; }
+.value-card h4 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-dark); }
 .value-card p { color: var(--text-muted); font-size: 0.9rem; }
 
 /* 5. Why Choose Us */
 .about-why {
     background-color: var(--brand-teal);
-    color: #ffffff;
+    color: #ffffff; /* Hardcoded white for teal background */
     padding: 6rem 2rem;
 }
 
@@ -231,7 +250,7 @@
     gap: 1rem;
 }
 
-.about-why-list li { display: flex; align-items: center; gap: 15px; font-weight: 600; }
+.about-why-list li { display: flex; align-items: center; gap: 15px; font-weight: 600; color: #ffffff; }
 .about-why-list i { color: var(--brand-orange); font-size: 1.2rem; }
 
 .about-why-visual {
@@ -244,16 +263,17 @@
 }
 
 .about-why-visual h3 { font-size: 3rem; color: var(--brand-orange); margin-bottom: 0.5rem; }
-.about-why-visual p { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+.about-why-visual p { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: #ffffff; }
 
 /* 6. CTA */
 .about-cta {
     padding: 6rem 2rem;
     text-align: center;
-    background-color: var(--bg-light);
+    background-color: var(--bg-light); /* Adapts to dark mode */
+    transition: background-color 0.3s ease;
 }
 
-.about-cta h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+.about-cta h2 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-dark); }
 .about-cta p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; }
 
 /* Responsive */
