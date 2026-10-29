@@ -60,7 +60,7 @@ const Header = ({ toggleTheme, theme }) => {
     const standardLinks = [
         { title: 'ABOUT US', path: '/about' },
         { title: 'PORTFOLIO', path: '/#portfolio' },
-        { title: 'PRICING', path: '/#pricing' },
+        { title: 'PRICING', path: '/pricing' },
         { title: 'CONTACT US', path: '/#contact' }
     ];
 

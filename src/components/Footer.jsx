@@ -62,7 +62,7 @@ const Footer = () => {
                         <li><Link to="/about"><i className="fas fa-chevron-right"></i> About Us</Link></li>
                         <li><Link to="/#team"><i className="fas fa-chevron-right"></i> Our Team</Link></li>
                         <li><Link to="/#portfolio"><i className="fas fa-chevron-right"></i> Portfolio</Link></li>
-                        <li><Link to="/#pricing"><i className="fas fa-chevron-right"></i> Pricing & Packages</Link></li>
+                        <li><Link to="/pricing"><i className="fas fa-chevron-right"></i> Pricing & Packages</Link></li>
                         <li><Link to="/#blog"><i className="fas fa-chevron-right"></i> EduTech Insights</Link></li>
                         <li><Link to="/#contact"><i className="fas fa-chevron-right"></i> Contact Us</Link></li>
                     </ul>
