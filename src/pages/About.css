@@ -10,6 +10,9 @@
     --bg-light: #f8fafc;
     --bg-white: #ffffff;
     --border-color: #e2e8f0;
+
+    --about-hero-bg: var(--brand-teal);
+    --about-why-bg: var(--brand-teal);
 }
 
 /* ----- DARK THEME OVERRIDES ----- */
@@ -22,6 +25,9 @@
     --bg-light: #1e293b;
     --bg-white: #0f172a;
     --border-color: #334155;
+
+    --about-hero-bg: #0f172a;
+    --about-why-bg: #1e293b;
 }
 
 .about-page {
@@ -84,7 +90,7 @@
 
 /* 1. Hero */
 .about-hero {
-    background-color: var(--brand-teal);
+    background-color: var(--about-hero-bg);
     color: #ffffff; /* Hardcoded white for teal background */
     padding: 6rem 2rem;
     text-align: center;
@@ -115,7 +121,10 @@
     gap: 4rem;
 }
 
-.about-story-content { flex: 1; }
+.about-story-content {
+    flex: 1;
+}
+
 .about-story-content p {
     color: var(--text-muted);
     font-size: 1.05rem;
@@ -172,7 +181,9 @@
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.mv-card:hover { transform: translateY(-5px); }
+.mv-card:hover {
+    transform: translateY(-5px);
+}
 
 .mv-icon {
     width: 60px;
@@ -187,8 +198,15 @@
     margin-bottom: 1.5rem;
 }
 
-.mv-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-dark); }
-.mv-card p { color: var(--text-muted); }
+.mv-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.mv-card p {
+    color: var(--text-muted);
+}
 
 /* 4. Values */
 .about-values {
@@ -198,7 +216,10 @@
     text-align: center;
 }
 
-.about-values-header { max-width: 700px; margin: 0 auto 4rem auto; }
+.about-values-header {
+    max-width: 700px;
+    margin: 0 auto 4rem auto;
+}
 
 .values-grid {
     display: grid;
@@ -219,15 +240,30 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
 }
 
-.value-icon { font-size: 2.5rem; color: var(--brand-orange); margin-bottom: 1.5rem; }
-.value-card h4 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-dark); }
-.value-card p { color: var(--text-muted); font-size: 0.9rem; }
+.value-icon {
+    font-size: 2.5rem;
+    color: var(--brand-orange);
+    margin-bottom: 1.5rem;
+}
+
+.value-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.value-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
 
 /* 5. Why Choose Us */
+/* ----- 5. Why Choose Us Section ----- */
 .about-why {
-    background-color: var(--brand-teal);
-    color: #ffffff; /* Hardcoded white for teal background */
+    background-color: var(--about-why-bg); /* Uses the dynamic background */
+    color: #ffffff;
     padding: 6rem 2rem;
+    transition: background-color 0.3s ease;
 }
 
 .about-why-container {
@@ -239,9 +275,24 @@
 }
 
 .about-why-content { flex: 1; }
-.about-why-content .section-label { color: var(--brand-orange); }
-.about-why-content h2 { color: #ffffff; font-size: 2.5rem; margin-bottom: 1.5rem; }
-.about-why-content p { color: rgba(255, 255, 255, 0.85); margin-bottom: 2rem; font-size: 1.05rem; }
+
+.about-why-content .section-label {
+    color: var(--brand-orange);
+}
+
+/* FIXED: Ensure the main title stays pure white */
+.about-why-content h2 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* FIXED: Ensure the paragraph is a bright, readable white */
+.about-why-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+}
 
 .about-why-list {
     list-style: none;
@@ -250,20 +301,43 @@
     gap: 1rem;
 }
 
-.about-why-list li { display: flex; align-items: center; gap: 15px; font-weight: 600; color: #ffffff; }
-.about-why-list i { color: var(--brand-orange); font-size: 1.2rem; }
+/* FIXED: Ensure list items are pure white */
+.about-why-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    color: #ffffff;
+}
 
+.about-why-list i {
+    color: var(--brand-orange);
+    font-size: 1.2rem;
+}
+
+/* The Visual Box on the right */
 .about-why-visual {
     flex: 1;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     padding: 3rem;
     border-radius: 24px;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.about-why-visual h3 { font-size: 3rem; color: var(--brand-orange); margin-bottom: 0.5rem; }
-.about-why-visual p { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: #ffffff; }
+.about-why-visual h3 {
+    font-size: 3rem;
+    color: var(--brand-orange);
+    margin-bottom: 0.5rem;
+}
+
+.about-why-visual p {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #ffffff; /* Pure white */
+}
 
 /* 6. CTA */
 .about-cta {
@@ -273,14 +347,42 @@
     transition: background-color 0.3s ease;
 }
 
-.about-cta h2 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-dark); }
-.about-cta p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; }
+.about-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.about-cta p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+}
 
 /* Responsive */
 @media (max-width: 1024px) {
-    .about-story, .about-why-container { flex-direction: column; text-align: center; gap: 3rem; }
-    .about-story-badge { left: 50%; transform: translateX(-50%); bottom: -30px; width: max-content; }
-    .about-why-list li { justify-content: center; }
-    .about-mv-container { grid-template-columns: 1fr; }
-    .about-hero h1 { font-size: 2.8rem; }
+    .about-story, .about-why-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .about-story-badge {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -30px;
+        width: max-content;
+    }
+
+    .about-why-list li {
+        justify-content: center;
+    }
+
+    .about-mv-container {
+        grid-template-columns: 1fr;
+    }
+
+    .about-hero h1 {
+        font-size: 2.8rem;
+    }
 }
