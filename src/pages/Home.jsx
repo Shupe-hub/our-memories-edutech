@@ -271,7 +271,7 @@ function Home() {
               services.
             </p>
 
-            <a href="#contact" className="home-text-link">
+            <a href="/contact" className="home-text-link">
               Get in touch with us <span>↗</span>
             </a>
           </div>
@@ -302,7 +302,7 @@ function Home() {
             </ul>
 
             <a
-              href="#contact"
+              href="/contact"
               className="home-button home-button-primary"
             >
               Enquire About Tutoring <span>→</span>
@@ -360,7 +360,7 @@ function Home() {
           </div>
 
           <a
-            href="#contact"
+            href="/contact"
             className="home-button home-button-primary"
           >
             Request Application Assistance <span>↗</span>
@@ -383,7 +383,7 @@ function Home() {
               internships, learnerships and graduate programmes.
             </p>
 
-            <a href="#contact" className="home-text-link">
+            <a href="/contact" className="home-text-link">
               Enquire about career services <span>→</span>
             </a>
           </article>
@@ -403,7 +403,7 @@ function Home() {
           </p>
 
           <a
-            href="#contact"
+            href="/contact"
             className="home-button home-button-primary"
           >
             Contact Our Team <span>↗</span>

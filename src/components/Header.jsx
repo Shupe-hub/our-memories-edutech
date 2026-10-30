@@ -61,7 +61,7 @@ const Header = ({ toggleTheme, theme }) => {
         { title: 'ABOUT US', path: '/about' },
         { title: 'PORTFOLIO', path: '/#portfolio' },
         { title: 'PRICING', path: '/pricing' },
-        { title: 'CONTACT US', path: '/#contact' }
+        { title: 'CONTACT US', path: '/contact' }
     ];
 
     return (
@@ -92,10 +92,25 @@ const Header = ({ toggleTheme, theme }) => {
 
                     {/* Centered Social Icons */}
                     <div className="social-icons">
-                        <a href="#linkedin" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                        <a href="#facebook" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
-                        <a href="#instagram" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                        <a href="#whatsapp" aria-label="WhatsApp"><i className="fab fa-whatsapp"></i></a>
+                        {/* Replace with your actual LinkedIn URL */}
+                        <a href="https://www.linkedin.com/company/#page-name" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i className="fab fa-linkedin-in"></i>
+                        </a>
+
+                        {/* Replace with your actual Facebook URL */}
+                        <a href="https://www.facebook.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i className="fab fa-facebook-f"></i>
+                        </a>
+
+                        {/* Replace with your actual Instagram URL */}
+                        <a href="https://www.instagram.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i className="fab fa-instagram"></i>
+                        </a>
+
+                        {/* WhatsApp Link */}
+                        <a href="https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                            <i className="fab fa-whatsapp"></i>
+                        </a>
                     </div>
 
                     {/* Stacked Action Buttons */}

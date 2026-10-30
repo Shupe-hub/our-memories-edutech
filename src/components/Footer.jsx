@@ -25,18 +25,23 @@ const Footer = () => {
                     <p>Empowering learners, students, job seekers and businesses through education, opportunity and technology. Your future is our priority.</p>
 
                     <div className="contact-info">
+                        {/* Phone */}
                         <a href="tel:+27676916912" className="contact-item">
                             <i className="fas fa-phone-alt"></i>
                             <span>067 691 6912 / 072 817 9857</span>
                         </a>
+
+                        {/* Email */}
                         <a href="mailto:ourmemoriesedutech@gmail.com" className="contact-item">
                             <i className="fas fa-envelope"></i>
                             <span>ourmemoriesedutech@gmail.com</span>
                         </a>
-                        <div className="contact-item">
+
+                        {/* Location */}
+                        <a href="https://maps.google.com/?q=South+Africa" target="_blank" rel="noopener noreferrer" className="contact-item">
                             <i className="fas fa-map-marker-alt"></i>
                             <span>South Africa</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
@@ -64,7 +69,7 @@ const Footer = () => {
                         <li><Link to="/#portfolio"><i className="fas fa-chevron-right"></i> Portfolio</Link></li>
                         <li><Link to="/pricing"><i className="fas fa-chevron-right"></i> Pricing & Packages</Link></li>
                         <li><Link to="/#blog"><i className="fas fa-chevron-right"></i> EduTech Insights</Link></li>
-                        <li><Link to="/#contact"><i className="fas fa-chevron-right"></i> Contact Us</Link></li>
+                        <li><Link to="/contact"><i className="fas fa-chevron-right"></i> Contact Us</Link></li>
                     </ul>
                 </div>
 
@@ -72,11 +77,20 @@ const Footer = () => {
                 <div className="footer-column">
                     <h3>Connect With Us</h3>
 
+                    {/* Inside Footer.jsx */}
                     <div className="footer-socials">
-                        <a href="#linkedin" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                        <a href="#facebook" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
-                        <a href="#instagram" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                        <a href="#whatsapp" aria-label="WhatsApp"><i className="fab fa-whatsapp"></i></a>
+                        <a href="https://www.linkedin.com/company/#page-name" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i className="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.facebook.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i className="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i className="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                            <i className="fab fa-whatsapp"></i>
+                        </a>
                     </div>
 
                     <div className="newsletter-box">

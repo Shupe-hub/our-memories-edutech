@@ -37,29 +37,58 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ----- Floating Theme Toggle Button ----- */
+/* App.css */
+.floating-buttons-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9999;
+}
+
+/* WhatsApp Button */
+.floating-whatsapp {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #25D366; /* Official WhatsApp Green */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.floating-whatsapp:hover {
+    transform: scale(1.1);
+    background-color: #1ebd57;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+}
+
+/* Theme Toggle Button (Keep your existing style but remove 'position: fixed') */
 .floating-theme-toggle {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background-color: var(--brand-teal);
-  color: #ffffff;
-  border: none;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  font-size: 1.3rem;
-  cursor: pointer;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--brand-teal);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .floating-theme-toggle:hover {
-  transform: scale(1.1) rotate(15deg);
-  background-color: var(--brand-orange);
-  box-shadow: 0 6px 20px rgba(243, 112, 33, 0.4);
+    transform: scale(1.1) rotate(15deg);
+    background-color: var(--brand-orange);
+    box-shadow: 0 6px 20px rgba(243, 112, 33, 0.4);
 }
