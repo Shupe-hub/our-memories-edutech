@@ -1,7 +1,7 @@
-
+import { Link } from 'react-router-dom';
 import './Home.css';
-import logo from './assets/OM.png';
-import heroImg from './assets/hero.png';
+import logo from '../assets/OM.png';
+import heroImg from '../assets/hero.png';
 
 const services = [
   {
@@ -50,6 +50,7 @@ function Home() {
   return (
     <div className="home-page">
       {/* Navigation */}
+      {/*
       <header className="home-navbar">
         <a
           href="#home"
@@ -70,7 +71,7 @@ function Home() {
         <a href="#contact" className="home-contact-button">
           Contact Us <span>↗</span>
         </a>
-      </header>
+      </header> */}
 
       <main>
         {/* Hero Section */}
@@ -149,6 +150,35 @@ function Home() {
             <div className="home-visual-caption">
               <span></span> LEARN. APPLY. GROW.
             </div>
+          </div>
+        </section>
+
+        {/* About Us Brief */}
+        <section className="home-about" id="about">
+          <div className="home-about-visual">
+            <div className="home-about-circle">
+              <img src={logo} alt="Our Memories EduTech" />
+            </div>
+            <span className="home-about-decoration">LEARN · APPLY · GROW</span>
+          </div>
+
+          <div className="home-about-content">
+            <span className="home-section-label">WELCOME TO OUR MEMORIES EDUTECH</span>
+            <h2>Helping you turn opportunities into <span>progress.</span></h2>
+            <p>
+              Our Memories EduTech is committed to helping learners,
+              students and job seekers access educational support,
+              application assistance and career services.
+            </p>
+            <p>
+              We aim to make important next steps clearer through
+              practical guidance, learning opportunities and accessible services.
+            </p>
+
+            {/* UPDATED LINK HERE */}
+            <Link to="/about" className="home-text-link">
+              Read Our Full Story <span>→</span>
+            </Link>
           </div>
         </section>
 
@@ -241,7 +271,7 @@ function Home() {
               services.
             </p>
 
-            <a href="#contact" className="home-text-link">
+            <a href="/contact" className="home-text-link">
               Get in touch with us <span>↗</span>
             </a>
           </div>
@@ -272,7 +302,7 @@ function Home() {
             </ul>
 
             <a
-              href="#contact"
+              href="/contact"
               className="home-button home-button-primary"
             >
               Enquire About Tutoring <span>→</span>
@@ -330,7 +360,7 @@ function Home() {
           </div>
 
           <a
-            href="#contact"
+            href="/contact"
             className="home-button home-button-primary"
           >
             Request Application Assistance <span>↗</span>
@@ -353,7 +383,7 @@ function Home() {
               internships, learnerships and graduate programmes.
             </p>
 
-            <a href="#contact" className="home-text-link">
+            <a href="/contact" className="home-text-link">
               Enquire about career services <span>→</span>
             </a>
           </article>
@@ -373,7 +403,7 @@ function Home() {
           </p>
 
           <a
-            href="#contact"
+            href="/contact"
             className="home-button home-button-primary"
           >
             Contact Our Team <span>↗</span>
@@ -382,6 +412,7 @@ function Home() {
       </main>
 
       {/* Footer */}
+      {/*}
       <footer className="home-footer" id="contact">
         <div className="home-footer-content">
           <div className="home-footer-brand">
@@ -423,6 +454,7 @@ function Home() {
           <span>Learn. Apply. Grow.</span>
         </div>
       </footer>
+      */}
     </div>
   );
 }

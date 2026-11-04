@@ -1,0 +1,291 @@
+/* Contact.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --brand-teal: #0A7A80;
+    --brand-teal-light: #e6f4f4;
+    --brand-teal-dark: #064b4f;
+    --brand-orange: #F37021;
+    --brand-orange-hover: #d65d13;
+    --text-dark: #1a1a1a;
+    --text-muted: #64748b;
+    --bg-white: #ffffff;
+    --bg-light: #f1f5f9;
+    --border-color: #e2e8f0;
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] {
+    --brand-teal: #14b8a6;
+    --brand-teal-light: #134e4a;
+    --brand-teal-dark: #041f21;
+    --text-dark: #f8fafc;
+    --text-muted: #94a3b8;
+    --bg-white: #0f172a;
+    --bg-light: #1e293b;
+    --border-color: #334155;
+}
+
+.contact-page {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+    /* Layout */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: flex-start;
+    min-height: 80vh;
+}
+
+/* ----- Left Side: Info ----- */
+.contact-info-section {
+    padding-right: 2rem;
+}
+
+.contact-badge {
+    display: inline-block;
+    background-color: var(--brand-teal-light);
+    color: var(--brand-teal);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.contact-info-section h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.contact-info-section h1 span {
+    color: var(--brand-orange);
+}
+
+.contact-info-section > p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 500px;
+}
+
+/* Contact Details List */
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.contact-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.contact-icon-box {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--brand-teal);
+    flex-shrink: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.contact-detail-text h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.contact-detail-text p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Social Links */
+.contact-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-btn {
+    width: 45px;
+    height: 45px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+}
+
+.social-btn:hover {
+    background-color: var(--brand-orange);
+    color: white;
+    border-color: var(--brand-orange);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(243, 112, 33, 0.3);
+}
+
+/* ----- Right Side: Form ----- */
+.contact-form-section {
+    background-color: var(--bg-white);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.contact-form-section h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.contact-form-section > p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--brand-teal);
+    background-color: var(--bg-white);
+    box-shadow: 0 0 0 4px rgba(10, 122, 128, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Custom Select Arrow */
+.select-control {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230A7A80%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem top 50%;
+    background-size: 0.65rem auto;
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--brand-orange);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.submit-btn:hover {
+    background-color: var(--brand-orange-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(243, 112, 33, 0.2);
+}
+
+/* ----- Responsive Design ----- */
+@media (max-width: 1024px) {
+    .contact-page {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+        padding: 4rem 2rem;
+    }
+    .contact-info-section {
+        padding-right: 0;
+        text-align: center;
+    }
+    .contact-info-section > p {
+        margin: 0 auto 3rem auto;
+    }
+    .contact-details {
+        align-items: center;
+    }
+    .contact-socials {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-info-section h1 {
+        font-size: 2.5rem;
+    }
+    .contact-form-section {
+        padding: 2rem;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
