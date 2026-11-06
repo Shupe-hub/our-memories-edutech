@@ -78,7 +78,7 @@ function Home() {
         <section className="home-hero" id="home">
           <div className="home-hero-content">
             <div className="home-eyebrow">
-              <span className="home-eyebrow-dot"></span>
+              <span className="home-eyebrow-do"></span>
               EDUCATION · OPPORTUNITY · GROWTH
             </div>
 

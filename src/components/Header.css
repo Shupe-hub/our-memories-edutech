@@ -1,27 +1,42 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
-/* ----- LIGHT THEME (Default) ----- */
+/* =========================================
+   1. THEME VARIABLES
+========================================= */
+
 :root {
     --bg-white: #ffffff;
     --text-dark: #1a1a1a;
     --text-muted: #666666;
+
     --brand-orange: #F37021;
     --brand-orange-hover: #d65d13;
+
     --brand-teal: #0A7A80;
     --brand-teal-hover: #08666b;
+
     --border-color: #e2e8f0;
     --bg-light: #f8fafc;
 }
 
-/* ----- DARK THEME OVERRIDES ----- */
+/* DARK THEME */
+
 [data-theme="dark"] {
-    --bg-white: #0f172a; /* Dark Navy background */
-    --text-dark: #f8fafc; /* Bright white text */
-    --text-muted: #94a3b8; /* Light grey text */
-    --brand-teal: #14b8a6; /* Brighter teal for dark mode */
-    --border-color: #334155; /* Darker borders */
-    --bg-light: #1e293b; /* For hovers */
+    --bg-white: #0f172a;
+    --text-dark: #f8fafc;
+    --text-muted: #94a3b8;
+
+    --brand-teal: #14b8a6;
+    --brand-teal-hover: #0d9488;
+
+    --border-color: #334155;
+    --bg-light: #1e293b;
 }
+
+/* =========================================
+   2. GLOBAL STYLES
+========================================= */
 
 * {
     margin: 0;
@@ -31,9 +46,8 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #f8fafc;
-    color: #333;
-    transition: background-color 0.3s ease;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
 }
 
 a {
@@ -41,39 +55,51 @@ a {
     color: inherit;
 }
 
-/* ----- Main Header Container ----- */
+button {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .site-header {
-    background-color: var(--bg-white);
     width: 100%;
-    color: var(--text-dark);
     position: relative;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ----- Top Bar Layout ----- */
+/* =========================================
+   3. DESKTOP TOP HEADER
+========================================= */
+
 .top-bar {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    padding: 1.3rem 2rem;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+
+    align-items: center;
+    gap: 20px;
 }
 
-/* 1. Logo Area */
+/* LOGO */
+
 .logo-area {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding-top: 5px;
     text-decoration: none;
 }
 
 .brand-logo {
-    height: 100px;
+    height: 90px;
     width: auto;
+    max-width: 180px;
     object-fit: contain;
     display: block;
     margin-bottom: 4px;
@@ -83,20 +109,20 @@ a {
     font-size: 0.55rem;
     color: var(--brand-orange);
     letter-spacing: 2px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     text-align: center;
 }
 
-/* 2. Center Tagline */
+/* CENTER TAGLINE */
+
 .center-tagline {
     text-align: center;
-    padding-top: 15px;
-    flex-grow: 1;
+    padding-top: 10px;
 }
 
 .center-tagline h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
     font-weight: 800;
     letter-spacing: 1.5px;
     margin-bottom: 8px;
@@ -108,28 +134,31 @@ a {
 }
 
 .center-tagline p.main-p {
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.78rem;
+    font-weight: 800;
     letter-spacing: 1px;
     color: var(--brand-teal);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 .center-tagline p.sub-p {
-    font-size: 0.7rem;
+    font-size: 0.67rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
+    line-height: 1.6;
     color: var(--text-muted);
 }
 
-/* 3. Right Side Actions */
+/* =========================================
+   4. SOCIAL MEDIA AND ACTION BUTTONS
+========================================= */
+
 .top-actions {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    width: 280px;
-    margin-right: -10px;
+    width: 100%;
 }
 
 .social-icons {
@@ -137,66 +166,75 @@ a {
     justify-content: center;
     align-items: center;
     gap: 22px;
-    width: 100%;
 }
 
 .social-icons a {
     color: var(--text-muted);
     font-size: 1.1rem;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-icons a:hover {
     color: var(--brand-orange);
+    transform: translateY(-2px);
 }
 
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
+    max-width: 230px;
 }
+
+/* BUTTONS */
 
 .btn-pill {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent;
+
+    background: transparent;
     color: var(--brand-teal);
-    padding: 14px 10px;
+
+    padding: 11px 15px;
     border-radius: 30px;
-    font-size: 0.75rem;
+
+    font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
+
     transition: all 0.2s ease;
+
     border: 2px solid var(--brand-teal);
     cursor: pointer;
     width: 100%;
 }
 
 .btn-primary-pill {
-    background-color: var(--brand-orange);
+    background: var(--brand-orange);
     color: #ffffff;
     border-color: var(--brand-orange);
 }
 
 .btn-primary-pill:hover {
-    background-color: var(--brand-orange-hover);
+    background: var(--brand-orange-hover);
     border-color: var(--brand-orange-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(243, 112, 33, 0.2);
+    transform: translateY(-2px);
 }
 
 .btn-secondary-pill:hover {
-    background-color: var(--brand-teal);
+    background: var(--brand-teal);
     color: #ffffff;
-    transform: translateY(-1px);
 }
 
-/* ----- Navigation Bar ----- */
+/* =========================================
+   5. MAIN NAVIGATION
+========================================= */
+
 .main-nav {
-    background-color: var(--bg-white);
+    background: var(--bg-white);
     border-top: 1px solid var(--border-color);
     border-bottom: 2px solid var(--brand-teal);
     transition: background-color 0.3s ease;
@@ -205,15 +243,20 @@ a {
 .nav-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
+
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .nav-menu {
     display: flex;
+    align-items: center;
+    justify-content: center;
+
     list-style: none;
-    gap: 5px;
+    gap: 3px;
 }
 
 .nav-item {
@@ -223,24 +266,35 @@ a {
 .nav-link {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 15px 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
+
+    padding: 16px 15px;
+
+    font-size: 0.75rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
+
     transition: color 0.3s ease;
+
     border-bottom: 3px solid transparent;
     cursor: pointer;
+
     color: var(--text-dark);
     background: none;
+
     border-top: none;
     border-left: none;
     border-right: none;
+
     font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
 }
 
-.nav-link:hover, .nav-item.active .nav-link {
+.nav-link:hover,
+.nav-item:hover > .nav-link,
+.nav-link.active-link {
     color: var(--brand-orange);
     border-bottom-color: var(--brand-orange);
 }
@@ -250,36 +304,52 @@ a {
     transition: transform 0.3s ease;
 }
 
-/* Dropdown Styles */
+/* =========================================
+   6. DROPDOWN MENUS
+========================================= */
+
 .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 50%;
+
     transform: translateX(-50%) translateY(10px);
-    background-color: var(--bg-white);
+
+    background: var(--bg-white);
     color: var(--text-dark);
+
     min-width: 260px;
     list-style: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+
     border-top: 3px solid var(--brand-teal);
     z-index: 100;
-    border-radius: 0 0 4px 4px;
+
+    border-radius: 0 0 5px 5px;
+
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
-    padding: 0;
 }
 
-.nav-item:hover .dropdown-menu {
+.nav-item:hover > .dropdown-menu,
+.nav-item:focus-within > .dropdown-menu,
+.nav-item.dropdown-open > .dropdown-menu {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateX(-50%) translateY(0);
 }
 
-.nav-item:hover .nav-link i {
+.nav-item:hover > .nav-link i,
+.nav-item.dropdown-open > .nav-link i {
     transform: rotate(180deg);
 }
 
@@ -287,14 +357,18 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 20px;
-    font-size: 0.8rem;
+
+    padding: 13px 18px;
+
+    font-size: 0.77rem;
     font-weight: 600;
+
     border-bottom: 1px solid var(--border-color);
-    transition: all 0.2s;
+
+    transition: all 0.2s ease;
+
     text-transform: capitalize;
     color: var(--text-dark);
-    text-align: left;
 }
 
 .dropdown-item:last-child {
@@ -302,99 +376,320 @@ a {
 }
 
 .dropdown-item:hover {
-    background-color: var(--bg-light);
-    color: var(--brand-teal);
-    padding-left: 25px;
-}
-
-/* Theme Toggle Button */
-.theme-toggle-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    margin-left: 15px;
-}
-
-.theme-toggle-nav:hover {
     background: var(--bg-light);
     color: var(--brand-teal);
+    padding-left: 24px;
 }
 
-.theme-toggle-nav i {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
+/* =========================================
+   7. MOBILE MENU BUTTON
+========================================= */
+
+.mobile-menu-toggle {
+    display: none;
 }
 
-.theme-toggle-nav:hover i {
-    transform: rotate(15deg);
-}
+/* =========================================
+   8. TABLET RESPONSIVENESS
+========================================= */
 
-.toggle-text {
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+@media (max-width: 1100px) and (min-width: 769px) {
 
-/* ----- Responsive Adjustments ----- */
-@media (max-width: 1100px) {
     .top-bar {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        padding-bottom: 1.5rem;
-    }
-
-    .logo-area {
-        padding-top: 0;
+        grid-template-columns: 1fr 2fr 1fr;
+        padding: 1.2rem;
+        gap: 12px;
     }
 
     .brand-logo {
         height: 75px;
     }
 
-    .top-actions {
-        align-items: center;
-        width: 100%;
-        margin-right: 0;
+    .center-tagline h1 {
+        font-size: 1.3rem;
+    }
+
+    .center-tagline p.main-p {
+        font-size: 0.68rem;
+    }
+
+    .center-tagline p.sub-p {
+        font-size: 0.58rem;
     }
 
     .action-buttons {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
+        max-width: 190px;
     }
 
     .btn-pill {
+        font-size: 0.65rem;
+        padding: 10px;
+    }
+
+    .nav-link {
+        padding: 14px 9px;
+        font-size: 0.65rem;
+    }
+
+}
+
+/* =========================================
+   9. MOBILE HEADER
+   LOGO LEFT - HAMBURGER RIGHT
+========================================= */
+
+@media (max-width: 768px) {
+
+    /* TOP HEADER */
+
+    .top-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 10px 18px;
+        min-height: 75px;
+        gap: 10px;
+    }
+
+    /* LOGO LEFT */
+
+    .logo-area {
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .brand-logo {
+        height: 48px;
         width: auto;
-        padding: 12px 25px;
+        max-width: 130px;
+        margin-bottom: 2px;
+    }
+
+    .logo-area .sub {
+        font-size: 0.42rem;
+        letter-spacing: 1.3px;
+        text-align: left;
+    }
+
+    /* HIDE DESKTOP TAGLINE */
+
+    .center-tagline {
+        display: none;
+    }
+
+    /* HIDE DESKTOP SOCIAL ICONS AND BUTTONS */
+
+    .top-actions {
+        display: none;
+    }
+
+    /* HAMBURGER RIGHT */
+
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 44px;
+        height: 44px;
+
+        padding: 0;
+
+        background: var(--brand-teal);
+        color: #ffffff;
+
+        border: none;
+        border-radius: 8px;
+
+        font-size: 1.3rem;
+        cursor: pointer;
+        flex-shrink: 0;
+
+        transition: background 0.2s ease;
+    }
+
+    .mobile-menu-toggle:hover,
+    .mobile-menu-toggle.active {
+        background: var(--brand-teal-hover);
+    }
+
+    .mobile-menu-toggle:focus-visible {
+        outline: 2px solid var(--brand-orange);
+        outline-offset: 3px;
+    }
+
+    /* MOBILE NAVIGATION */
+
+    .main-nav {
+        border-top: 1px solid var(--border-color);
+        border-bottom: 2px solid var(--brand-teal);
     }
 
     .nav-container {
-        flex-wrap: wrap;
-        justify-content: center;
+        display: block;
+        padding: 0;
+    }
+
+    /* HIDE MENU BY DEFAULT */
+
+    .nav-menu {
+        display: none;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        width: 100%;
+
+        padding: 5px 18px 12px;
+
+        background: var(--bg-white);
+        gap: 0;
+    }
+
+    /* SHOW WHEN HAMBURGER IS CLICKED */
+
+    .nav-menu.mobile-open {
+        display: flex;
+        animation: menuSlideDown 0.25s ease;
+    }
+
+    .nav-item {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-link {
+        width: 100%;
+        justify-content: space-between;
+
+        padding: 15px 5px;
+
+        font-size: 0.76rem;
+
+        border-bottom: none;
+        text-align: left;
+    }
+
+    .nav-link:hover,
+    .nav-item:hover > .nav-link,
+    .nav-link.active-link {
+        border-bottom-color: transparent;
+        color: var(--brand-orange);
+    }
+
+    .nav-link i {
+        font-size: 0.7rem;
+    }
+
+    /* MOBILE DROPDOWNS */
+
+    .dropdown-menu {
+        position: static;
+
+        display: none;
+
+        width: 100%;
+        min-width: unset;
+
+        transform: none;
+
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+
+        box-shadow: none;
+
+        border: none;
+        border-top: 1px solid var(--border-color);
+        border-radius: 0;
+
+        padding: 5px 0 8px 12px;
+
+        background: var(--bg-light);
+    }
+
+    /* ONLY OPEN THE SELECTED DROPDOWN */
+
+    .nav-item:hover > .dropdown-menu {
+        transform: none;
+    }
+
+    .nav-item.dropdown-open > .dropdown-menu {
+        display: block;
+        animation: menuSlideDown 0.2s ease;
+    }
+
+    .nav-item.dropdown-open > .nav-link i {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-item {
+        padding: 12px 15px;
+        font-size: 0.73rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .dropdown-item:hover {
+        padding-left: 20px;
+    }
+
+}
+
+/* =========================================
+   10. SMALL MOBILE SCREENS
+========================================= */
+
+@media (max-width: 380px) {
+
+    .top-bar {
+        padding: 8px 13px;
+    }
+
+    .brand-logo {
+        height: 43px;
+    }
+
+    .mobile-menu-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
 
     .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
+        padding-left: 13px;
+        padding-right: 13px;
     }
 
-    .dropdown-menu {
-        left: 0;
-        transform: translateY(10px);
+}
+
+/* =========================================
+   11. ANIMATIONS
+========================================= */
+
+@keyframes menuSlideDown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
     }
 
-    .nav-item:hover .dropdown-menu {
+    to {
+        opacity: 1;
         transform: translateY(0);
     }
+
+}
+
+/* =========================================
+   12. ACCESSIBILITY
+========================================= */
+
+.mobile-menu-toggle:focus-visible,
+.nav-link:focus-visible,
+.dropdown-item:focus-visible,
+.btn-pill:focus-visible {
+    outline: 2px solid var(--brand-orange);
+    outline-offset: 3px;
 }

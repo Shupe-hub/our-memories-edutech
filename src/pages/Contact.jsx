@@ -15,7 +15,7 @@ const Contact = () => {
     };
 
     // WhatsApp Configuration
-    const whatsappNumber = "27676916912"; // Remember: Country code + number (no leading 0)
+    const whatsappNumber = "27634328758"; // Remember: Country code + number (no leading 0)
     const whatsappMessage = "Hello Our Memories EduTech, I would like assistance with...";
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -37,18 +37,18 @@ const Contact = () => {
                         </div>
                         <div className="contact-detail-text">
                             <h4>Call or WhatsApp Us</h4>
-                            <p>067 691 6912 / 072 817 9857</p>
+                            <p>064 432 8758 / 072 817 9857</p>
                         </div>
                     </a>
 
                     {/* Email Link */}
-                    <a href="mailto:ourmemoriesedutech@gmail.com" className="contact-detail-item" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <a href="mailto:info@ourmemoriesedutech.co.za" className="contact-detail-item" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <div className="contact-icon-box">
                             <i className="fas fa-envelope"></i>
                         </div>
                         <div className="contact-detail-text">
                             <h4>Email Us</h4>
-                            <p>ourmemoriesedutech@gmail.com</p>
+                            <p>info@ourmemoriesedutech.co.za</p>
                         </div>
                     </a>
 
@@ -133,7 +133,7 @@ const Contact = () => {
                     <div className="form-row">
                         <div className="form-group">
                             <label htmlFor="email">Email Address</label>
-                            <input type="email" id="email" className="form-control" placeholder="john@example.com" required />
+                            <input type="email" id="email" className="form-control" placeholder="sthembile@example.com" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="phone">Phone Number</label>
