@@ -1,125 +1,179 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Footer.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import logoImg from "../assets/OM.png";
+import "./Footer.css";
 
-const Footer = () => {
+const currentYear = new Date().getFullYear();
 
-    // Prevent form submission from refreshing the page
-    const handleSubscribe = (e) => {
-        e.preventDefault();
-        alert("Thank you for subscribing!");
-    };
+const serviceLinks = [
+    { label: "Career Services", to: "/career-services" },
+    { label: "CV Preparation", to: "/career-services/cv-preparation" },
+    { label: "Cover Letters", to: "/career-services/cover-letters" },
+    { label: "Job Applications", to: "/career-services/job-applications" },
+    { label: "Internships & Learnerships", to: "/career-services/internships-learnerships" },
+    { label: "Graduate Programmes", to: "/career-services/graduate-programmes" },
+    { label: "Online Tutoring", to: "/education/online-tutoring" },
+    { label: "University Applications", to: "/applications/university" },
+    { label: "TVET Applications", to: "/applications/tvet" },
+    { label: "School Applications", to: "/applications/school" },
+    { label: "Bursary Services", to: "/applications/bursaries" },
+    { label: "NSFAS Applications", to: "/applications/nsfas" },
+    { label: "CAO Applications", to: "/applications/cao" },
+    { label: "Study Resources", to: "/education/study-resources" },
+    { label: "Career Guidance", to: "/education/career-guidance" },
+];
+
+const companyLinks = [
+    { label: "About Us", to: "/about" },
+    { label: "Education", to: "/education" },
+    { label: "Applications", to: "/applications" },
+    { label: "Pricing & Packages", to: "/pricing" },
+    { label: "Contact Us", to: "/contact" },
+];
+
+const whatsappUrl =
+    "https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20to%20learn%20more%20about%20your%20services.";
+
+function Footer() {
+    const [newsletterEmail, setNewsletterEmail] = useState("");
+    const [newsletterMessage, setNewsletterMessage] = useState("");
+
+    function handleSubscribe(event) {
+        event.preventDefault();
+        setNewsletterMessage(
+            "Newsletter subscriptions are not available yet. Please check back soon.",
+        );
+    }
+
+    function handleEmailChange(event) {
+        setNewsletterEmail(event.target.value);
+        setNewsletterMessage("");
+    }
 
     return (
         <footer className="site-footer">
-
             <div className="footer-container">
+                <section className="footer-brand" aria-label="Our Memories EduTech contact information">
+                    <Link to="/" className="footer-logo" aria-label="Our Memories EduTech home">
+                        <img src={logoImg} alt="Our Memories EduTech" />
+                        <span className="sub">Learn • Apply • Grow</span>
+                    </Link>
 
-                {/* Column 1: Brand & Contact */}
-                <div className="footer-brand">
-                    <div className="footer-logo">
-                        <h2>Our Memories <span>EduTech</span></h2>
-                        <div className="sub">Learn • Apply • Grow</div>
-                    </div>
+                    <p>
+                        Supporting learners and students with education,
+                        application and career guidance.
+                    </p>
 
-                    <p>Empowering learners, students, job seekers and businesses through education, opportunity and technology. Your future is our priority.</p>
-
-                    <div className="contact-info">
-                        {/* Phone */}
+                    <address className="contact-info">
                         <a href="tel:+27676916912" className="contact-item">
-                            <i className="fas fa-phone-alt"></i>
-                            <span>067 691 6912 / 072 817 9857</span>
+                            <i className="fas fa-phone-alt" aria-hidden="true"></i>
+                            <span>067 691 6912</span>
                         </a>
-
-                        {/* Email */}
-                        <a href="mailto:ourmemoriesedutech@gmail.com" className="contact-item">
-                            <i className="fas fa-envelope"></i>
-                            <span>ourmemoriesedutech@gmail.com</span>
+                        <a href="mailto:info@ourmemoriesedutech.co.za" className="contact-item">
+                            <i className="fas fa-envelope" aria-hidden="true"></i>
+                            <span>info@ourmemoriesedutech.co.za</span>
                         </a>
-
-                        {/* Location */}
-                        <a href="https://maps.google.com/?q=South+Africa" target="_blank" rel="noopener noreferrer" className="contact-item">
-                            <i className="fas fa-map-marker-alt"></i>
-                            <span>South Africa</span>
+                        <a href="mailto:Ourmemoriesapplicationoffice@gmail.com" className="contact-item">
+                            <i className="fas fa-envelope" aria-hidden="true"></i>
+                            <span>Ourmemoriesapplicationoffice@gmail.com</span>
                         </a>
-                    </div>
-                </div>
+                        <a
+                            href="http://www.ourmemoriesedutech.co.za/"
+                            className="contact-item"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i className="fas fa-globe" aria-hidden="true"></i>
+                            <span>www.ourmemoriesedutech.co.za</span>
+                        </a>
+                    </address>
+                </section>
 
-                {/* Column 2: Quick Links (Services) */}
-                <div className="footer-column">
+                <nav className="footer-column" aria-label="Our services">
                     <h3>Our Services</h3>
                     <ul className="footer-links">
-                        {/* Using standard hash links for home page sections */}
-                        <li><Link to="/#tutoring"><i className="fas fa-chevron-right"></i> Online Tutoring</Link></li>
-                        <li><Link to="/#university"><i className="fas fa-chevron-right"></i> University Applications</Link></li>
-                        <li><Link to="/#tvet"><i className="fas fa-chevron-right"></i> TVET Applications</Link></li>
-                        <li><Link to="/#bursaries"><i className="fas fa-chevron-right"></i> Bursary Services</Link></li>
-                        <li><Link to="/#cv"><i className="fas fa-chevron-right"></i> CV Preparation</Link></li>
-                        <li><Link to="/#digital"><i className="fas fa-chevron-right"></i> Digital Services</Link></li>
+                        {serviceLinks.map((link) => (
+                            <li key={link.to}>
+                                <Link to={link.to}>
+                                    <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                </div>
+                </nav>
 
-                {/* Column 3: Company */}
-                <div className="footer-column">
+                <nav className="footer-column" aria-label="Company">
                     <h3>Company</h3>
                     <ul className="footer-links">
-                        {/* Using React Router Link for actual pages */}
-                        <li><Link to="/about"><i className="fas fa-chevron-right"></i> About Us</Link></li>
-                        <li><Link to="/#team"><i className="fas fa-chevron-right"></i> Our Team</Link></li>
-                        <li><Link to="/#portfolio"><i className="fas fa-chevron-right"></i> Portfolio</Link></li>
-                        <li><Link to="/pricing"><i className="fas fa-chevron-right"></i> Pricing & Packages</Link></li>
-                        <li><Link to="/#blog"><i className="fas fa-chevron-right"></i> EduTech Insights</Link></li>
-                        <li><Link to="/contact"><i className="fas fa-chevron-right"></i> Contact Us</Link></li>
+                        {companyLinks.map((link) => (
+                            <li key={link.to}>
+                                <Link to={link.to}>
+                                    <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                </div>
+                </nav>
 
-                {/* Column 4: Socials & Newsletter */}
-                <div className="footer-column">
+                <section className="footer-column footer-connect">
                     <h3>Connect With Us</h3>
-
-                    {/* Inside Footer.jsx */}
-                    <div className="footer-socials">
-                        <a href="https://www.linkedin.com/company/#page-name" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i className="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://www.facebook.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <i className="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/#page-name" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i className="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                            <i className="fab fa-whatsapp"></i>
+                    <div className="footer-socials" aria-label="Social media">
+                        <a
+                            href={whatsappUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Contact Our Memories EduTech on WhatsApp"
+                        >
+                            <i className="fab fa-whatsapp" aria-hidden="true"></i>
                         </a>
                     </div>
 
                     <div className="newsletter-box">
-                        <p>Subscribe to our newsletter for the latest educational news, bursary updates, and career tips.</p>
+                        <p>
+                            Newsletter sign-up is not available yet. You can
+                            subscribe here once the service is connected.
+                        </p>
                         <form className="newsletter-form" onSubmit={handleSubscribe}>
-                            <input type="email" placeholder="Enter your email" required />
+                            <label className="footer-visually-hidden" htmlFor="footer-newsletter-email">
+                                Email address
+                            </label>
+                            <input
+                                id="footer-newsletter-email"
+                                type="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autoComplete="email"
+                                value={newsletterEmail}
+                                onChange={handleEmailChange}
+                                required
+                            />
                             <button type="submit">Subscribe</button>
                         </form>
+                        <p className="newsletter-status" role="status" aria-live="polite">
+                            {newsletterMessage}
+                        </p>
                     </div>
-                </div>
-
+                </section>
             </div>
 
-            {/* Bottom Bar */}
             <div className="footer-bottom">
                 <div className="footer-bottom-container">
-                    <div className="copyright">
-                        &copy; {new Date().getFullYear()} Our Memories EduTech. All rights reserved.
-                    </div>
-                    <ul className="legal-links">
-                        <li><Link to="/privacy">Privacy Policy</Link></li>
-                        <li><Link to="/terms">Terms & Conditions</Link></li>
-                        <li><Link to="/refund">Refund Policy</Link></li>
-                    </ul>
+                    <p className="copyright">
+                        &copy; {currentYear} Our Memories EduTech. All rights reserved.
+                    </p>
+                    <nav aria-label="Legal information">
+                        <ul className="legal-links">
+                            <li><Link to="/privacy">Privacy Policy</Link></li>
+                            <li><Link to="/terms">Terms &amp; Conditions</Link></li>
+                            <li><Link to="/refund">Refund Policy</Link></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
-
         </footer>
     );
-};
+}
 
 export default Footer;

@@ -572,6 +572,19 @@ button {
         text-align: left;
     }
 
+    .nav-dropdown-heading {
+        width: 100%;
+    }
+
+    .nav-dropdown-heading .nav-dropdown-main-link {
+        width: auto;
+        justify-content: flex-start;
+    }
+
+    .nav-dropdown-heading .nav-dropdown-arrow {
+        width: auto;
+    }
+
     .nav-link:hover,
     .nav-item:hover > .nav-link,
     .nav-link.active-link {
@@ -680,6 +693,98 @@ button {
         transform: translateY(0);
     }
 
+}
+
+/* Education navigation heading */
+.education-nav-heading {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-dropdown-heading {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.education-main-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-dropdown-main-link {
+    flex: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.education-arrow {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.nav-dropdown-arrow {
+    flex: 0 0 auto;
+    width: auto;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.education-arrow i {
+    transition: transform 0.3s ease;
+}
+
+.nav-dropdown-arrow i {
+    transition: transform 0.3s ease;
+}
+
+.nav-item.dropdown-open .education-arrow i {
+    transform: rotate(180deg);
+}
+
+.nav-item.dropdown-open .nav-dropdown-arrow i {
+    transform: rotate(180deg);
+}
+
+/* EDUCATION NAVIGATION */
+.education-nav-heading {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.education-main-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.education-arrow {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.education-arrow i {
+    transition: transform 0.3s ease;
+}
+
+.nav-item.dropdown-open .education-arrow i {
+    transform: rotate(180deg);
 }
 
 /* =========================================

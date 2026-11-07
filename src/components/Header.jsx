@@ -14,37 +14,57 @@ const Header = ({ toggleTheme, theme }) => {
     const menuData = [
         {
             title: 'EDUCATION',
+            path: '/education',
             items: [
-                'Online Tutoring',
-                'Grade 9 - 12 Subjects',
-                'Exam Preparation',
-                'Study Resources',
-                'Career Guidance',
-                'Meet Our Tutors'
+                {
+                    title: 'Online Tutoring',
+                    path: '/education/online-tutoring'
+                },
+                {
+                    title: 'Grade 9 - 12 Subjects',
+                    path: '/education/grade-subjects'
+                },
+                {
+                    title: 'Exam Preparation',
+                    path: '/education/exam-preparation'
+                },
+                {
+                    title: 'Study Resources',
+                    path: '/education/study-resources'
+                },
+                {
+                    title: 'Career Guidance',
+                    path: '/education/career-guidance'
+                },
+                {
+                    title: 'Meet Our Tutors',
+                    path: '/education/meet-our-tutors'
+                }
             ]
         },
         {
-            title: 'APPLICATIONS',
-            items: [
-                'University Applications',
-                'TVET Applications',
-                'School Applications',
-                'Bursary Services',
-                'NSFAS & Funza Lushaka',
-                'CAO Applications',
-                'APS Calculator'
-            ]
-        },
+        title: 'APPLICATIONS',
+        path: '/applications',
+    items: [
+        { title: 'University Applications', path: '/applications/university' },
+        { title: 'TVET Applications', path: '/applications/tvet' },
+        { title: 'School Applications', path: '/applications/school' },
+        { title: 'Bursary Services', path: '/applications/bursaries' },
+        { title: 'NSFAS & Funza Lushaka', path: '/applications/nsfas' },
+        { title: 'CAO Applications', path: '/applications/cao' }
+    ]
+},
         {
             title: 'CAREER SERVICES',
-            items: [
-                'CV Preparation',
-                'Cover Letters',
-                'Job Applications',
-                'Internships & Learnerships',
-                'Graduate Programmes'
-            ]
-        },
+    path: '/career-services',
+    items: [
+        { title: 'CV Preparation', path: '/career-services/cv-preparation' },
+        { title: 'Cover Letters', path: '/career-services/cover-letters' },
+        { title: 'Job Applications', path: '/career-services/job-applications' },
+        { title: 'Internships & Learnerships', path: '/career-services/internships-learnerships' },
+        { title: 'Graduate Programmes', path: '/career-services/graduate-programmes' }
+    ]
+},
         {
             title: 'DIGITAL SERVICES',
             items: [
@@ -66,7 +86,7 @@ const Header = ({ toggleTheme, theme }) => {
         { title: 'CONTACT US', path: '/contact' }
     ];
 
-    // Close menus when route changes
+    // Close menus when route or hash changes
     useEffect(() => {
         setMobileMenuOpen(false);
         setOpenDropdown(null);
@@ -94,10 +114,7 @@ const Header = ({ toggleTheme, theme }) => {
     return (
         <header className="site-header">
 
-            {/* ==============================
-                TOP HEADER
-            ============================== */}
-
+            {/* TOP HEADER */}
             <div className="top-bar">
 
                 {/* LOGO */}
@@ -108,7 +125,7 @@ const Header = ({ toggleTheme, theme }) => {
                 >
                     <img
                         src={logoImg}
-                        alt="Our Memories EduTech Logo"
+                        alt="Our Memories EduTech"
                         className="brand-logo"
                     />
 
@@ -139,7 +156,7 @@ const Header = ({ toggleTheme, theme }) => {
                     ></i>
                 </button>
 
-                {/* CENTER TAGLINE - DESKTOP ONLY */}
+                {/* CENTER TAGLINE */}
                 <div className="center-tagline">
 
                     <h1>
@@ -156,7 +173,7 @@ const Header = ({ toggleTheme, theme }) => {
 
                 </div>
 
-                {/* SOCIAL MEDIA AND ACTION BUTTONS - DESKTOP ONLY */}
+                {/* SOCIAL MEDIA AND ACTION BUTTONS */}
                 <div className="top-actions">
 
                     <div className="social-icons">
@@ -228,10 +245,7 @@ const Header = ({ toggleTheme, theme }) => {
 
             </div>
 
-            {/* ==============================
-                MAIN NAVIGATION
-            ============================== */}
-
+            {/* MAIN NAVIGATION */}
             <nav className="main-nav">
 
                 <div className="nav-container">
@@ -255,34 +269,92 @@ const Header = ({ toggleTheme, theme }) => {
                                 key={menu.title}
                             >
 
-                                <button
-                                    type="button"
-                                    className="nav-link dropdown-toggle"
-                                    onClick={() => handleDropdown(index)}
-                                    aria-expanded={openDropdown === index}
+                                {/* Main page link and separate dropdown toggle */}
+                                {menu.path ? (
+
+                                    <div className="nav-dropdown-heading">
+
+                                        <Link
+                                            to={menu.path}
+                                            className={`nav-link nav-dropdown-main-link ${
+                                                location.pathname === menu.path ||
+                                                location.pathname.startsWith(`${menu.path}/`)
+                                                    ? 'active-link'
+                                                    : ''
+                                            }`}
+                                            onClick={closeMobileMenu}
+                                        >
+                                            {menu.title}
+                                        </Link>
+
+                                        <button
+                                            type="button"
+                                            className="nav-link dropdown-toggle nav-dropdown-arrow"
+                                            onClick={() => handleDropdown(index)}
+                                            aria-label={`Toggle ${menu.title.toLowerCase()} menu`}
+                                            aria-expanded={openDropdown === index}
+                                            aria-controls={`${menu.title.toLowerCase().replace(/\s+/g, "-")}-dropdown`}
+                                        >
+                                            <i className="fas fa-chevron-down"></i>
+                                        </button>
+
+                                    </div>
+
+                                ) : (
+
+                                    /* OTHER DROPDOWN NAVIGATION */
+                                    <button
+                                        type="button"
+                                        className="nav-link dropdown-toggle"
+                                        onClick={() => handleDropdown(index)}
+                                        aria-expanded={openDropdown === index}
+                                    >
+                                        {menu.title}
+
+                                        <i className="fas fa-chevron-down"></i>
+                                    </button>
+
+                                )}
+
+                                {/* DROPDOWN ITEMS */}
+                                <ul
+                                    className="dropdown-menu"
+                                    id={`${menu.title.toLowerCase().replace(/\s+/g, "-")}-dropdown`}
                                 >
-
-                                    {menu.title}
-
-                                    <i className="fas fa-chevron-down"></i>
-
-                                </button>
-
-                                <ul className="dropdown-menu">
 
                                     {menu.items.map((item) => (
 
-                                        <li key={item}>
+                                        <li
+                                            key={
+                                                typeof item === 'string'
+                                                    ? item
+                                                    : item.title
+                                            }
+                                        >
 
-                                            <a
-                                                href={`#${item
-                                                    .toLowerCase()
-                                                    .replace(/\s+/g, '-')}`}
-                                                className="dropdown-item"
-                                                onClick={closeMobileMenu}
-                                            >
-                                                {item}
-                                            </a>
+                                            {typeof item === 'string' ? (
+
+                                                <a
+                                                    href={`#${item
+                                                        .toLowerCase()
+                                                        .replace(/\s+/g, '-')}`}
+                                                    className="dropdown-item"
+                                                    onClick={closeMobileMenu}
+                                                >
+                                                    {item}
+                                                </a>
+
+                                            ) : (
+
+                                                <Link
+                                                    to={item.path}
+                                                    className="dropdown-item"
+                                                    onClick={closeMobileMenu}
+                                                >
+                                                    {item.title}
+                                                </Link>
+
+                                            )}
 
                                         </li>
 

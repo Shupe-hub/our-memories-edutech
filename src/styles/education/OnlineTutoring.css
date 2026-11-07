@@ -1,0 +1,970 @@
+
+/* =========================================
+   ONLINE TUTORING PAGE
+========================================= */
+
+.online-tutoring-page {
+    --tutoring-teal: var(--brand-teal, #0A7A80);
+    --tutoring-orange: var(--brand-orange, #F37021);
+    --tutoring-text: var(--text-dark, #20252b);
+    --tutoring-muted: var(--text-muted, #68717c);
+    --tutoring-bg: var(--bg-light, #f6f8fa);
+    --tutoring-white: var(--bg-white, #ffffff);
+    --tutoring-border: var(--border-color, #e5e9ed);
+
+    color: var(--tutoring-text);
+    background: var(--tutoring-white);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+
+.online-tutoring-page * {
+    box-sizing: border-box;
+}
+
+.tutoring-container {
+    width: min(1160px, 90%);
+    margin: 0 auto;
+}
+
+.online-tutoring-page .section-padding {
+    padding: 90px 0;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.online-tutoring-page .tutoring-btn {
+    min-height: 50px;
+    padding: 14px 24px;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.online-tutoring-page .tutoring-btn-primary {
+    color: #ffffff;
+    background: var(--tutoring-orange);
+    border: 1px solid var(--tutoring-orange);
+}
+
+.online-tutoring-page .tutoring-btn-primary:hover {
+    background: #d65d13;
+    border-color: #d65d13;
+    transform: translateY(-3px);
+}
+
+.online-tutoring-page .tutoring-btn-outline {
+    color: var(--tutoring-teal);
+    border: 1px solid var(--tutoring-teal);
+    background: transparent;
+}
+
+.online-tutoring-page .tutoring-btn-outline:hover {
+    color: #ffffff;
+    background: var(--tutoring-teal);
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.tutoring-hero {
+    position: relative;
+    padding: 100px 0 90px;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(10, 122, 128, 0.10), transparent 30%),
+        linear-gradient(120deg, #f7fbfc 0%, #ffffff 55%, #fff8f3 100%);
+}
+
+.tutoring-hero-content {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 65px;
+}
+
+.tutoring-eyebrow {
+    display: inline-block;
+    color: var(--tutoring-teal);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.tutoring-hero-text h1 {
+    max-width: 650px;
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -2px;
+    margin: 0 0 22px;
+    color: #20252b;
+}
+
+.tutoring-hero-text h1 span {
+    display: block;
+    color: var(--tutoring-orange);
+}
+
+.tutoring-hero-text > p {
+    max-width: 570px;
+    color: #68717c;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 30px;
+}
+
+.tutoring-hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.tutoring-hero-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    color: var(--tutoring-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tutoring-hero-note i {
+    color: var(--tutoring-teal);
+    font-size: 17px;
+}
+
+/* Hero illustration */
+
+.tutoring-hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.tutoring-illustration-card {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-height: 350px;
+    border-radius: 25px;
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(140deg, #087b81, #07565d);
+    box-shadow: 0 25px 60px rgba(10, 122, 128, 0.20);
+}
+
+.tutoring-illustration-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 42px;
+    margin-bottom: 30px;
+}
+
+.tutoring-illustration-content span {
+    color: #a9e4e3;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.tutoring-illustration-content h3 {
+    color: #ffffff;
+    font-size: 29px;
+    line-height: 1.3;
+    margin: 12px 0;
+    font-weight: 800;
+}
+
+.tutoring-illustration-content p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+}
+
+.tutoring-floating-icon {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--tutoring-teal);
+    font-size: 22px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.tutoring-icon-one {
+    top: 35px;
+    right: -20px;
+}
+
+.tutoring-icon-two {
+    bottom: 50px;
+    right: -25px;
+    color: var(--tutoring-orange);
+}
+
+.tutoring-icon-three {
+    bottom: -20px;
+    left: 35px;
+    color: var(--tutoring-orange);
+}
+
+/* =========================================
+   SECTION HEADINGS
+========================================= */
+
+.tutoring-section-heading {
+    max-width: 720px;
+    text-align: center;
+    margin: 0 auto 50px;
+}
+
+.tutoring-section-heading h2 {
+    color: var(--tutoring-text);
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0 0 15px;
+    letter-spacing: -1px;
+}
+
+.tutoring-section-heading h2 span {
+    color: var(--tutoring-orange);
+}
+
+.tutoring-section-heading > p {
+    color: var(--tutoring-muted);
+    font-size: 14px;
+    line-height: 1.9;
+    margin: 0;
+}
+
+/* =========================================
+   BENEFITS
+========================================= */
+
+.tutoring-intro {
+    background: var(--tutoring-white);
+}
+
+.tutoring-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.tutoring-benefit-card {
+    padding: 30px 23px;
+    border: 1px solid var(--tutoring-border);
+    border-radius: 12px;
+    background: var(--tutoring-white);
+    transition: all 0.3s ease;
+}
+
+.tutoring-benefit-card:hover {
+    transform: translateY(-7px);
+    border-color: var(--tutoring-teal);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+}
+
+.tutoring-benefit-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background: rgba(10, 122, 128, 0.10);
+    color: var(--tutoring-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 23px;
+}
+
+.tutoring-benefit-card h3 {
+    color: var(--tutoring-text);
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 12px;
+}
+
+.tutoring-benefit-card p {
+    color: var(--tutoring-muted);
+    font-size: 12px;
+    line-height: 1.9;
+    margin: 0;
+}
+
+/* =========================================
+   GRADE CARDS
+========================================= */
+
+.tutoring-grades {
+    background: var(--tutoring-bg);
+}
+
+.tutoring-grade-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.tutoring-grade-card {
+    position: relative;
+    padding: 30px 25px;
+    border-radius: 13px;
+    background: var(--tutoring-white);
+    border: 1px solid var(--tutoring-border);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.tutoring-grade-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
+    border-color: var(--tutoring-teal);
+}
+
+.grade-number {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    color: rgba(10, 122, 128, 0.10);
+    font-size: 44px;
+    font-weight: 900;
+}
+
+.grade-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 13px;
+    background: var(--tutoring-teal);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 22px;
+}
+
+.tutoring-grade-card h3 {
+    font-size: 21px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    color: var(--tutoring-text);
+}
+
+.tutoring-grade-card p {
+    color: var(--tutoring-muted);
+    font-size: 12px;
+    line-height: 1.8;
+    min-height: 65px;
+    margin: 0 0 20px;
+}
+
+.tutoring-grade-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--tutoring-orange);
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.tutoring-grade-card a:hover {
+    color: var(--tutoring-teal);
+}
+
+/* =========================================
+   SUBJECTS
+========================================= */
+
+.tutoring-subjects {
+    background: var(--tutoring-white);
+}
+
+.tutoring-subjects-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.tutoring-subjects-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.tutoring-subject-group {
+    padding: 27px;
+    border-radius: 12px;
+    background: var(--tutoring-bg);
+    border: 1px solid var(--tutoring-border);
+}
+
+.tutoring-subject-group h3 {
+    color: var(--tutoring-teal);
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 20px;
+}
+
+.tutoring-subject-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tutoring-subject-tags span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    background: var(--tutoring-white);
+    color: var(--tutoring-text);
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--tutoring-border);
+}
+
+.tutoring-subject-tags i {
+    color: var(--tutoring-teal);
+    font-size: 10px;
+}
+
+.tutoring-subject-note {
+    max-width: 900px;
+    margin: 25px auto 0;
+    color: var(--tutoring-muted);
+    font-size: 12px;
+    line-height: 1.8;
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+}
+
+.tutoring-subject-note i {
+    color: var(--tutoring-teal);
+    margin-top: 3px;
+}
+
+/* =========================================
+   PROCESS
+========================================= */
+
+.tutoring-process {
+    background: var(--tutoring-bg);
+}
+
+.tutoring-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.tutoring-process-card {
+    position: relative;
+    padding: 30px 23px;
+    border-radius: 12px;
+    background: var(--tutoring-white);
+    border: 1px solid var(--tutoring-border);
+}
+
+.process-step {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: rgba(10, 122, 128, 0.15);
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.process-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(243, 112, 33, 0.10);
+    color: var(--tutoring-orange);
+    font-size: 23px;
+    margin-bottom: 25px;
+}
+
+.tutoring-process-card h3 {
+    color: var(--tutoring-text);
+    font-size: 15px;
+    font-weight: 800;
+    margin: 0 0 12px;
+}
+
+.tutoring-process-card p {
+    color: var(--tutoring-muted);
+    font-size: 12px;
+    line-height: 1.9;
+    margin: 0;
+}
+
+/* =========================================
+   ENQUIRY SECTION
+========================================= */
+
+.tutoring-enquiry {
+    background: var(--tutoring-white);
+}
+
+.tutoring-enquiry-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 65px;
+    align-items: start;
+}
+
+.tutoring-enquiry-info {
+    padding-top: 20px;
+}
+
+.tutoring-enquiry-info h2 {
+    color: var(--tutoring-text);
+    font-size: clamp(30px, 4vw, 43px);
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 20px;
+}
+
+.tutoring-enquiry-info h2 span {
+    color: var(--tutoring-orange);
+}
+
+.tutoring-enquiry-info > p {
+    color: var(--tutoring-muted);
+    font-size: 13px;
+    line-height: 2;
+    margin-bottom: 35px;
+}
+
+.tutoring-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.tutoring-contact-item > i {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tutoring-teal);
+    background: rgba(10, 122, 128, 0.10);
+    font-size: 20px;
+}
+
+.tutoring-contact-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tutoring-contact-item strong {
+    color: var(--tutoring-text);
+    font-size: 13px;
+}
+
+.tutoring-contact-item span {
+    color: var(--tutoring-muted);
+    font-size: 12px;
+}
+
+/* Form */
+
+.tutoring-enquiry-form {
+    padding: 35px;
+    background: var(--tutoring-bg);
+    border: 1px solid var(--tutoring-border);
+    border-radius: 15px;
+}
+
+.form-heading {
+    margin-bottom: 28px;
+}
+
+.form-heading h3 {
+    color: var(--tutoring-text);
+    font-size: 21px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.form-heading p {
+    color: var(--tutoring-muted);
+    font-size: 11px;
+    margin: 0;
+}
+
+.tutoring-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.tutoring-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.tutoring-form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.tutoring-form-group label {
+    color: var(--tutoring-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tutoring-form-group input,
+.tutoring-form-group select,
+.tutoring-form-group textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 13px 14px;
+    border: 1px solid var(--tutoring-border);
+    border-radius: 7px;
+    background: var(--tutoring-white);
+    color: var(--tutoring-text);
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tutoring-form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.tutoring-form-group input:focus,
+.tutoring-form-group select:focus,
+.tutoring-form-group textarea:focus {
+    border-color: var(--tutoring-teal);
+    box-shadow: 0 0 0 3px rgba(10, 122, 128, 0.09);
+}
+
+.tutoring-form-group select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.tutoring-error {
+    color: #d93025;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.tutoring-submit-btn {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 7px;
+    background: var(--tutoring-teal);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tutoring-submit-btn:hover {
+    background: #075d62;
+    transform: translateY(-2px);
+}
+
+.tutoring-submit-btn i {
+    font-size: 19px;
+}
+
+.tutoring-form-disclaimer {
+    color: var(--tutoring-muted);
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.7;
+    margin: 15px 0 0;
+}
+
+/* =========================================
+   FINAL CTA
+========================================= */
+
+.tutoring-final-cta {
+    padding: 75px 0;
+    text-align: center;
+    background: linear-gradient(120deg, #087b81, #07565d);
+}
+
+.tutoring-final-cta h2 {
+    color: #ffffff;
+    font-size: clamp(27px, 4vw, 38px);
+    font-weight: 800;
+    margin: 0 0 15px;
+}
+
+.tutoring-final-cta p {
+    max-width: 650px;
+    margin: 0 auto 28px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.online-tutoring-page .tutoring-btn-white {
+    color: var(--tutoring-teal);
+    background: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.online-tutoring-page .tutoring-btn-white:hover {
+    background: #f0fafa;
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+[data-theme="dark"] .online-tutoring-page {
+    --tutoring-text: #f0f3f5;
+    --tutoring-muted: #b4bec7;
+    --tutoring-bg: #171e24;
+    --tutoring-white: #202a32;
+    --tutoring-border: #35424c;
+}
+
+[data-theme="dark"] .tutoring-hero {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(10, 122, 128, 0.16), transparent 30%),
+        linear-gradient(120deg, #18242a, #202a32);
+}
+
+[data-theme="dark"] .tutoring-hero-text h1 {
+    color: #f0f3f5;
+}
+
+[data-theme="dark"] .tutoring-hero-text > p {
+    color: #b4bec7;
+}
+
+[data-theme="dark"] .tutoring-subject-tags span {
+    background: #26333c;
+    border-color: #35424c;
+    color: #f0f3f5;
+}
+
+[data-theme="dark"] .tutoring-form-group input,
+[data-theme="dark"] .tutoring-form-group select,
+[data-theme="dark"] .tutoring-form-group textarea {
+    background: #26333c;
+    color: #f0f3f5;
+    border-color: #45535e;
+}
+
+[data-theme="dark"] .tutoring-form-group input::placeholder,
+[data-theme="dark"] .tutoring-form-group textarea::placeholder {
+    color: #a2adb6;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1024px) {
+
+    .tutoring-benefits-grid,
+    .tutoring-grade-grid,
+    .tutoring-process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tutoring-hero-content {
+        gap: 35px;
+    }
+
+    .tutoring-enquiry-layout {
+        gap: 35px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .online-tutoring-page .section-padding {
+        padding: 65px 0;
+    }
+
+    .tutoring-container {
+        width: 92%;
+    }
+
+    .tutoring-hero {
+        padding: 65px 0 75px;
+    }
+
+    .tutoring-hero-content {
+        grid-template-columns: 1fr;
+        gap: 55px;
+    }
+
+    .tutoring-hero-text {
+        text-align: center;
+    }
+
+    .tutoring-hero-text h1 {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 43px;
+    }
+
+    .tutoring-hero-text > p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tutoring-hero-buttons,
+    .tutoring-hero-note {
+        justify-content: center;
+    }
+
+    .tutoring-hero-visual {
+        padding: 0 15px;
+    }
+
+    .tutoring-illustration-card {
+        min-height: 300px;
+    }
+
+    .tutoring-enquiry-layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .tutoring-enquiry-info {
+        padding-top: 0;
+    }
+
+    .tutoring-section-heading {
+        margin-bottom: 35px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .online-tutoring-page .section-padding {
+        padding: 55px 0;
+    }
+
+    .tutoring-hero {
+        padding: 55px 0 65px;
+    }
+
+    .tutoring-hero-text h1 {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .tutoring-hero-text > p {
+        font-size: 13px;
+    }
+
+    .tutoring-hero-buttons {
+        flex-direction: column;
+    }
+
+    .tutoring-hero-buttons .tutoring-btn {
+        width: 100%;
+    }
+
+    .tutoring-illustration-card {
+        padding: 30px;
+        min-height: 270px;
+    }
+
+    .tutoring-illustration-content h3 {
+        font-size: 24px;
+    }
+
+    .tutoring-floating-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    .tutoring-benefits-grid,
+    .tutoring-grade-grid,
+    .tutoring-process-grid,
+    .tutoring-subjects-list {
+        grid-template-columns: 1fr;
+    }
+
+    .tutoring-benefit-card,
+    .tutoring-grade-card,
+    .tutoring-process-card {
+        padding: 25px;
+    }
+
+    .tutoring-grade-card p {
+        min-height: auto;
+    }
+
+    .tutoring-enquiry-form {
+        padding: 22px 17px;
+    }
+
+    .tutoring-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tutoring-form-group.full-width {
+        grid-column: auto;
+    }
+
+    .tutoring-section-heading h2 {
+        font-size: 29px;
+    }
+
+    .tutoring-final-cta {
+        padding: 60px 0;
+    }
+}

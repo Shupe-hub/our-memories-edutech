@@ -1,0 +1,844 @@
+/* Shared application page design system */
+.application-page,
+.application-form-page {
+  --application-surface: var(--bg-white, #ffffff);
+  --application-page-bg: var(--bg-light, #f8fafc);
+  --application-text: var(--text-dark, #1a1a1a);
+  --application-muted: var(--text-muted, #666666);
+  --application-border: var(--border-color, #e2e8f0);
+  --application-teal: var(--brand-teal, #0a7a80);
+  --application-orange: var(--brand-orange, #f37021);
+  --application-orange-hover: var(--brand-orange-hover, #d65d13);
+  color: var(--application-text);
+  background: var(--application-surface);
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.65;
+}
+
+.application-page *,
+.application-form-page * {
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .application-page,
+[data-theme="dark"] .application-form-page {
+  --application-surface: var(--bg-white, #0f172a);
+  --application-page-bg: var(--bg-light, #1e293b);
+  --application-text: var(--text-dark, #f8fafc);
+  --application-muted: var(--text-muted, #94a3b8);
+  --application-border: var(--border-color, #334155);
+  --application-teal: var(--brand-teal, #14b8a6);
+}
+
+.application-page h1,
+.application-page h2,
+.application-page h3,
+.application-form-page h1,
+.application-form-page h2,
+.application-form-page h3 {
+  color: var(--application-text);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.application-page h1 span,
+.application-page h2 span,
+.application-form-page h1 span {
+  color: var(--application-orange);
+}
+
+.application-page p,
+.application-form-page p {
+  margin-top: 0;
+}
+
+.application-page a,
+.application-form-page a {
+  text-decoration: none;
+}
+
+.application-hero {
+  min-height: 570px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 5rem 2.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+.application-hero-compact {
+  min-height: 475px;
+  padding-top: 4.25rem;
+  padding-bottom: 4.25rem;
+}
+
+.application-hero-content {
+  max-width: 700px;
+}
+
+.application-eyebrow,
+.application-section-label,
+.application-price-kicker {
+  display: inline-block;
+  color: var(--application-teal);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.application-eyebrow {
+  margin-bottom: 1.3rem;
+}
+
+.application-hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4.35rem);
+  letter-spacing: -1.7px;
+  margin-bottom: 1.25rem;
+}
+
+.application-hero-content > p {
+  color: var(--application-muted);
+  font-size: 1.02rem;
+  line-height: 1.85;
+  max-width: 650px;
+  margin-bottom: 1.75rem;
+}
+
+.application-hero-actions,
+.application-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.application-btn {
+  min-height: 48px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0.8rem 1.35rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.87rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.application-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.application-btn-primary {
+  color: #ffffff !important;
+  background: var(--application-orange);
+  border-color: var(--application-orange);
+}
+
+.application-btn-primary:hover:not(:disabled) {
+  background: var(--application-orange-hover);
+  border-color: var(--application-orange-hover);
+  box-shadow: 0 8px 20px rgba(243, 112, 33, 0.2);
+}
+
+.application-btn-secondary {
+  color: var(--application-teal);
+  background: transparent;
+  border-color: var(--application-teal);
+}
+
+.application-btn-secondary:hover:not(:disabled) {
+  color: #ffffff;
+  background: var(--application-teal);
+}
+
+.application-btn-disabled,
+.application-btn:disabled {
+  color: var(--application-muted);
+  background: var(--application-page-bg);
+  border-color: var(--application-border);
+  cursor: not-allowed;
+}
+
+.application-hero-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.45rem;
+  color: var(--application-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.application-hero-note > span {
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--application-teal);
+  background: color-mix(in srgb, var(--application-teal) 12%, transparent);
+  font-weight: 900;
+}
+
+.application-hero-visual {
+  position: relative;
+  min-height: 390px;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.application-hero-orbit {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+.application-hero-orbit-one {
+  width: min(340px, 75vw);
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--application-teal) 12%, var(--application-surface));
+}
+
+.application-hero-orbit-two {
+  width: min(270px, 62vw);
+  aspect-ratio: 1;
+  transform: translate(35px, 25px);
+  border: 2px dashed color-mix(in srgb, var(--application-orange) 45%, transparent);
+}
+
+.application-hero-feature-card {
+  width: min(310px, 80%);
+  min-height: 270px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.8rem;
+  border: 1px solid var(--application-border);
+  border-radius: 24px;
+  background: var(--application-surface);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+  transform: rotate(-2deg);
+}
+
+.application-hero-feature-icon,
+.application-hero-large-icon {
+  font-size: 3rem;
+}
+
+.application-hero-feature-label {
+  color: var(--application-teal);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.application-hero-feature-card strong {
+  max-width: 220px;
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.application-hero-feature-footer {
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--application-border);
+  color: var(--application-orange);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.application-hero-badge {
+  position: absolute;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--application-border);
+  border-radius: 12px;
+  background: var(--application-surface);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.09);
+  color: var(--application-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.application-hero-badge-top {
+  top: 16%;
+  right: 0;
+}
+
+.application-hero-badge-bottom {
+  bottom: 15%;
+  left: 0;
+}
+
+.application-hero-visual-simple {
+  min-height: 330px;
+  align-content: center;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.application-hero-visual-simple::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(300px, 72vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--application-teal) 12%, var(--application-surface));
+}
+
+.application-hero-large-icon {
+  display: grid;
+  width: 132px;
+  height: 132px;
+  place-items: center;
+  border: 1px solid var(--application-border);
+  border-radius: 36px;
+  background: var(--application-surface);
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.12);
+  font-size: 4rem;
+  transform: rotate(-4deg);
+}
+
+.application-hero-visual-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.application-hero-visual-caption strong {
+  font-size: 1rem;
+}
+
+.application-hero-visual-caption span {
+  color: var(--application-muted);
+  font-size: 0.8rem;
+}
+
+.application-section {
+  padding: 5.25rem 1.5rem;
+}
+
+.application-section-tint {
+  background: var(--application-page-bg);
+}
+
+.application-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.application-section-heading {
+  max-width: 740px;
+  margin: 0 auto 2.75rem;
+  text-align: center;
+}
+
+.application-section-label {
+  margin-bottom: 0.75rem;
+}
+
+.application-section-heading h2,
+.application-documents-layout h2,
+.application-extra-service h2,
+.application-enquiry-panel h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  letter-spacing: -0.8px;
+  margin-bottom: 0.9rem;
+}
+
+.application-section-heading > p,
+.application-section-copy,
+.application-extra-service p,
+.application-enquiry-panel p {
+  color: var(--application-muted);
+  font-size: 0.96rem;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.application-service-grid,
+.application-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.application-service-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.application-card {
+  padding: 1.65rem;
+  border: 1px solid var(--application-border);
+  border-radius: 16px;
+  background: var(--application-surface);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.035);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.application-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--application-teal) 45%, var(--application-border));
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+}
+
+.application-card-icon {
+  display: grid;
+  width: 48px;
+  min-height: 48px;
+  place-items: center;
+  margin-bottom: 1.1rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--application-teal) 10%, transparent);
+  color: var(--application-teal);
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+
+.application-card h3 {
+  margin-bottom: 0.55rem;
+  font-size: 1.08rem;
+}
+
+.application-card > p {
+  margin-bottom: 0;
+  color: var(--application-muted);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+.application-service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.application-service-card .application-card-link {
+  margin-top: auto;
+  padding-top: 1.2rem;
+}
+
+.application-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--application-teal);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.application-card-link:hover {
+  color: var(--application-orange);
+}
+
+.application-pricing-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--application-border);
+  border-radius: 14px;
+  background: var(--application-surface);
+}
+
+.application-pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  text-align: left;
+}
+
+.application-pricing-table th,
+.application-pricing-table td {
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--application-border);
+  color: var(--application-muted);
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+
+.application-pricing-table thead th {
+  color: var(--application-text);
+  background: color-mix(in srgb, var(--application-teal) 9%, var(--application-surface));
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.application-pricing-table tbody tr:last-child th,
+.application-pricing-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.application-pricing-table tbody th {
+  color: var(--application-text);
+  font-weight: 700;
+}
+
+.application-footnote {
+  margin: 1rem 0 0;
+  color: var(--application-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.application-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.application-step-number {
+  display: block;
+  margin-bottom: 1.2rem;
+  color: var(--application-orange);
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.application-documents-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+.application-documents-layout h2 {
+  margin-bottom: 1rem;
+}
+
+.application-check-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.application-check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--application-muted);
+  font-size: 0.91rem;
+}
+
+.application-check-list li > span {
+  flex: 0 0 23px;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--application-teal);
+  background: color-mix(in srgb, var(--application-teal) 11%, transparent);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.application-faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.application-faq {
+  border-bottom: 1px solid var(--application-border);
+}
+
+.application-faq:first-child {
+  border-top: 1px solid var(--application-border);
+}
+
+.application-faq summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  color: var(--application-text);
+  font-size: 0.94rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.application-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.application-faq summary span {
+  color: var(--application-orange);
+  font-size: 1.25rem;
+}
+
+.application-faq[open] summary span {
+  transform: rotate(45deg);
+}
+
+.application-faq > p {
+  max-width: 790px;
+  padding: 0 2rem 1.2rem 0;
+  color: var(--application-muted);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.application-cta-section {
+  padding: 4rem 1.5rem;
+  background: var(--application-teal);
+  color: #ffffff;
+}
+
+.application-cta-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.application-cta-inner h2 {
+  margin: 0.35rem 0 0.55rem;
+  color: #ffffff;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+}
+
+.application-cta-inner p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+}
+
+.application-cta-inner .application-section-label {
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.application-cta-actions {
+  max-width: 390px;
+  justify-content: flex-end;
+}
+
+.application-cta-actions > a:not(.application-btn) {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.application-cta-section .application-btn-secondary {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.application-price-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.application-price-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.application-price-card-featured {
+  border-color: var(--application-teal);
+  box-shadow: 0 12px 35px color-mix(in srgb, var(--application-teal) 12%, transparent);
+}
+
+.application-price-card .application-price-kicker {
+  margin-bottom: 0.8rem;
+  font-size: 0.68rem;
+}
+
+.application-price-card h3 {
+  margin-bottom: 0.55rem;
+  font-size: 1.18rem;
+}
+
+.application-price-card > p {
+  margin-bottom: 1.1rem;
+}
+
+.application-price-value {
+  display: block;
+  margin: auto 0 0.35rem;
+  padding-top: 0.6rem;
+  color: var(--application-teal);
+  font-size: 1.2rem;
+}
+
+.application-price-caption {
+  color: var(--application-muted);
+  font-size: 0.78rem;
+}
+
+.application-price-card .application-card-link {
+  margin-top: 1rem;
+}
+
+.application-extra-service,
+.application-enquiry-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.application-extra-service > div,
+.application-enquiry-panel > div:first-child {
+  max-width: 700px;
+}
+
+.application-extra-service h2,
+.application-enquiry-panel h2 {
+  margin: 0.5rem 0 0.85rem;
+}
+
+.application-note-card {
+  max-width: 440px;
+}
+
+.application-note-card .application-card-icon {
+  margin-bottom: 0.8rem;
+}
+
+.application-note-card p + p {
+  margin-top: 0.8rem;
+}
+
+.application-enquiry-actions {
+  min-width: min(100%, 290px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.application-enquiry-actions > a:not(.application-btn) {
+  color: var(--application-teal);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .application-hero {
+    min-height: auto;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 1.5rem;
+    padding: 4rem 1.5rem;
+  }
+
+  .application-service-grid,
+  .application-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .application-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .application-documents-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .application-hero,
+  .application-hero-compact {
+    grid-template-columns: 1fr;
+    padding: 3.2rem 1.2rem 2.5rem;
+    gap: 0.5rem;
+  }
+
+  .application-hero h1 {
+    font-size: clamp(2.25rem, 11vw, 3.25rem);
+    letter-spacing: -1px;
+  }
+
+  .application-hero-content > p {
+    font-size: 0.94rem;
+  }
+
+  .application-hero-visual {
+    min-height: 300px;
+  }
+
+  .application-hero-visual-simple {
+    min-height: 250px;
+  }
+
+  .application-hero-badge-top {
+    right: 2%;
+  }
+
+  .application-hero-badge-bottom {
+    left: 2%;
+  }
+
+  .application-section {
+    padding: 3.5rem 1.1rem;
+  }
+
+  .application-section-heading {
+    margin-bottom: 2rem;
+  }
+
+  .application-service-grid,
+  .application-info-grid,
+  .application-steps,
+  .application-documents-layout,
+  .application-price-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .application-documents-layout {
+    gap: 1.7rem;
+  }
+
+  .application-cta-inner,
+  .application-extra-service,
+  .application-enquiry-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .application-cta-actions {
+    justify-content: flex-start;
+  }
+
+  .application-card {
+    padding: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-page *,
+  .application-form-page * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

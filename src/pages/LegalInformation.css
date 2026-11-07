@@ -1,0 +1,72 @@
+.legal-information-page {
+    min-height: 48vh;
+    display: grid;
+    place-items: center;
+    padding: 4rem 1.5rem;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.legal-information-card {
+    width: min(100%, 850px);
+    padding: clamp(1.5rem, 5vw, 3.25rem);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: var(--bg-white);
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+}
+
+.legal-information-label {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--brand-teal);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.legal-information-card h1 {
+    margin: 0 0 1rem;
+    color: var(--text-dark);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.2;
+}
+
+.legal-information-card p {
+    color: var(--text-muted);
+    font-size: 0.96rem;
+    line-height: 1.8;
+}
+
+.legal-information-card .legal-information-notice {
+    padding: 1rem;
+    border-left: 3px solid var(--brand-orange);
+    background: var(--bg-light);
+    font-size: 0.85rem;
+}
+
+.legal-information-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.legal-information-actions a,
+.legal-information-card > a {
+    color: var(--brand-teal);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+
+.legal-information-actions a:hover,
+.legal-information-card > a:hover {
+    color: var(--brand-orange);
+}
+
+.legal-information-page a:focus-visible {
+    outline: 2px solid var(--brand-orange);
+    outline-offset: 3px;
+}

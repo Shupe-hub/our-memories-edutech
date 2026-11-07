@@ -1,0 +1,164 @@
+@import "./CareerServices.css";
+
+.career-form-container {
+  padding: 0 1.5rem 4.5rem;
+}
+
+.career-form-section {
+  padding: 2rem;
+  border: 1px solid var(--career-border);
+  border-radius: 17px;
+  background: var(--career-surface);
+  box-shadow: 0 14px 45px rgba(15, 23, 42, 0.055);
+}
+
+.career-form-heading {
+  max-width: 720px;
+  margin: 0 auto 1.75rem;
+  text-align: center;
+}
+
+.career-form-heading h2 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.career-form-heading > p {
+  font-size: 0.85rem;
+}
+
+.career-enquiry-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.career-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.career-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--career-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.career-field-wide {
+  grid-column: 1 / -1;
+}
+
+.career-field b,
+.career-form-submit b {
+  color: var(--career-orange);
+}
+
+.career-field input,
+.career-field select,
+.career-field textarea {
+  width: 100%;
+  min-height: 45px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--career-border);
+  border-radius: 9px;
+  outline: none;
+  background: var(--career-surface);
+  color: var(--career-text);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+.career-field textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.career-field input:focus,
+.career-field select:focus,
+.career-field textarea:focus {
+  border-color: var(--career-teal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--career-teal) 15%, transparent);
+}
+
+.career-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--career-border);
+}
+
+.career-form-submit p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--career-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.career-form-notice {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--career-teal) 40%, var(--career-border));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--career-teal) 7%, var(--career-surface));
+}
+
+.career-form-notice > strong {
+  color: var(--career-text);
+  font-size: 0.94rem;
+}
+
+.career-form-notice > p {
+  margin: 0.45rem 0 0.9rem;
+  color: var(--career-muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.career-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+}
+
+.career-contact-links a {
+  color: var(--career-teal);
+  font-size: 0.8rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.career-contact-links a:hover {
+  color: var(--career-orange);
+}
+
+@media (max-width: 640px) {
+  .career-form-container {
+    padding: 0 1.1rem 3.2rem;
+  }
+
+  .career-form-section {
+    padding: 1.3rem 1rem;
+  }
+
+  .career-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .career-field-wide {
+    grid-column: auto;
+  }
+
+  .career-form-submit {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

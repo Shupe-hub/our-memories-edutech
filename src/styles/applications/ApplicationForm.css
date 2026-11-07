@@ -1,0 +1,341 @@
+@import "./Applications.css";
+
+.application-form-intro {
+  padding: 3.6rem 1.5rem 2rem;
+  background: var(--application-page-bg);
+}
+
+.application-form-intro-inner {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.application-form-intro h1 {
+  margin-bottom: 0.85rem;
+  font-size: clamp(2.2rem, 4vw, 3.3rem);
+  letter-spacing: -1px;
+}
+
+.application-form-intro-inner > p {
+  max-width: 720px;
+  color: var(--application-muted);
+}
+
+.application-form-security-note {
+  max-width: 850px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--application-teal) 35%, var(--application-border));
+  border-radius: 12px;
+  background: var(--application-surface);
+}
+
+.application-form-security-note > span {
+  font-size: 1.25rem;
+}
+
+.application-form-security-note p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.application-form-security-note strong {
+  color: var(--application-text);
+}
+
+.application-form-layout {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.application-form {
+  overflow: hidden;
+  border: 1px solid var(--application-border);
+  border-radius: 18px;
+  background: var(--application-surface);
+  box-shadow: 0 14px 45px rgba(15, 23, 42, 0.055);
+}
+
+.application-form-section {
+  padding: 2rem;
+  border-bottom: 1px solid var(--application-border);
+}
+
+.application-form-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-bottom: 1.45rem;
+}
+
+.application-form-section-heading > span {
+  flex: 0 0 36px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--application-teal);
+  background: color-mix(in srgb, var(--application-teal) 11%, transparent);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.application-form-section-heading h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.12rem;
+}
+
+.application-form-section-heading p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.application-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.application-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--application-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.application-field-full {
+  grid-column: 1 / -1;
+}
+
+.application-field b,
+.application-checkbox b {
+  color: var(--application-orange);
+}
+
+.application-field input,
+.application-field select,
+.application-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--application-border);
+  border-radius: 9px;
+  outline: none;
+  color: var(--application-text);
+  background: var(--application-surface);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.application-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.application-field input:focus,
+.application-field select:focus,
+.application-field textarea:focus {
+  border-color: var(--application-teal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--application-teal) 15%, transparent);
+}
+
+.application-field input::placeholder,
+.application-field textarea::placeholder {
+  color: var(--application-muted);
+  opacity: 0.8;
+}
+
+.application-checkbox-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.application-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  color: var(--application-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.application-checkbox input {
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  margin: 0.15rem 0 0;
+  accent-color: var(--application-teal);
+}
+
+.application-form-help {
+  margin: 1rem 0 0 !important;
+  color: var(--application-muted);
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+
+.application-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--application-page-bg);
+}
+
+.application-form-submit p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.78rem;
+}
+
+.application-review-panel {
+  margin-top: 1.5rem;
+  padding: 1.7rem;
+  border: 1px solid color-mix(in srgb, var(--application-teal) 40%, var(--application-border));
+  border-radius: 16px;
+  background: var(--application-surface);
+}
+
+.application-review-panel .application-form-section-heading {
+  margin-bottom: 1rem;
+}
+
+.application-review-list {
+  margin: 0;
+}
+
+.application-review-list > div {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.38fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--application-border);
+}
+
+.application-review-list dt {
+  color: var(--application-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.application-review-list dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--application-text);
+  font-size: 0.82rem;
+}
+
+.application-review-privacy {
+  margin: 1rem 0;
+  color: var(--application-muted);
+  font-size: 0.76rem;
+}
+
+.application-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.application-form-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--application-border);
+  border-radius: 14px;
+  background: var(--application-page-bg);
+}
+
+.application-form-contact h2 {
+  font-size: 1.05rem;
+}
+
+.application-form-contact p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.application-form-contact a {
+  color: var(--application-teal);
+  font-size: 0.82rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.application-form-contact a:hover {
+  color: var(--application-orange);
+}
+
+@media (max-width: 640px) {
+  .application-form-intro {
+    padding: 2.7rem 1.1rem 1.5rem;
+  }
+
+  .application-form-layout {
+    padding: 1.2rem 0.8rem 3rem;
+  }
+
+  .application-form {
+    border-radius: 13px;
+  }
+
+  .application-form-section {
+    padding: 1.35rem 1rem;
+  }
+
+  .application-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .application-form-submit {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.2rem 1rem;
+  }
+
+  .application-form-submit .application-btn {
+    width: 100%;
+  }
+
+  .application-review-panel,
+  .application-form-contact {
+    padding: 1.2rem 1rem;
+  }
+
+  .application-review-list > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .application-review-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .application-review-actions .application-btn {
+    width: 100%;
+  }
+}
