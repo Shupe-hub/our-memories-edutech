@@ -140,7 +140,7 @@ Please assist me with information about career options, suitable qualifications 
         `.trim();
 
         window.open(
-            `https://wa.me/27676916912?text=${encodeURIComponent(message)}`,
+            `https://wa.me/27680513619?text=${encodeURIComponent(message)}`,
             '_blank',
             'noopener,noreferrer'
         );

@@ -170,7 +170,7 @@ ${formData.message || 'None provided'}
         `.trim();
 
         const whatsappLink =
-            `https://wa.me/27676916912?text=${encodeURIComponent(message)}`;
+            `https://wa.me/27680513619?text=${encodeURIComponent(message)}`;
 
         window.open(whatsappLink, '_blank', 'noopener,noreferrer');
     };

@@ -79,7 +79,7 @@ Please provide information about tutor availability, subjects offered, and tutor
         `.trim();
 
         window.open(
-            `https://wa.me/27676916912?text=${encodeURIComponent(message)}`,
+            `https://wa.me/27680513619?text=${encodeURIComponent(message)}`,
             '_blank',
             'noopener,noreferrer'
         );

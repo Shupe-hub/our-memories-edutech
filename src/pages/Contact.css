@@ -255,6 +255,39 @@ textarea.form-control {
     box-shadow: 0 10px 20px rgba(243, 112, 33, 0.2);
 }
 
+.submit-btn:disabled {
+    cursor: wait;
+    opacity: 0.72;
+    transform: none;
+    box-shadow: none;
+}
+
+.contact-form-status {
+    margin-top: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.contact-form-status--loading {
+    color: var(--text-muted);
+}
+
+.contact-form-status--success {
+    color: var(--brand-teal);
+}
+
+.contact-form-status--error {
+    color: #b42318;
+}
+
+.contact-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 /* ----- Responsive Design ----- */
 @media (max-width: 1024px) {
     .contact-page {

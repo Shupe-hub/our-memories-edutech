@@ -32,7 +32,7 @@ const companyLinks = [
 ];
 
 const whatsappUrl =
-    "https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20to%20learn%20more%20about%20your%20services.";
+    "https://wa.me/27680513619?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20to%20learn%20more%20about%20your%20services.";
 
 function Footer() {
     const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -65,9 +65,9 @@ function Footer() {
                     </p>
 
                     <address className="contact-info">
-                        <a href="tel:+27676916912" className="contact-item">
+                        <a href="tel:+27680513619" className="contact-item">
                             <i className="fas fa-phone-alt" aria-hidden="true"></i>
-                            <span>067 691 6912</span>
+                            <span>068 051 3619</span>
                         </a>
                         <a href="mailto:info@ourmemoriesedutech.co.za" className="contact-item">
                             <i className="fas fa-envelope" aria-hidden="true"></i>

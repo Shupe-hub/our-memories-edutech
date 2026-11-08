@@ -254,7 +254,7 @@ function Applications() {
           <div className="application-cta-actions">
             <Link className="application-btn application-btn-primary" to="/applications/apply">Start an enquiry <span aria-hidden="true">→</span></Link>
             <a href="https://wa.me/27634328758" target="_blank" rel="noopener noreferrer">WhatsApp 063 432 8758</a>
-            <a href="https://wa.me/27676916912" target="_blank" rel="noopener noreferrer">WhatsApp 067 691 6912</a>
+            <a href="https://wa.me/27680513619" target="_blank" rel="noopener noreferrer">WhatsApp 068 051 3619</a>
             <a href="mailto:Ourmemoriesapplicationoffice@gmail.com">Ourmemoriesapplicationoffice@gmail.com</a>
             <a href="mailto:info@ourmemoriesedutech.co.za">info@ourmemoriesedutech.co.za</a>
           </div>

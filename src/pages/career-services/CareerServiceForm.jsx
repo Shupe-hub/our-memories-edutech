@@ -12,7 +12,7 @@ const careerServices = [
 
 const contacts = [
   { label: "WhatsApp 072 817 9857", href: "https://wa.me/27728179857?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20career%20service%20assistance." },
-  { label: "WhatsApp 067 691 6912", href: "https://wa.me/27676916912?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20career%20service%20assistance." },
+  { label: "WhatsApp 068 051 3619", href: "https://wa.me/27680513619?text=Hello%20Our%20Memories%20EduTech%2C%20I%20would%20like%20career%20service%20assistance." },
 ];
 
 function CareerServiceForm({

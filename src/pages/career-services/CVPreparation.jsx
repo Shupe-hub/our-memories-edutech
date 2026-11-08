@@ -154,7 +154,7 @@ function CVPreparation() {
           <div><span className="career-section-label">YOUR NEXT OPPORTUNITY</span><h2>Professional CV. Professional Presentation. Better Opportunities.</h2><p>Contact us about a package or request CV preparation assistance.</p></div>
           <div className="career-contact-stack">
             <a href="tel:+27728179857">072 817 9857</a>
-            <a href="tel:+27676916912">067 691 6912</a>
+            <a href="tel:+27680513619">068 051 3619</a>
             <a href="mailto:cv@ourmemoriesedutech.co.za">cv@ourmemoriesedutech.co.za</a>
             <a href="http://www.ourmemoriesedutech.co.za/" target="_blank" rel="noopener noreferrer">www.ourmemoriesedutech.co.za</a>
           </div>

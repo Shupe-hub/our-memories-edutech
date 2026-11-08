@@ -93,7 +93,7 @@ Please let me know about availability and how I can access these resources.
         `.trim();
 
         window.open(
-            `https://wa.me/27676916912?text=${encodeURIComponent(message)}`,
+            `https://wa.me/27680513619?text=${encodeURIComponent(message)}`,
             '_blank',
             'noopener,noreferrer'
         );

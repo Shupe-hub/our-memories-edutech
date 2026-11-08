@@ -132,7 +132,7 @@ Additional Information:
 ${formData.message || 'No additional information provided.'}
         `.trim();
 
-        const whatsappLink = `https://wa.me/27676916912?text=${encodeURIComponent(whatsappMessage)}`;
+        const whatsappLink = `https://wa.me/27680513619?text=${encodeURIComponent(whatsappMessage)}`;
 
         window.open(whatsappLink, '_blank', 'noopener,noreferrer');
     };

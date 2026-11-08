@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Private Resend configuration and contact rate-limit data
+/private/resend-config.php
+/private/contact-rate-limit.json

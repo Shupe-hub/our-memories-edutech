@@ -36,6 +36,7 @@ import CoverLetters from './pages/career-services/CoverLetters';
 import JobApplications from './pages/career-services/JobApplications';
 import InternshipsLearnerships from './pages/career-services/InternshipsLearnerships';
 import GraduateProgrammes from './pages/career-services/GraduateProgrammes';
+import Gallery from './pages/gallery/Gallery';
 
 import './App.css';
 
@@ -58,7 +59,7 @@ function App() {
     };
 
     // WhatsApp configuration
-    const whatsappNumber = '27676916912';
+    const whatsappNumber = '27680513619';
 
     const whatsappMessage =
         'Hello Our Memories EduTech, I would like assistance with...';
@@ -109,6 +110,11 @@ function App() {
                         <Route
                             path="/contact"
                             element={<Contact />}
+                        />
+
+                        <Route
+                            path="/gallery"
+                            element={<Gallery />}
                         />
 
                         {/* EDUCATION */}
