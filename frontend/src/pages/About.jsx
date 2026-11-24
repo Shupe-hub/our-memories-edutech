@@ -2,19 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './About.css';
 
+const teamMembers = [
+    { name: 'Sakhile Lusiba', email: 'sakhile@ourmemoriesedutech.co.za', initials: 'SL' },
+    { name: 'Simphiwe Mabone', email: 'simpphiwe@ourmemoriesedutech.co.za', initials: 'SM' },
+    { name: 'Mzwandile Thabethe', email: 'mzwandile@ourmemoriesedutech.co.za', initials: 'MT' },
+    { name: 'Nomsa Metfula', email: 'nomsa@ourmemoriesedutech.co.za', initials: 'NM' },
+    { name: 'Violin Mayan', email: 'violin@ourmemoriesedutech.co.za', initials: 'VM' }
+];
+
 const About = () => {
     return (
         <div className="about-page">
 
             {/* 1. Hero Section */}
             <section className="about-hero">
-                <span className="section-label" style={{ color: '#ffffff', opacity: 0.8 }}>WHO WE ARE</span>
+                <span className="section-label about-hero-label">WHO WE ARE</span>
                 <h1>Our Story. Our Mission.</h1>
                 <p>Empowering learners, students, job seekers and businesses through education, opportunity and technology.</p>
             </section>
 
             {/* 2. Our Story */}
-            <section className="about-story">
+            <section className="about-story" id="story">
                 <div className="about-story-content">
                     <span className="section-label">OUR STORY</span>
                     <h2 className="section-title">How Our Memories EduTech <span>Started.</span></h2>
@@ -76,7 +84,29 @@ const About = () => {
                 </div>
             </section>
 
-            {/* 5. Why Choose Us */}
+            {/* 5. Meet Our Team */}
+            <section className="about-team" id="team" aria-labelledby="about-team-title">
+                <div className="about-team-header">
+                    <img
+                        className="about-team-logo"
+                        src="/our-memories-edutech-logo.png"
+                        alt="Our Memories EduTech"
+                    />
+                    <span className="section-label">OUR PEOPLE</span>
+                    <h2 className="section-title" id="about-team-title">Meet <span>Our Team.</span></h2>
+                </div>
+                <div className="about-team-grid">
+                    {teamMembers.map((member) => (
+                        <article className="team-card" key={member.email}>
+                            <div className="team-avatar" aria-hidden="true">{member.initials}</div>
+                            <h3>{member.name}</h3>
+                            <a href={`mailto:${member.email}`}>{member.email}</a>
+                        </article>
+                    ))}
+                </div>
+            </section>
+
+            {/* 6. Why Choose Us */}
             <section className="about-why">
                 <div className="about-why-container">
                     <div className="about-why-content">
@@ -101,7 +131,27 @@ const About = () => {
                 </div>
             </section>
 
-            {/* 6. Call to Action */}
+            {/* 7. Contact Information */}
+            <section className="about-contact" id="contact" aria-labelledby="about-contact-title">
+                <div className="about-contact-content">
+                    <img
+                        className="about-contact-logo"
+                        src="/our-memories-edutech-logo.png"
+                        alt="Our Memories EduTech"
+                    />
+                    <div>
+                        <span className="section-label">GET IN TOUCH</span>
+                        <h2 className="section-title" id="about-contact-title">Company <span>Contact.</span></h2>
+                        <p>Have a question or need support? Give us a call.</p>
+                        <a className="about-contact-phone" href="tel:+27680513619">
+                            <i className="fas fa-phone" aria-hidden="true"></i>
+                            <span>068 051 3619</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* 8. Call to Action */}
             <section className="about-cta">
                 <h2 className="section-title">Ready to take the <span>next step?</span></h2>
                 <p>Whether you need a tutor, an application, a CV, or a website, we are here to help.</p>

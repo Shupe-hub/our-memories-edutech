@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import './Home.css';
 import logo from '../assets/OM.png';
-import heroImg from '../assets/hero.png';
 
 const services = [
   {
@@ -75,84 +74,88 @@ function Home() {
 
       <main>
         {/* Hero Section */}
-        <section className="home-hero" id="home">
+        <section className="home-hero home-hero-refresh" id="home">
           <div className="home-hero-content">
-            <div className="home-eyebrow">
+            <div className="home-eyebrow home-hero-eyebrow">
               <span className="home-eyebrow-do"></span>
-              EDUCATION · OPPORTUNITY · GROWTH
+              EDUCATION | OPPORTUNITY | GROWTH
             </div>
 
-            <h1>
-              Your Future.
-              <br />
-              Our <span>Priority.</span>
-            </h1>
+            <h1>Make your next move <span>with confidence.</span></h1>
 
             <p className="home-hero-description">
-              Learn. Apply. Grow. We help learners, students and job
-              seekers move forward through academic support, education
-              applications, bursary guidance and career services.
+              From learning support to university, college and bursary
+              applications, we help you take each next step with clarity.
             </p>
 
             <div className="home-hero-buttons">
-              <a
-                href="#education-details"
-                className="home-button home-button-primary"
-              >
-                Explore Education <span>→</span>
-              </a>
-
-              <a
-                href="#applications"
-                className="home-button home-button-outline"
-              >
-                Apply With Us
+              <Link to="/applications/apply" className="home-button home-button-primary">
+                Get Started <i className="fas fa-arrow-right" aria-hidden="true" />
+              </Link>
+              <a href="#services" className="home-button home-button-outline">
+                Explore Our Services
               </a>
             </div>
 
             <div className="home-hero-note">
-              <span className="home-check-icon">✓</span>
-              <span>Practical guidance for your next step.</span>
+              <span className="home-check-icon"><i className="fas fa-check" aria-hidden="true" /></span>
+              <span>Practical support for your education and career journey.</span>
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="home-hero-visual">
-            <div className="home-circle home-circle-one"></div>
-            <div className="home-circle home-circle-two"></div>
+          <div className="home-hero-visual home-hero-preview-wrap" aria-label="Our application support services">
+            <div className="home-preview-orbit home-preview-orbit-one"></div>
+            <div className="home-preview-orbit home-preview-orbit-two"></div>
 
-            <div className="home-image-frame">
-              <img
-                src={heroImg}
-                alt="Learning and educational support"
-                className="home-hero-image"
-              />
+            <div className="home-application-preview">
+              <div className="home-preview-topbar">
+                <div className="home-preview-brand">
+                  <img src={logo} alt="" />
+                  <span>YOUR NEXT STEP</span>
+                </div>
+                <span className="home-preview-status"><i></i> HERE TO HELP</span>
+              </div>
 
-              <div className="home-floating-card home-floating-top">
-                <span className="home-floating-icon">🎓</span>
-                <div>
-                  <strong>Learn</strong>
-                  <small>Build your knowledge</small>
+              <div className="home-preview-intro">
+                <span>LEARN | APPLY | GROW</span>
+                <h2>Find your way forward.</h2>
+                <p>Explore support for the path you want to take.</p>
+              </div>
+
+              <div className="home-preview-options">
+                <div className="home-preview-option">
+                  <span className="home-preview-option-icon"><i className="fas fa-university" aria-hidden="true" /></span>
+                  <span><strong>University</strong><small>Applications &amp; guidance</small></span>
+                  <i className="fas fa-arrow-right home-preview-arrow" aria-hidden="true" />
+                </div>
+                <div className="home-preview-option">
+                  <span className="home-preview-option-icon home-preview-orange"><i className="fas fa-building" aria-hidden="true" /></span>
+                  <span><strong>College &amp; TVET</strong><small>Plan your next move</small></span>
+                  <i className="fas fa-arrow-right home-preview-arrow" aria-hidden="true" />
+                </div>
+                <div className="home-preview-option">
+                  <span className="home-preview-option-icon home-preview-gold"><i className="fas fa-award" aria-hidden="true" /></span>
+                  <span><strong>Bursary support</strong><small>Explore funding options</small></span>
+                  <i className="fas fa-arrow-right home-preview-arrow" aria-hidden="true" />
                 </div>
               </div>
 
-              <div className="home-floating-card home-floating-bottom">
-                <span className="home-floating-icon home-orange-icon">
-                  ✦
-                </span>
-                <div>
-                  <strong>Grow with confidence</strong>
-                  <small>Take your next step</small>
-                </div>
+              <div className="home-preview-footer">
+                <span className="home-preview-footer-icon"><i className="fas fa-handshake" aria-hidden="true" /></span>
+                <span><strong>Guidance at every step</strong><small>We are here to help you move forward.</small></span>
               </div>
             </div>
 
-            <div className="home-visual-caption">
-              <span></span> LEARN. APPLY. GROW.
+            <div className="home-preview-float home-preview-float-top">
+              <span><i className="fas fa-graduation-cap" aria-hidden="true" /></span>
+              <strong>Education, made clearer</strong>
+            </div>
+            <div className="home-preview-float home-preview-float-bottom">
+              <span>4</span>
+              <div><strong>Ways to grow</strong><small>Learning | Applications | Careers</small></div>
             </div>
           </div>
         </section>
-
         {/* About Us Brief */}
         <section className="home-about" id="about">
           <div className="home-about-visual">
@@ -460,3 +463,4 @@ function Home() {
 }
 
 export default Home;
+

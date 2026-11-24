@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --brand-teal: #0A7A80;
-    --brand-teal-light: #e6f4f4;
-    --brand-orange: #F37021;
+    --brand-teal: #00C4C7;
+    --brand-teal-light: #e4fafa;
+    --brand-orange: #FF9800;
     --text-dark: #1a1a1a;
     --text-muted: #555555;
     --bg-light: #f8fafc;
@@ -17,9 +17,7 @@
 
 /* ----- DARK THEME OVERRIDES ----- */
 [data-theme="dark"] {
-    --brand-teal: #14b8a6;
-    --brand-teal-light: #134e4a;
-
+    --brand-teal-light: #16484a;
     --text-dark: #f8fafc;
     --text-muted: #94a3b8;
     --bg-light: #1e293b;
@@ -39,7 +37,7 @@
 }
 
 /* Reusable */
-.section-label {
+.about-page .section-label {
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 800;
@@ -49,7 +47,7 @@
     margin-bottom: 1rem;
 }
 
-.section-title {
+.about-page .section-title {
     font-size: 2.5rem;
     font-weight: 800;
     line-height: 1.2;
@@ -57,11 +55,11 @@
     color: var(--text-dark);
 }
 
-.section-title span {
+.about-page .section-title span {
     color: var(--brand-orange);
 }
 
-.btn {
+.about-page .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -75,13 +73,13 @@
     text-decoration: none;
 }
 
-.btn-primary {
+.about-page .btn-primary {
     background-color: var(--brand-orange);
     color: #ffffff; /* Hardcoded white for orange background */
     border: 2px solid var(--brand-orange);
 }
 
-.btn-primary:hover {
+.about-page .btn-primary:hover {
     background-color: #d65d13;
     border-color: #d65d13;
     transform: translateY(-3px);
@@ -95,6 +93,11 @@
     padding: 6rem 2rem;
     text-align: center;
     border-bottom: 5px solid var(--brand-orange);
+}
+
+.about-hero .about-hero-label {
+    color: #ffffff;
+    opacity: 0.8;
 }
 
 .about-hero h1 {
@@ -257,8 +260,91 @@
     font-size: 0.9rem;
 }
 
-/* 5. Why Choose Us */
-/* ----- 5. Why Choose Us Section ----- */
+/* 5. Meet Our Team */
+.about-team {
+    padding: 6rem 2rem;
+    background-color: var(--bg-light);
+    transition: background-color 0.3s ease;
+}
+
+.about-team-header {
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.about-team-logo {
+    display: block;
+    width: min(220px, 60vw);
+    height: 130px;
+    object-fit: contain;
+    margin: 0 auto 2rem;
+}
+
+.about-team-header .section-title {
+    margin-bottom: 0;
+}
+
+.about-team-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 1.5rem;
+}
+
+.team-card {
+    min-width: 0;
+    padding: 2rem 1.25rem;
+    text-align: center;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--brand-teal);
+    box-shadow: 0 14px 30px rgba(0, 196, 199, 0.14);
+}
+
+.team-avatar {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 1.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-teal), var(--brand-orange));
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.team-card h3 {
+    margin: 0 0 0.75rem;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+}
+
+.team-card a {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.team-card a:hover,
+.team-card a:focus-visible {
+    color: var(--brand-teal);
+    text-decoration: underline;
+}
+
+/* 6. Why Choose Us */
 .about-why {
     background-color: var(--about-why-bg); /* Uses the dynamic background */
     color: #ffffff;
@@ -339,7 +425,58 @@
     color: #ffffff; /* Pure white */
 }
 
-/* 6. CTA */
+/* 7. Contact Information */
+.about-contact {
+    padding: 5rem 2rem;
+    background-color: var(--bg-white);
+}
+
+.about-contact-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.about-contact-logo {
+    display: block;
+    flex: 0 1 260px;
+    width: min(260px, 100%);
+    max-height: 180px;
+    object-fit: contain;
+}
+
+.about-contact-content .section-title {
+    margin-bottom: 0.75rem;
+}
+
+.about-contact-content p {
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+}
+
+.about-contact-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.about-contact-phone i {
+    color: var(--brand-orange);
+}
+
+.about-contact-phone:hover,
+.about-contact-phone:focus-visible {
+    color: var(--brand-teal);
+}
+
+/* 8. CTA */
 .about-cta {
     padding: 6rem 2rem;
     text-align: center;
@@ -347,7 +484,7 @@
     transition: background-color 0.3s ease;
 }
 
-.about-cta h2 {
+.about-cta .section-title {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: var(--text-dark);
@@ -384,5 +521,59 @@
 
     .about-hero h1 {
         font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .about-hero {
+        padding: 4.5rem 1.25rem;
+    }
+
+    .about-hero h1 {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+
+    .about-story,
+    .about-values,
+    .about-team,
+    .about-why,
+    .about-contact,
+    .about-cta,
+    .about-mv {
+        padding: 4rem 1.25rem;
+    }
+
+    .about-story-badge {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+
+    .about-page .section-title,
+    .about-why-content h2,
+    .about-cta .section-title {
+        font-size: 2rem;
+    }
+
+    .mv-card {
+        padding: 2rem;
+    }
+
+    .about-team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-contact-content {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .about-contact-logo {
+        flex-basis: auto;
+        height: 130px;
+    }
+
+    .about-contact-phone {
+        justify-content: center;
     }
 }
