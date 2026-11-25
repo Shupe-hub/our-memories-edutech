@@ -1,0 +1,29 @@
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { apiRequest } from '../../../services/apiRequest';
+import ApplicationDocumentsPanel from '../../../components/shared/ApplicationDocumentsPanel';
+import '../../../styles/applications/ApplicationEnquiryForm.css';
+
+const labels = { SUBMITTED: 'New enquiry', UNDER_REVIEW: 'Under review', AWAITING_DOCUMENTS: 'Awaiting documents', IN_PROGRESS: 'In progress', COMPLETED: 'Completed', REJECTED: 'Rejected', CANCELLED: 'Cancelled' };
+const types = { UNIVERSITY: 'University application', TVET: 'TVET college application', SCHOOL: 'School application', BURSARY: 'Bursary application', NSFAS: 'NSFAS application', CAO: 'CAO application' };
+const editable = ['SUBMITTED', 'UNDER_REVIEW', 'AWAITING_DOCUMENTS', 'IN_PROGRESS'];
+const pretty = (value) => value ? new Date(value).toLocaleString() : '—';
+
+export default function ApplicationDetailsPage() {
+  const { id } = useParams(); const location = useLocation(); const [enquiry, setEnquiry] = useState(null); const [error, setError] = useState('');
+  useEffect(() => { apiRequest(`/applications/${id}`).then((result) => setEnquiry(result.enquiry)).catch((requestError) => setError(requestError.message)); }, [id]);
+  if (error) return <section className="dashboard-section-card"><p role="alert">{error}</p><Link to="/account/applications">Back to My Applications</Link></section>;
+  if (!enquiry) return <p role="status">Loading application details…</p>;
+  const additional = enquiry.additionalInformation && typeof enquiry.additionalInformation === 'object' ? enquiry.additionalInformation : {};
+  const institutions = (enquiry.selectedInstitutions || []).map((entry) => entry.institution);
+  const uploaded = [...(enquiry.uploadedDocuments || []), ...(enquiry.documentAssociations || []).map(({ document }) => document)];
+  return <section className="dashboard-enquiry-details"><Link to="/account/applications" className="dashboard-back-link">← My Applications</Link>{location.state?.submitted && <p className="dashboard-info-banner" role="status">Application submitted successfully. Your reference number is <strong>{enquiry.referenceNumber}</strong>.</p>}{location.state?.edited && <p className="dashboard-info-banner" role="status">Application changes saved. Your reference number remains <strong>{enquiry.referenceNumber}</strong>.</p>}
+    <header className="dashboard-enquiry-detail-heading"><div><p className="dashboard-eyebrow">APPLICATION DETAILS</p><h1>{types[enquiry.applicationType] || enquiry.applicationType}</h1><p>Reference <strong>{enquiry.referenceNumber}</strong></p></div><div><span className={`application-status status-${enquiry.status.toLowerCase()}`}>{labels[enquiry.status] || enquiry.status}</span>{editable.includes(enquiry.status) && <p><Link className="dashboard-secondary-button" to={`/account/applications/${id}/edit`}>Edit Application</Link></p>}</div></header>
+    <section className="dashboard-section-card"><h2>Application Information</h2><dl className="dashboard-enquiry-fields">{[['Applicant', `${enquiry.fullNames} ${enquiry.surname}`], ['Email', enquiry.email], ['Cellphone', enquiry.cellphone], ['Province', enquiry.province], ['Postal code', enquiry.postalCode], ['Postal address', enquiry.postalAddress], ['Street', enquiry.streetName], ['Town / city', enquiry.town], ['High school', enquiry.highSchool], ['Home language', enquiry.homeLanguage], ['Current grade / status', enquiry.currentGrade], ...Object.entries(additional).map(([key, value]) => [key.replace(/[A-Z]/g, (letter) => ` ${letter.toLowerCase()}`), value])].filter(([, value]) => value).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p><strong>Submitted:</strong> {pretty(enquiry.submittedAt)} · <strong>Last updated:</strong> {pretty(enquiry.updatedAt)}</p></section>
+    <section className="dashboard-section-card"><h2>Selected Universities</h2>{institutions.length ? <ul>{institutions.map((institution) => <li key={institution.id}>{institution.name}{institution.officialName !== institution.name && <small> · Current official name: {institution.officialName}</small>}</li>)}</ul> : <p>{additional.preferredInstitutions || 'No universities selected.'}</p>}</section>
+    <section className="dashboard-section-card"><h2>Parent/Guardian Information</h2><dl className="dashboard-enquiry-fields">{[['Name', enquiry.guardianName], ['Cellphone', enquiry.guardianCellphone], ['Email', enquiry.guardianEmail]].filter(([, value]) => value).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{!enquiry.guardianName && <p>No parent or guardian details provided.</p>}</section>
+    <ApplicationDocumentsPanel applicationId={id} applicationStatus={enquiry.status}/>
+    <section className="dashboard-section-card"><h2>Application Progress</h2><p>Current status: <strong>{labels[enquiry.status] || enquiry.status}</strong></p><ol className="dashboard-enquiry-history">{(enquiry.statusHistory || []).map((change) => <li key={change.id}><strong>{labels[change.newStatus] || change.newStatus}</strong><span>{change.previousStatus ? ` from ${labels[change.previousStatus] || change.previousStatus}` : ' · Application received'}</span><time>{pretty(change.changedAt)}</time></li>)}</ol></section>
+    <section className="dashboard-section-card"><h2>Feedback and Notifications</h2>{enquiry.adminFeedback ? <p>{enquiry.adminFeedback}</p> : <p>No administrator feedback yet.</p>}{enquiry.requestedDocuments?.length > 0 && <p><strong>Additional documents requested:</strong> {enquiry.requestedDocuments.join(', ')}</p>}<p><strong>Document progress:</strong> {uploaded.length} uploaded, {uploaded.filter((document) => document.status === 'VERIFIED').length} verified.</p></section>
+  </section>;
+}

@@ -1,0 +1,23 @@
+import { Router } from 'express';
+import { attachStudentDocument, deleteMyDocument, deleteStudentDocument, downloadMyDocument, downloadStudentDocument, getEnquiry, getEnquiryForEdit, listMyDocuments, listMyEnquiries, listStudentDocuments, submitEnquiry, updateStudentEnquiry, uploadStudentDocument } from '../controllers/application.controller.js';
+import { authenticate, rateLimit, requireRole, sameOrigin } from '../middleware/authenticate.js';
+import express from 'express';
+import { maximumApplicationDocumentBytes } from '../services/application-storage.service.js';
+
+const router = Router();
+router.use(authenticate, requireRole('STUDENT'));
+router.get('/documents', listMyDocuments);
+router.post('/documents', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 30 }), express.raw({ type: 'application/octet-stream', limit: maximumApplicationDocumentBytes() }), uploadStudentDocument);
+router.get('/documents/:documentId/download', downloadMyDocument);
+router.delete('/documents/:documentId', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 30 }), deleteMyDocument);
+router.post('/documents/:documentId/applications/:id', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 30 }), attachStudentDocument);
+router.get('/my', listMyEnquiries);
+router.post('/', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 8 }), submitEnquiry);
+router.get('/:id/edit', getEnquiryForEdit);
+router.get('/:id', getEnquiry);
+router.patch('/:id', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 20 }), updateStudentEnquiry);
+router.get('/:id/documents', listStudentDocuments);
+router.post('/:id/documents', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 30 }), express.raw({ type: 'application/octet-stream', limit: maximumApplicationDocumentBytes() }), uploadStudentDocument);
+router.get('/:id/documents/:documentId/download', downloadStudentDocument);
+router.delete('/:id/documents/:documentId', sameOrigin, rateLimit({ windowMs: 60 * 60 * 1000, max: 30 }), deleteStudentDocument);
+export default router;

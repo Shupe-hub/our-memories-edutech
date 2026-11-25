@@ -1,0 +1,20 @@
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { apiRequest } from '../../../services/apiRequest';
+import '../../../styles/applications/ApplicationEnquiryForm.css';
+
+const labels = { SUBMITTED: 'New enquiry', UNDER_REVIEW: 'Under review', AWAITING_DOCUMENTS: 'Awaiting documents', IN_PROGRESS: 'In progress', COMPLETED: 'Completed', REJECTED: 'Rejected', CANCELLED: 'Cancelled' };
+const types = { UNIVERSITY: 'University application', TVET: 'TVET college application', SCHOOL: 'School application', BURSARY: 'Bursary application', NSFAS: 'NSFAS application', CAO: 'CAO application' };
+const pretty = (value) => value ? new Date(value).toLocaleString() : '—';
+
+export default function EnquiryDetailsPage() {
+  const { id } = useParams();
+  const location = useLocation();
+  const [enquiry, setEnquiry] = useState(null);
+  const [error, setError] = useState('');
+  useEffect(() => { apiRequest(`/applications/${id}`).then((r) => setEnquiry(r.enquiry)).catch((e) => setError(e.message)); }, [id]);
+  if (error) return <section className="dashboard-section-card"><p role="alert">{error}</p><Link to="/account/applications">Back to my applications</Link></section>;
+  if (!enquiry) return <p role="status">Loading enquiry details…</p>;
+  const fields = [['Applicant', `${enquiry.fullNames} ${enquiry.surname}`], ['Email', enquiry.email], ['Cellphone', enquiry.cellphone], ['Province', enquiry.province], ['Postal code', enquiry.postalCode], ['Postal address', enquiry.postalAddress], ['Street', enquiry.streetName], ['Town / city', enquiry.town], ['High school', enquiry.highSchool], ['Home language', enquiry.homeLanguage], ['Current grade / status', enquiry.currentGrade], ['Parent / guardian', enquiry.guardianName], ['Guardian cellphone', enquiry.guardianCellphone], ['Guardian email', enquiry.guardianEmail]];
+  return <section className="dashboard-enquiry-details"><Link to="/account/applications" className="dashboard-back-link">← My applications</Link>{location.state?.submitted && <p className="dashboard-info-banner" role="status">Application submitted successfully. Your reference number is <strong>{enquiry.referenceNumber}</strong>.</p>}<header className="dashboard-enquiry-detail-heading"><div><p className="dashboard-eyebrow">APPLICATION ENQUIRY</p><h1>{types[enquiry.applicationType] || enquiry.applicationType}</h1><p>Reference <strong>{enquiry.referenceNumber}</strong></p></div><span className={`application-status status-${enquiry.status.toLowerCase()}`}>{labels[enquiry.status]}</span></header><div className="dashboard-section-card"><h2>Applicant information</h2><dl className="dashboard-enquiry-fields">{fields.filter(([, value]) => value).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p><strong>Documents available:</strong> {enquiry.documents?.length ? enquiry.documents.join(', ') : 'None selected'}</p><p><strong>Submitted:</strong> {pretty(enquiry.submittedAt)} <span aria-hidden="true">·</span> <strong>Last updated:</strong> {pretty(enquiry.updatedAt)}</p></div>{enquiry.adminFeedback && <section className="dashboard-section-card"><h2>Feedback from Our Memories EduTech</h2><p>{enquiry.adminFeedback}</p></section>}{enquiry.requestedDocuments?.length > 0 && <section className="dashboard-section-card"><h2>Additional documents requested</h2><p>{enquiry.requestedDocuments.join(', ')}</p><p>Secure document upload will be introduced separately. Do not email sensitive documents.</p></section>}<section className="dashboard-section-card"><h2>Status history</h2>{enquiry.statusHistory?.length ? <ol className="dashboard-enquiry-history">{enquiry.statusHistory.map((change) => <li key={change.id}><strong>{labels[change.newStatus] || change.newStatus}</strong><span>{change.previousStatus ? ` from ${labels[change.previousStatus] || change.previousStatus}` : ' · Enquiry received'}</span><time>{pretty(change.changedAt)}</time></li>)}</ol> : <p>{labels[enquiry.status] || enquiry.status} · {pretty(enquiry.submittedAt)}</p>}</section></section>;
+}

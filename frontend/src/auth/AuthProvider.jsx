@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { authRequest } from './api';
-import AuthContext from './AuthContext';
+import { authRequest } from '../services/api';
+import AuthContext from '../context/AuthContext';
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(undefined);

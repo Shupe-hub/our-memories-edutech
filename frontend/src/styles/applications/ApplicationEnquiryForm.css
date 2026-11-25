@@ -1,0 +1,485 @@
+@import "./Applications.css";
+
+.application-status { display: inline-flex; align-items: center; width: fit-content; border-radius: 999px; padding: 6px 11px; background: #eaf2ff; color: #174a86; font-size: .8rem; font-weight: 700; }
+.application-status.status-completed { background: #e5f7ed; color: #176c3a; }
+.application-status.status-rejected, .application-status.status-cancelled { background: #fff0ed; color: #9d3124; }
+.application-status.status-awaiting_documents { background: #fff5d9; color: #755300; }
+.application-draft-notice, .application-submit-error { max-width: 1180px; margin: 20px auto; padding: 14px 18px; border-radius: 12px; background: #fff5d9; color: #684b00; }
+.application-submit-error { background: #fff0ed; color: #8f281b; }
+.application-submit-success { max-width: 1180px; margin: 24px auto; }
+.application-review-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.application-review-actions button:disabled { opacity: .65; cursor: wait; }
+.application-form-security-note { display: flex; gap: 12px; align-items: flex-start; margin-top: 22px; padding: 15px 18px; border: 1px solid rgba(255,255,255,.3); border-radius: 14px; background: rgba(255,255,255,.1); }
+.application-form-security-note p { margin: 0; }
+.institution-multiselect { width: 100%; display: grid; gap: 12px; }
+.institution-selected-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.institution-chip { display: inline-flex; gap: 9px; align-items: center; padding: 7px 10px; border-radius: 999px; background: #eaf2ff; color: #174a86; font-size: .8rem; }
+.institution-chip button { border: 0; background: transparent; color: inherit; cursor: pointer; font-size: 1.1rem; line-height: 1; }
+.institution-multiselect-options { max-height: 260px; overflow: auto; display: grid; gap: 4px; padding: 8px; border: 1px solid var(--application-border); border-radius: 12px; background: var(--application-surface); }
+.institution-multiselect-option { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border-radius: 8px; cursor: pointer; }
+.institution-multiselect-option:hover { background: color-mix(in srgb, var(--application-teal) 8%, transparent); }
+.institution-multiselect-option input { width: 18px; min-height: 18px; flex: 0 0 auto; }
+.institution-multiselect-option small { display: block; color: var(--application-muted); font-weight: 400; }
+.institution-selection-count { color: var(--application-muted); }
+.application-documents-panel { display: grid; gap: 14px; }
+.application-document-upload { display: grid; gap: 12px; padding: 16px; border-radius: 12px; background: var(--student-bg, #f5f8fc); }
+.application-document-upload label, .institution-directory-selection label { display: grid; gap: 7px; font-weight: 700; }
+.application-document-upload select, .application-document-upload input, .institution-directory-selection select { width: 100%; padding: 10px; border: 1px solid var(--student-border, #dce4ef); border-radius: 9px; background: var(--student-white, white); color: var(--student-text, #243247); }
+.application-document-upload progress { width: min(100%, 360px); }
+.application-document-list { display: grid; gap: 12px; }
+.application-document-row { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; padding: 14px; border: 1px solid var(--student-border, #e1e8f0); border-radius: 12px; }
+.application-document-row > div:first-child { display: grid; gap: 7px; }
+.application-document-row span:not(.application-status) { color: var(--student-muted, #68768b); font-size: .84rem; }
+.application-document-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.application-document-actions button, .application-document-actions a, .institution-details-toggle { padding: 8px 11px; border: 1px solid var(--student-border, #dce4ef); border-radius: 8px; background: var(--student-white, white); color: var(--student-text, #243247); cursor: pointer; text-decoration: none; }
+.institution-directory-selection { display: grid; grid-template-columns: minmax(180px, 1fr) auto minmax(220px, 1fr) auto; align-items: end; gap: 14px; }
+.institution-directory-selection > p { grid-column: 1 / -1; margin: 0; color: var(--student-muted, #68768b); }
+.institution-directory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 16px; }
+.institution-directory-card { display: grid; align-content: start; gap: 10px; }
+.institution-card-top { display: flex; justify-content: space-between; align-items: center; }
+.institution-card-top label { display: flex; gap: 7px; align-items: center; font-size: .82rem; }
+.institution-card-top input { accent-color: var(--student-blue, #3478d4); }
+.institution-directory-card h2 { margin: 0; font-size: 1.05rem; }
+.institution-directory-card p { margin: 0; }
+.institution-official-name, .institution-card-details { color: var(--student-muted, #68768b); font-size: .85rem; }
+.institution-details-toggle { justify-self: start; }
+.institution-card-details { padding: 10px; border-radius: 8px; background: var(--student-bg, #f5f8fc); }
+.institution-directory-card a { overflow-wrap: anywhere; }
+@media (max-width: 760px) { .institution-directory-selection { grid-template-columns: 1fr; align-items: stretch; } .institution-directory-selection > p { grid-column: auto; } .application-document-row { flex-direction: column; } }
+.dashboard-enquiry-list { display: grid; gap: 18px; }
+.dashboard-enquiry-card, .dashboard-enquiry-details .dashboard-section-card { padding: 22px; border: 1px solid var(--dashboard-border, #e7ebf1); border-radius: 16px; background: var(--dashboard-card, #fff); }
+.dashboard-enquiry-card h2 { margin: 12px 0 6px; }
+.dashboard-enquiry-card dl, .dashboard-enquiry-fields { display: flex; flex-wrap: wrap; gap: 16px 28px; }
+.dashboard-enquiry-card dl div, .dashboard-enquiry-fields div { min-width: 145px; }
+.dashboard-enquiry-card dt, .dashboard-enquiry-fields dt { color: #718096; font-size: .82rem; }
+.dashboard-enquiry-card dd, .dashboard-enquiry-fields dd { margin: 3px 0 0; font-weight: 600; }
+.dashboard-enquiry-feedback { padding: 12px 14px; border-radius: 10px; background: #f4f7fb; }
+.dashboard-enquiry-details { display: grid; gap: 18px; }
+.dashboard-enquiry-detail-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.dashboard-enquiry-history { display: grid; gap: 12px; padding-left: 22px; }
+.dashboard-enquiry-history time { display: block; color: #718096; font-size: .82rem; }
+.dashboard-back-link { width: fit-content; }
+.admin-enquiry-detail { display: grid; gap: 15px; margin-top: 22px; padding-top: 22px; border-top: 1px solid #e8edf3; }
+.admin-enquiry-detail label { display: grid; gap: 7px; max-width: 560px; }
+.admin-enquiry-detail input, .admin-enquiry-detail select, .admin-enquiry-detail textarea { width: 100%; padding: 10px 12px; border: 1px solid #d9e0e9; border-radius: 9px; }
+.admin-enquiry-detail form { display: grid; gap: 10px; padding: 16px; border-radius: 12px; background: #f7f9fc; }
+@media (max-width: 680px) { .dashboard-enquiry-detail-heading { align-items: flex-start; flex-direction: column; } .dashboard-enquiry-card dl, .dashboard-enquiry-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.application-form-intro {
+  padding: 3.6rem 1.5rem 2rem;
+  background: var(--application-page-bg);
+}
+
+.application-form-intro-inner {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.application-form-intro h1 {
+  margin-bottom: 0.85rem;
+  font-size: clamp(2.2rem, 4vw, 3.3rem);
+  letter-spacing: -1px;
+}
+
+.application-form-intro-inner > p {
+  max-width: 720px;
+  color: var(--application-muted);
+}
+
+.application-form-security-note {
+  max-width: 850px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--application-teal) 35%, var(--application-border));
+  border-radius: 12px;
+  background: var(--application-surface);
+}
+
+.application-form-security-note > span {
+  font-size: 1.25rem;
+}
+
+.application-form-security-note p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.application-form-security-note strong {
+  color: var(--application-text);
+}
+
+.application-form-layout {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.application-form {
+  overflow: hidden;
+  border: 1px solid var(--application-border);
+  border-radius: 18px;
+  background: var(--application-surface);
+  box-shadow: 0 14px 45px rgba(15, 23, 42, 0.055);
+}
+
+.application-form-section {
+  padding: 2rem;
+  border-bottom: 1px solid var(--application-border);
+}
+
+.application-form-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-bottom: 1.45rem;
+}
+
+.application-form-section-heading > span {
+  flex: 0 0 36px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--application-teal);
+  background: color-mix(in srgb, var(--application-teal) 11%, transparent);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.application-form-section-heading h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.12rem;
+}
+
+.application-form-section-heading p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.application-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.application-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--application-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.application-field-full {
+  grid-column: 1 / -1;
+}
+
+.application-field b,
+.application-checkbox b {
+  color: var(--application-orange);
+}
+
+.application-field input,
+.application-field select,
+.application-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--application-border);
+  border-radius: 9px;
+  outline: none;
+  color: var(--application-text);
+  background: var(--application-surface);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.application-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.application-field input:focus,
+.application-field select:focus,
+.application-field textarea:focus {
+  border-color: var(--application-teal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--application-teal) 15%, transparent);
+}
+
+.application-field input::placeholder,
+.application-field textarea::placeholder {
+  color: var(--application-muted);
+  opacity: 0.8;
+}
+
+.application-checkbox-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.application-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  color: var(--application-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.application-checkbox input {
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  margin: 0.15rem 0 0;
+  accent-color: var(--application-teal);
+}
+
+.application-form-help {
+  margin: 1rem 0 0 !important;
+  color: var(--application-muted);
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+
+.application-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--application-page-bg);
+}
+
+.application-form-submit p {
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.78rem;
+}
+
+.application-review-panel {
+  margin-top: 1.5rem;
+  padding: 1.7rem;
+  border: 1px solid color-mix(in srgb, var(--application-teal) 40%, var(--application-border));
+  border-radius: 16px;
+  background: var(--application-surface);
+}
+
+.application-review-panel .application-form-section-heading {
+  margin-bottom: 1rem;
+}
+
+.application-review-list {
+  margin: 0;
+}
+
+.application-review-list > div {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.38fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--application-border);
+}
+
+.application-review-list dt {
+  color: var(--application-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.application-review-list dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--application-text);
+  font-size: 0.82rem;
+}
+
+.application-review-privacy {
+  margin: 1rem 0;
+  color: var(--application-muted);
+  font-size: 0.76rem;
+}
+
+.application-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.application-form-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--application-border);
+  border-radius: 14px;
+  background: var(--application-page-bg);
+}
+
+.application-form-contact h2 {
+  font-size: 1.05rem;
+}
+
+.application-form-contact p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--application-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.application-form-contact a {
+  color: var(--application-teal);
+  font-size: 0.82rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.application-form-contact a:hover {
+  color: var(--application-orange);
+}
+
+@media (max-width: 640px) {
+  .application-form-intro {
+    padding: 2.7rem 1.1rem 1.5rem;
+  }
+
+  .application-form-layout {
+    padding: 1.2rem 0.8rem 3rem;
+  }
+
+  .application-form {
+    border-radius: 13px;
+  }
+
+  .application-form-section {
+    padding: 1.35rem 1rem;
+  }
+
+  .application-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .application-form-submit {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.2rem 1rem;
+  }
+
+  .application-form-submit .application-btn {
+    width: 100%;
+  }
+
+  .application-review-panel,
+  .application-form-contact {
+    padding: 1.2rem 1rem;
+  }
+
+  .application-review-list > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .application-review-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .application-review-actions .application-btn {
+    width: 100%;
+  }
+}
+
+/* Student application institution picker */
+.institution-multiselect,
+.institution-multiselect * { box-sizing: border-box; min-width: 0; }
+.institution-multiselect { width: 100%; max-width: 100%; gap: 12px; overflow: hidden; }
+.institution-search-field { width: 100%; }
+.institution-search-field input[type="search"] { width: 100%; max-width: 100%; }
+.institution-multiselect-options { display: grid; width: 100%; max-height: 300px; gap: 4px; padding: 7px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; border: 1px solid var(--application-border); border-radius: 12px; background: var(--application-surface); }
+.institution-multiselect-option { display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: start; width: 100%; gap: 10px; margin: 0; padding: 11px 12px; border: 1px solid transparent; border-radius: 9px; color: var(--application-text); background: transparent; text-align: left; cursor: pointer; transition: background-color 140ms ease, border-color 140ms ease; }
+.application-field .institution-multiselect-option input[type="checkbox"] { display: block; width: 18px; min-width: 18px; max-width: 18px; height: 18px; min-height: 18px; margin: 2px 0 0; padding: 0; flex: 0 0 18px; accent-color: var(--student-blue, #3478d4); }
+.institution-multiselect-option:hover { border-color: color-mix(in srgb, var(--student-blue, #3478d4) 20%, var(--application-border)); background: color-mix(in srgb, var(--student-blue, #3478d4) 6%, var(--application-surface)); }
+.institution-multiselect-option.is-selected { border-color: color-mix(in srgb, var(--student-blue, #3478d4) 35%, var(--application-border)); background: color-mix(in srgb, var(--student-blue, #3478d4) 9%, var(--application-surface)); }
+.institution-option-copy { display: grid; gap: 2px; overflow-wrap: anywhere; text-align: left; }
+.institution-option-name { color: var(--application-text); font-size: .88rem; font-weight: 700; line-height: 1.4; }
+.institution-option-location,
+.institution-option-official-name { color: var(--application-muted); font-size: .76rem; font-weight: 400; line-height: 1.45; }
+.institution-selection-summary { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; color: var(--application-text); font-size: .85rem; }
+.institution-selection-count { color: var(--application-muted); font-size: .78rem; }
+.institution-selected-chips { display: flex; width: 100%; flex-wrap: wrap; gap: 8px; }
+.institution-chip { max-width: 100%; overflow-wrap: anywhere; background: var(--student-blue-soft, #eaf2ff); color: var(--student-blue-dark, #174a86); }
+.institution-chip button { display: inline-grid; place-items: center; width: 22px; height: 22px; padding: 0; border-radius: 50%; font-size: 1rem; }
+.institution-chip button:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.institution-limit-note,
+.institution-empty-state { margin: 0; color: var(--application-muted); font-size: .78rem; }
+.institution-multiselect-option input:disabled { cursor: not-allowed; }
+@media (max-width: 640px) {
+  .institution-multiselect-options { max-height: 240px; padding: 5px; }
+  .institution-multiselect-option { padding: 10px; }
+}
+
+.student-documents-page { display: grid; gap: 18px; min-width: 0; }
+.student-documents-manager { display: grid; gap: 14px; min-width: 0; padding: 20px; border: 1px solid var(--student-border, #e1e8f0); border-radius: 16px; background: var(--student-white, #fff); color: var(--student-text, #243247); }
+.student-documents-manager .dashboard-card-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.student-documents-manager .dashboard-card-heading h2 { margin: 0; font-size: 1.1rem; }
+.student-documents-manager .dashboard-card-heading a,
+.student-document-links a { color: var(--student-blue, #3478d4); font-weight: 700; }
+.student-documents-intro { margin: 0; color: var(--student-muted, #68768b); font-size: .84rem; line-height: 1.6; }
+.student-document-upload { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; align-items: end; }
+.student-document-upload label { min-width: 0; color: var(--student-text, #243247); font-size: .83rem; }
+.student-document-upload input[type="file"] { min-width: 0; max-width: 100%; font-size: .78rem; }
+.student-document-upload .dashboard-primary-button { min-height: 42px; white-space: nowrap; }
+.student-document-progress { display: flex; grid-column: 1 / -1; align-items: center; gap: 10px; color: var(--student-muted, #68768b); font-size: .78rem; }
+.student-document-progress progress { width: min(100%, 460px); accent-color: var(--student-blue, #3478d4); }
+.student-document-application-select { display: grid; max-width: 560px; gap: 7px; color: var(--student-text, #243247); font-size: .83rem; font-weight: 700; }
+.student-document-application-select select { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--student-border, #dce4ef); border-radius: 9px; background: var(--student-white, #fff); color: var(--student-text, #243247); }
+.student-document-row { min-width: 0; align-items: center; }
+.student-document-details { min-width: 0; overflow-wrap: anywhere; }
+.student-document-details > strong { color: var(--student-text, #243247); overflow-wrap: anywhere; }
+.student-document-details > span { color: var(--student-muted, #68768b); font-size: .8rem; }
+.student-document-feedback,
+.student-document-links { margin: 3px 0 0; color: var(--student-muted, #68768b); font-size: .8rem; line-height: 1.55; }
+.student-document-success { margin: 0; padding: 10px 13px; border-radius: 9px; background: #e8f6ef; color: #176c3a; font-size: .84rem; }
+.student-documents-empty { display: grid; justify-items: center; gap: 8px; padding: 28px 18px; text-align: center; }
+.student-documents-empty > i { color: var(--student-blue, #3478d4); font-size: 1.6rem; }
+.student-documents-empty h3,
+.student-documents-empty p { margin: 0; }
+.student-documents-empty p { max-width: 620px; color: var(--student-muted, #68768b); font-size: .84rem; line-height: 1.6; }
+.application-status.status-verified { background: #e5f7ed; color: #176c3a; }
+.application-status.status-uploaded { background: #eaf2ff; color: #174a86; }
+.application-status.status-under_review,
+.application-status.status-replacement_required { background: #fff5d9; color: #755300; }
+[data-theme="dark"] .student-documents-manager { border-color: var(--student-border, #253246); background: var(--student-white, #111c2d); color: var(--student-text, #e7edf6); }
+[data-theme="dark"] .student-document-upload,
+[data-theme="dark"] .student-documents-empty { background: #17263a; }
+[data-theme="dark"] .student-document-upload label,
+[data-theme="dark"] .student-document-application-select,
+[data-theme="dark"] .student-document-details > strong { color: var(--student-text, #e7edf6); }
+[data-theme="dark"] .student-document-success { background: #173b30; color: #9be2be; }
+[data-theme="dark"] .application-status.status-verified { background: #173b30; color: #9be2be; }
+[data-theme="dark"] .application-status.status-uploaded { background: #142e49; color: #a8d0ff; }
+[data-theme="dark"] .application-status.status-under_review,
+[data-theme="dark"] .application-status.status-replacement_required { background: #392e17; color: #f2d38b; }
+@media (max-width: 760px) {
+  .student-documents-manager { padding: 15px; }
+  .student-document-upload { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .student-document-progress { grid-column: auto; }
+  .student-document-row { align-items: stretch; flex-direction: column; }
+  .student-document-row .application-document-actions { width: 100%; }
+}
