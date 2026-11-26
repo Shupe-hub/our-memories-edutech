@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import { rm } from 'node:fs/promises';
+import { isDedicatedLocalDatabase } from './local-database-guard.js';
 
-const enabled = process.env.RUN_DOCUMENT_INTEGRATION === '1';
+const enabled = process.env.RUN_DOCUMENT_INTEGRATION === '1' && isDedicatedLocalDatabase();
 
 test('authenticated student and administrator document workflow', { skip: !enabled }, async () => {
     await import('dotenv/config');

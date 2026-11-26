@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { apiBaseUrl } from '../../services/apiBase.js';
 import logo from '../../assets/OM.png';
 import '../../styles/user/StudentDashboard.css';
 import '../../styles/admin/AdminPortal.css';
@@ -8,7 +9,7 @@ import '../../styles/applications/ApplicationEnquiryForm.css';
 import ApplicationDocumentReview from './ApplicationDocumentReview';
 import EducationWorkflowPanel from './EducationWorkflowPanel';
 
-const api = async (path, options={}) => { const base=import.meta.env.VITE_API_BASE_URL||'/api'; const response=await fetch(`${base}${path}`,{...options,credentials:'include',headers:{...(options.body?{'Content-Type':'application/json'}:{}),...options.headers}}); const result=await response.json(); if(!response.ok) throw new Error(result.error||'Request failed'); return result; };
+const api = async (path, options={}) => { const response=await fetch(`${apiBaseUrl}${path}`,{...options,credentials:'include',headers:{...(options.body?{'Content-Type':'application/json'}:{}),...options.headers}}); const result=await response.json(); if(!response.ok) throw new Error(result.error||'Request failed'); return result; };
 export default function AdminPortal({superAdmin=false,changePassword=false,theme,toggleTheme}) {
  const {user,isLoading,signOut}=useAuth(); const navigate=useNavigate(); const location=useLocation(); const [section,setSection]=useState('Overview'); const [data,setData]=useState(null); const [items,setItems]=useState([]); const [error,setError]=useState(''); const [busy,setBusy]=useState(false); const [search,setSearch]=useState(''); const [collapsed,setCollapsed]=useState(false); const [mobileOpen,setMobileOpen]=useState(false); const [profileOpen,setProfileOpen]=useState(false); const [enquiries,setEnquiries]=useState([]); const [enquiryStats,setEnquiryStats]=useState({total:0,totals:{}}); const [assignees,setAssignees]=useState([]); const [selectedEnquiry,setSelectedEnquiry]=useState(null); const [enquirySearch,setEnquirySearch]=useState(''); const [feedback,setFeedback]=useState(''); const [requestedDocs,setRequestedDocs]=useState(''); const [note,setNote]=useState(''); const [nextStatus,setNextStatus]=useState('');
  const privileged=user?.role==='SUPER_ADMIN';

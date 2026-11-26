@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { apiBaseUrl } from '../../services/apiBase.js';
 import { apiRequest } from '../../services/apiRequest';
 
 const categories = [
@@ -13,7 +14,7 @@ const categories = [
 ];
 const statuses = { UPLOADED: 'Uploaded', UNDER_REVIEW: 'Under review', VERIFIED: 'Verified', REJECTED: 'Rejected', REPLACEMENT_REQUIRED: 'Replacement required' };
 const editableApplicationStatuses = ['SUBMITTED', 'UNDER_REVIEW', 'AWAITING_DOCUMENTS', 'IN_PROGRESS'];
-const apiBase = import.meta.env.VITE_API_BASE_URL || '/api';
+const apiBase = apiBaseUrl;
 const formatSize = (bytes) => bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 
 export default function ApplicationDocumentsPanel({ applicationId = null, applicationStatus = null, standalone = false }) {

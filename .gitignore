@@ -9,16 +9,21 @@ lerna-debug.log*
 
 node_modules
 .tmp/
+frontend/.vite-cache/
 dist
 dist-ssr
 *.local
 backend/.env
+.env.development
 backend/.private-application-documents/
+backend/generated/
 frontend/.env
 frontend/.env.*
 !frontend/.env.example
+!frontend/.env.development.example
 backend/.env.*
 !backend/.env.example
+!backend/.env.development.example
 
 # Editor directories and files
 .vscode/*

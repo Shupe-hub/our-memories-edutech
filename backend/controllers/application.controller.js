@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
+import { containsInsensitive } from '../config/database-capabilities.js';
 import prisma from '../config/prisma.js';
-import { sendAdministratorEnquiryNotice, sendAdministratorEnquiryUpdateNotice, sendStudentEnquiryAcknowledgement, sendStudentEnquiryUpdate } from '../services/email.service.js';
+import { sendAdministratorEnquiryNotice, sendAdministratorEnquiryUpdateNotice, sendDocumentNotification, sendStudentEnquiryAcknowledgement, sendStudentEnquiryUpdate } from '../services/email.service.js';
 import { configuredRetentionDays, maximumApplicationDocumentBytes, readApplicationDocument, removeApplicationDocument, saveApplicationDocument, validateDocument } from '../services/application-storage.service.js';
 
 const applicationTypes = {
@@ -34,10 +35,10 @@ const studentListSelect = { id: true, referenceNumber: true, applicationType: tr
 const genericServerError = (res) => res.status(500).json({ error: 'The application enquiry could not be processed. Please try again later.' });
 const notFound = (res) => res.status(404).json({ error: 'Application enquiry not found.' });
 
-async function notifyNewEnquiry(enquiry) {
+async function notifyNewEnquiry(enquiry, selectedInstitutions = []) {
     const admins = await prisma.user.findMany({ where: { role: { in: ['ADMIN', 'SUPER_ADMIN'] }, isActive: true }, select: { email: true } });
     const outcomes = await Promise.allSettled([
-        sendStudentEnquiryAcknowledgement(enquiry),
+        sendStudentEnquiryAcknowledgement({ ...enquiry, selectedInstitutions: selectedInstitutions.map(({ name }) => ({ name })) }),
         ...admins.map(({ email }) => sendAdministratorEnquiryNotice(email, enquiry.referenceNumber, enquiry.applicationType)),
     ]);
     if (outcomes.some((result) => result.status === 'rejected')) console.warn('Application enquiry notification email delivery failed.');
@@ -79,9 +80,8 @@ export async function submitEnquiry(req, res) {
             }
         }
         const created = await prisma.$transaction(async (transaction) => {
-            const [{ value: sequence }] = await transaction.$queryRaw`SELECT nextval('"ApplicationEnquiryReference_seq"')::bigint AS value`;
             const year = new Date().getFullYear();
-            const referenceNumber = `OME-${year}-${String(sequence).padStart(6, '0')}`;
+            const referenceNumber = `OME-${year}-${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
             const additionalInformation = safeAdditional(body) || {};
             if (selectedInstitutions.length) additionalInformation.preferredInstitutions = selectedInstitutions.map(({ name }) => name).join(', ');
             const enquiry = await transaction.applicationEnquiry.create({ data: {
@@ -128,7 +128,7 @@ export async function submitEnquiry(req, res) {
             await transaction.applicationEnquiryStatusHistory.create({ data: { enquiryId: enquiry.id, newStatus: 'SUBMITTED' } });
             return enquiry;
         });
-        void notifyNewEnquiry(created).catch(() => console.warn('Application enquiry notification email delivery failed.'));
+        void notifyNewEnquiry(created, selectedInstitutions).catch(() => console.warn('Application enquiry notification email delivery failed.'));
         const { submissionKey: _submissionKey, ...enquiry } = created;
         return res.status(201).json({ enquiry });
     } catch (error) {
@@ -288,10 +288,10 @@ export async function listAdminEnquiries(req, res) {
         ...(status ? { status } : {}),
         ...(type ? { applicationType: type } : {}),
         ...(search ? { OR: [
-            { referenceNumber: { contains: search, mode: 'insensitive' } },
-            { fullNames: { contains: search, mode: 'insensitive' } },
-            { surname: { contains: search, mode: 'insensitive' } },
-            { email: { contains: search, mode: 'insensitive' } },
+            { referenceNumber: containsInsensitive(search) },
+            { fullNames: containsInsensitive(search) },
+            { surname: containsInsensitive(search) },
+            { email: containsInsensitive(search) },
         ] } : {}),
     };
     try {
@@ -472,6 +472,7 @@ export async function uploadStudentDocument(req, res) {
                 if (replacementId) await tx.applicationDocumentHistory.create({ data: { documentId: replacementId, actorId: req.userId, action: 'REPLACED' } });
                 return created;
             });
+            void prisma.user.findUnique({ where: { id: req.userId }, select: { email: true } }).then((user) => user && sendDocumentNotification(user.email, { referenceNumber: application?.id ? `application ${application.id.slice(0, 8)}` : 'your document library', status: 'UPLOADED' })).catch(() => console.warn('Document upload email could not be sent.'));
             return res.status(201).json({ document: item });
         } catch (error) {
             await removeApplicationDocument(saved.storageKey).catch(() => {});
@@ -559,16 +560,18 @@ export async function updateAdminDocumentStatus(req, res) {
     const comment = req.body?.comment;
     if (!validUuid(req.params.id) || !validUuid(req.params.documentId) || !documentStatuses.includes(status) || typeof comment !== 'string' || comment.length > 2000 || (['REJECTED', 'REPLACEMENT_REQUIRED'].includes(status) && !comment.trim())) return res.status(400).json({ error: 'Choose a valid document status and provide a reason when rejecting or requesting replacement.' });
     try {
+        let shouldNotify = false;
         const item = await prisma.$transaction(async (transaction) => {
             const current = await transaction.applicationDocument.findFirst({ where: { id: req.params.documentId, deletedAt: null, OR: [{ enquiryId: req.params.id }, { applications: { some: { enquiryId: req.params.id } } }] } });
             if (!current) return null;
+            shouldNotify = current.status !== status || current.adminComment !== (comment.trim() || null);
             const updated = await transaction.applicationDocument.update({ where: { id: current.id }, data: { status, adminComment: comment.trim() || null }, select: safeDocumentSelect });
             if (current.status !== status || current.adminComment !== (comment.trim() || null)) await transaction.applicationDocumentHistory.create({ data: { documentId: current.id, actorId: req.userId, action: 'STATUS_CHANGED', previousStatus: current.status, newStatus: status } });
             return updated;
         });
         if (!item) return notFound(res);
         const enquiry = await prisma.applicationEnquiry.findUnique({ where: { id: req.params.id }, select: { email: true, referenceNumber: true, applicationType: true, status: true } });
-        if (enquiry) void sendStudentEnquiryUpdate(enquiry).catch(() => console.warn('Application enquiry notification email delivery failed.'));
+        if (enquiry && shouldNotify) void sendDocumentNotification(enquiry.email, { referenceNumber: enquiry.referenceNumber, status, feedback: comment.trim() }).catch(() => console.warn('Document status email could not be sent.'));
         return res.json({ document: item });
     } catch { return genericServerError(res); }
 }

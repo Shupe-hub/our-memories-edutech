@@ -36,3 +36,14 @@ test('refuses storage configured inside the public frontend directory', async ()
         else process.env.APPLICATION_STORAGE_PATH = previous;
     }
 });
+
+test('refuses cPanel private storage configured inside public_html', async () => {
+    const previous = process.env.APPLICATION_STORAGE_PATH;
+    const publicHtmlPath = path.resolve(path.parse(process.cwd()).root, 'home', 'cpanel-user', 'public_html', 'private-documents');
+    process.env.APPLICATION_STORAGE_PATH = publicHtmlPath;
+    try { await assert.rejects(ensurePrivateStorageConfigured(), /PRIVATE_STORAGE_PATH_IS_PUBLIC/); }
+    finally {
+        if (previous === undefined) delete process.env.APPLICATION_STORAGE_PATH;
+        else process.env.APPLICATION_STORAGE_PATH = previous;
+    }
+});

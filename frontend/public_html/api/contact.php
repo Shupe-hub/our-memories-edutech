@@ -353,12 +353,26 @@ $messageLines = [
     'Message:',
     $message,
 ];
+$escapeHtml = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$logoUrl = 'https://ourmemoriesedutech.co.za/our-memories-edutech-logo.png';
+$htmlMessage = nl2br($escapeHtml($message), false);
+$emailHtml = '<!doctype html><html><body style="margin:0;background:#f3f6fa;font-family:Arial,Helvetica,sans-serif;color:#172337">'
+    . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:24px 10px;background:#f3f6fa"><tr><td align="center">'
+    . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#fff;border-radius:10px">'
+    . '<tr><td align="center" style="padding:22px;border-bottom:1px solid #e7edf4"><img src="' . $logoUrl . '" width="104" height="88" alt="Our Memories EduTech logo" style="display:block;width:104px;height:88px">'
+    . '<p style="font-size:20px;font-weight:bold;margin:10px 0 4px">Our Memories EduTech</p><p style="font-size:12px;letter-spacing:2px;margin:0;color:#526174">LEARN. APPLY. GROW.</p></td></tr>'
+    . '<tr><td style="padding:26px"><h1 style="font-size:22px">New website enquiry</h1><p><b>From:</b> ' . $escapeHtml($name) . ' &lt;<a href="mailto:' . $escapeHtml($email) . '">' . $escapeHtml($email) . '</a>&gt;</p>'
+    . '<p><b>Phone:</b> ' . $escapeHtml($phone !== '' ? $phone : 'Not provided') . '<br><b>Service:</b> ' . $escapeHtml($service !== '' ? $service : 'Not specified') . '<br><b>Subject:</b> ' . $escapeHtml($subject) . '</p>'
+    . '<h2 style="font-size:16px">Message</h2><p style="line-height:1.6">' . $htmlMessage . '</p></td></tr>'
+    . '<tr><td style="padding:18px 26px;background:#f7f9fc;font-size:12px;color:#526174">Our Memories EduTech · <a href="https://ourmemoriesedutech.co.za">Visit our website</a></td></tr>'
+    . '</table></td></tr></table></body></html>';
 $emailPayload = [
     'from' => $sender,
     'to' => [$recipient],
     'reply_to' => $email,
     'subject' => '[Website enquiry] ' . $subject,
     'text' => implode("\n", $messageLines),
+    'html' => $emailHtml,
 ];
 $encodedPayload = json_encode($emailPayload, JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
 if ($encodedPayload === false) {

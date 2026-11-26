@@ -1,4 +1,5 @@
 import prisma from '../config/prisma.js';
+import { containsArrayValue, containsInsensitive } from '../config/database-capabilities.js';
 
 const institutionSelect = { id: true, name: true, officialName: true, aliases: true, type: true, province: true, website: true, websiteVerified: true, locationVerified: true, isLegacy: true };
 
@@ -11,7 +12,7 @@ export async function listInstitutions(req, res) {
             where: {
                 ...(type ? { type } : {}),
                 ...(province ? { province } : {}),
-                ...(search ? { OR: [{ name: { contains: search, mode: 'insensitive' } }, { officialName: { contains: search, mode: 'insensitive' } }, { aliases: { hasSome: [search] } }] } : {}),
+                ...(search ? { OR: [{ name: containsInsensitive(search) }, { officialName: containsInsensitive(search) }, { aliases: containsArrayValue(search) }] } : {}),
             },
             select: institutionSelect,
             orderBy: [{ isLegacy: 'asc' }, { name: 'asc' }],

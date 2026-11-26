@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticate, rateLimit, requireAdmin, requirePasswordChanged, requireSuperAdmin, sameOrigin } from '../middleware/authenticate.js';
-import { activity, adminDashboard, changePassword, createAdmin, dashboard, deleteAdmin, getAdmin, listAdmins, listStudents, profile, resendInvitation, setAdminStatus, updateAdmin } from '../controllers/admin.controller.js';
+import { activity, adminDashboard, changePassword, createAdmin, dashboard, deleteAdmin, getAdmin, listAdmins, listStudents, profile, resendInvitation, sendEmailTest, setAdminStatus, updateAdmin } from '../controllers/admin.controller.js';
 import { addEnquiryNote, assignEnquiry, downloadAdminDocument, enquiryStats, getAdminEnquiry, listAdminDocuments, listAdminEnquiries, listAssignees, updateAdminDocumentStatus, updateEnquiryFeedback, updateEnquiryStatus } from '../controllers/application.controller.js';
 import { adminCatalogue, listAdminWorkflowApplications, saveCatalogue, updateAdminApplicationFee, updateAdminWorkflowApplication, updateWorkflowDocumentStatus } from '../controllers/education-workflow.controller.js';
 const router=Router();
@@ -8,6 +8,7 @@ router.use(authenticate);
 router.use(sameOrigin);
 router.use((req,res,next)=>req.method==='GET'?next():rateLimit({windowMs:60*60*1000,max:20})(req,res,next));
 router.get('/system-admin/dashboard',requireSuperAdmin,dashboard);
+router.post('/system-admin/email/test',requireSuperAdmin,requirePasswordChanged,sendEmailTest);
 router.get('/system-admin/administrators',requireSuperAdmin,listAdmins);
 router.post('/system-admin/administrators',requireSuperAdmin,createAdmin);
 router.get('/system-admin/administrators/:id',requireSuperAdmin,getAdmin);

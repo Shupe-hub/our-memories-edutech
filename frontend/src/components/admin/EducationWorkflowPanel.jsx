@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { apiBaseUrl } from '../../services/apiBase.js';
 
-const api = async (path, options = {}) => { const base = import.meta.env.VITE_API_BASE_URL || '/api'; const response = await fetch(`${base}${path}`, { ...options, credentials: 'include', headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } }); const result = await response.json(); if (!response.ok) throw new Error(result.error || 'Request failed'); return result; };
+const api = async (path, options = {}) => { const response = await fetch(`${apiBaseUrl}${path}`, { ...options, credentials: 'include', headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } }); const result = await response.json(); if (!response.ok) throw new Error(result.error || 'Request failed'); return result; };
 const statusOptions = ['SUBMITTED', 'UNDER_REVIEW', 'AWAITING_DOCUMENTS', 'IN_PROGRESS', 'APPROVED', 'REJECTED', 'CANCELLED'];
 
 export default function EducationWorkflowPanel({ section }) {

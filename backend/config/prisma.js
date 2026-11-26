@@ -1,5 +1,8 @@
-import { PrismaClient } from '../node_modules/.prisma/our-memories-document-client/index.js';
+import './load-env.js';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '../generated/postgres/client.ts';
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 export default prisma;

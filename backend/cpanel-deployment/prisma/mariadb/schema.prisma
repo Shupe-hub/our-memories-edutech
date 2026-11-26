@@ -1,0 +1,548 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/our-memories-mariadb-client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                           String                            @id @default(uuid())
+  name                         String                            @db.Text
+  surname                      String                            @db.Text
+  email                        String                            @unique @db.VarChar(254)
+  password                     String
+  role                         UserRole                          @default(STUDENT)
+  isActive                     Boolean                           @default(true)
+  mustChangePassword           Boolean                           @default(false)
+  lastLoginAt                  DateTime?
+  authVersion                  Int                               @default(0)
+  activities                   AdministratorActivity[]           @relation("ActivityActor")
+  targets                      AdministratorActivity[]           @relation("ActivityTarget")
+  passwordResetTokens          PasswordResetToken[]
+  applicationEnquiries         ApplicationEnquiry[]              @relation("EnquiryOwner")
+  assignedEnquiries            ApplicationEnquiry[]              @relation("EnquiryAssignee")
+  enquiryStatusChanges         ApplicationEnquiryStatusHistory[]
+  enquiryNotes                 ApplicationEnquiryAdminNote[]
+  editedApplicationEnquiries   ApplicationEnquiryEditHistory[]   @relation("ApplicationEnquiryEditor")
+  uploadedApplicationDocuments ApplicationDocument[]             @relation("ApplicationDocumentUploader")
+  ownedApplicationDocuments    ApplicationDocument[]             @relation("ApplicationDocumentOwner")
+  attachedApplicationDocuments ApplicationDocumentAssociation[]  @relation("ApplicationDocumentAssociationActor")
+  applicationDocumentHistory   ApplicationDocumentHistory[]      @relation("ApplicationDocumentHistoryActor")
+  applicationDocumentAccess    ApplicationDocumentAccess[]
+  institutionApplications      InstitutionApplication[]          @relation("InstitutionApplicationOwner")
+  assignedInstitutionApps      InstitutionApplication[]          @relation("InstitutionApplicationAssignee")
+  bursaryApplications          BursaryApplication[]              @relation("BursaryApplicationOwner")
+  assignedBursaryApps          BursaryApplication[]              @relation("BursaryApplicationAssignee")
+  studentNotifications         StudentNotification[]
+  createdAt                    DateTime                          @default(now())
+  updatedAt                    DateTime                          @updatedAt
+}
+
+enum ApplicationType {
+  UNIVERSITY
+  TVET
+  SCHOOL
+  BURSARY
+  NSFAS
+  CAO
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  AWAITING_DOCUMENTS
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
+enum InstitutionType {
+  UNIVERSITY
+  UNIVERSITY_OF_TECHNOLOGY
+  TVET_COLLEGE
+  OTHER
+}
+
+enum WorkflowApplicationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  AWAITING_DOCUMENTS
+  IN_PROGRESS
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum WorkflowApplicationType {
+  UNIVERSITY
+  TVET
+  BURSARY
+}
+
+enum FundingStatus {
+  ACTIVE
+  CLOSED
+  NOT_CONFIRMED
+}
+
+enum PaymentStatus {
+  NOT_REQUIRED
+  UNPAID
+  PENDING
+  PAID
+  WAIVED
+}
+
+enum ApplicationDocumentCategory {
+  ID_COPY
+  ACADEMIC_RESULTS
+  GUARDIAN_ID
+  PROOF_OF_RESIDENCE
+  UPGRADING_LETTER
+  OTHER
+  CERTIFICATE
+}
+
+enum ApplicationDocumentStatus {
+  UPLOADED
+  UNDER_REVIEW
+  VERIFIED
+  REJECTED
+  REPLACEMENT_REQUIRED
+}
+
+model ApplicationEnquiry {
+  id                          String                            @id @default(uuid())
+  referenceNumber             String                            @unique
+  submissionKey               String?                           @unique
+  userId                      String
+  applicationType             ApplicationType
+  idNumber                    String
+  fullNames                   String                            @db.VarChar(255)
+  surname                     String
+  email                       String                            @db.VarChar(254)
+  cellphone                   String
+  province                    String
+  postalCode                  String
+  postalAddress               String                            @db.Text
+  streetName                  String                            @db.VarChar(300)
+  town                        String
+  highSchool                  String                            @db.VarChar(255)
+  homeLanguage                String
+  currentGrade                String
+  guardianName                String?                           @db.VarChar(255)
+  guardianId                  String?
+  guardianCellphone           String?
+  guardianEmail               String?                           @db.VarChar(254)
+  documents                   Json                          @default("[]")
+  informationConfirmed        Boolean
+  feesConfirmed               Boolean
+  feedbackFeesConfirmed       Boolean
+  additionalInformation       Json?
+  legacyPreferredInstitutions String?                           @db.Text
+  status                      ApplicationStatus                 @default(SUBMITTED)
+  adminFeedback               String?                           @db.Text
+  requestedDocuments          Json                          @default("[]")
+  assignedAdminId             String?
+  submittedAt                 DateTime                          @default(now())
+  createdAt                   DateTime                          @default(now())
+  updatedAt                   DateTime                          @updatedAt
+  user                        User                              @relation("EnquiryOwner", fields: [userId], references: [id], onDelete: Restrict)
+  assignedAdmin               User?                             @relation("EnquiryAssignee", fields: [assignedAdminId], references: [id], onDelete: SetNull)
+  statusHistory               ApplicationEnquiryStatusHistory[]
+  internalNotes               ApplicationEnquiryAdminNote[]
+  selectedInstitutions        ApplicationEnquiryInstitution[]
+  editHistory                 ApplicationEnquiryEditHistory[]
+  uploadedDocuments           ApplicationDocument[]
+  documentAssociations        ApplicationDocumentAssociation[]
+  institutionApplications     InstitutionApplication[]
+  bursaryApplications         BursaryApplication[]
+
+  @@index([userId, submittedAt])
+  @@index([status, submittedAt])
+  @@index([applicationType, submittedAt])
+  @@index([assignedAdminId])
+}
+
+model Institution {
+  id                      String                          @id @default(uuid())
+  name                    String                          @unique @db.VarChar(255)
+  officialName            String                          @db.Text
+  aliases                 Json                        @default("[]")
+  type                    InstitutionType
+  province                String?                         @db.VarChar(191)
+  website                 String?                         @db.Text
+  websiteVerified         Boolean                         @default(false)
+  locationVerified        Boolean                         @default(false)
+  sourceUrl               String?                         @db.Text
+  isLegacy                Boolean                         @default(false)
+  createdAt               DateTime                        @default(now())
+  updatedAt               DateTime                        @updatedAt
+  applications            ApplicationEnquiryInstitution[]
+  programmes              InstitutionProgramme[]
+  deadlines               ApplicationDeadline[]
+  institutionApplications InstitutionApplication[]
+
+  @@index([type, name])
+  @@index([province])
+}
+
+model ApplicationEnquiryInstitution {
+  enquiryId     String
+  institutionId String
+  sortOrder     Int                @default(0)
+  selectedAt    DateTime           @default(now())
+  enquiry       ApplicationEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  institution   Institution        @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+
+  @@id([enquiryId, institutionId])
+  @@index([institutionId])
+}
+
+model InstitutionProgramme {
+  id                 String                   @id @default(uuid())
+  institutionId      String
+  name               String                   @db.VarChar(255)
+  courseCode         String?                  @db.Text
+  qualificationLevel String?                  @db.Text
+  description        String?                  @db.Text
+  entryRequirements  String?                  @db.Text
+  fieldsOfStudy      Json                 @default("[]")
+  sourceUrl          String?                  @db.Text
+  isVerified         Boolean                  @default(false)
+  isActive           Boolean                  @default(false)
+  institution        Institution              @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  applications       InstitutionApplication[]
+  deadlines          ApplicationDeadline[]
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  @@unique([institutionId, name])
+  @@index([institutionId, isVerified, isActive])
+}
+
+model InstitutionApplication {
+  id                 String                           @id @default(uuid())
+  referenceNumber    String                           @unique
+  userId             String
+  parentEnquiryId    String?
+  institutionId      String
+  programmeId        String?
+  academicYear       Int
+  qualificationLevel String?
+  firstChoice        String?                          @db.VarChar(200)
+  secondChoice       String?                          @db.VarChar(200)
+  thirdChoice        String?                          @db.VarChar(200)
+  status             WorkflowApplicationStatus        @default(SUBMITTED)
+  adminFeedback      String?                          @db.Text
+  requestedDocuments Json                         @default("[]")
+  assignedAdminId    String?
+  submittedAt        DateTime                         @default(now())
+  createdAt          DateTime                         @default(now())
+  updatedAt          DateTime                         @updatedAt
+  user               User                             @relation("InstitutionApplicationOwner", fields: [userId], references: [id], onDelete: Cascade)
+  assignedAdmin      User?                            @relation("InstitutionApplicationAssignee", fields: [assignedAdminId], references: [id], onDelete: SetNull)
+  parentEnquiry      ApplicationEnquiry?              @relation(fields: [parentEnquiryId], references: [id], onDelete: SetNull)
+  institution        Institution                      @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+  programme          InstitutionProgramme?            @relation(fields: [programmeId], references: [id], onDelete: SetNull)
+  fee                ApplicationFee?
+  documents          InstitutionApplicationDocument[]
+  history            InstitutionApplicationHistory[]
+  deadlines          ApplicationDeadline[]
+
+  @@unique([parentEnquiryId, institutionId])
+  @@index([userId, submittedAt])
+  @@index([status, submittedAt])
+}
+
+model InstitutionApplicationHistory {
+  id            String                 @id @default(uuid())
+  applicationId String
+  actorId       String?
+  action        String
+  details       Json?
+  createdAt     DateTime               @default(now())
+  application   InstitutionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId, createdAt])
+}
+
+model ApplicationFee {
+  id               String                 @id @default(uuid())
+  applicationId    String                 @unique
+  amount           Decimal?               @db.Decimal(10, 2)
+  currency         String                 @default("ZAR")
+  description      String?                @db.VarChar(500)
+  paymentStatus    PaymentStatus          @default(NOT_REQUIRED)
+  paidAt           DateTime?
+  paymentReference String?                @db.VarChar(120)
+  application      InstitutionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  updatedAt        DateTime               @updatedAt
+}
+
+model Bursary {
+  id                  String                @id @default(uuid())
+  name                String                @db.Text
+  fundingOrganization String?               @db.Text
+  description         String?               @db.Text
+  academicYear        Int?
+  eligibility         String?               @db.Text
+  fieldsOfStudy       Json              @default("[]")
+  openingDate         DateTime?
+  closingDate         DateTime?
+  requiredDocuments   Json              @default("[]")
+  officialUrl         String?               @db.Text
+  fundingStatus       FundingStatus         @default(NOT_CONFIRMED)
+  isVerified          Boolean               @default(false)
+  isPublished         Boolean               @default(false)
+  applications        BursaryApplication[]
+  deadlines           ApplicationDeadline[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  @@index([isVerified, isPublished, closingDate])
+}
+
+model BursaryApplication {
+  id                 String                       @id @default(uuid())
+  referenceNumber    String                       @unique
+  userId             String
+  bursaryId          String
+  parentEnquiryId    String?
+  academicYear       Int
+  status             WorkflowApplicationStatus    @default(SUBMITTED)
+  adminFeedback      String?                       @db.Text
+  requestedDocuments Json                     @default("[]")
+  assignedAdminId    String?
+  submittedAt        DateTime                     @default(now())
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @updatedAt
+  user               User                         @relation("BursaryApplicationOwner", fields: [userId], references: [id], onDelete: Cascade)
+  assignedAdmin      User?                        @relation("BursaryApplicationAssignee", fields: [assignedAdminId], references: [id], onDelete: SetNull)
+  bursary            Bursary                      @relation(fields: [bursaryId], references: [id], onDelete: Restrict)
+  parentEnquiry      ApplicationEnquiry?          @relation(fields: [parentEnquiryId], references: [id], onDelete: SetNull)
+  documents          BursaryApplicationDocument[]
+  history            BursaryApplicationHistory[]
+
+  @@unique([userId, bursaryId, academicYear])
+  @@index([userId, submittedAt])
+  @@index([status, submittedAt])
+}
+
+model InstitutionApplicationDocument {
+  applicationId String
+  documentId    String
+  attachedAt    DateTime               @default(now())
+  application   InstitutionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  document      ApplicationDocument    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@id([applicationId, documentId])
+}
+
+model BursaryApplicationDocument {
+  applicationId String
+  documentId    String
+  attachedAt    DateTime            @default(now())
+  application   BursaryApplication  @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  document      ApplicationDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@id([applicationId, documentId])
+}
+
+model BursaryApplicationHistory {
+  id            String             @id @default(uuid())
+  applicationId String
+  actorId       String?
+  action        String
+  details       Json?
+  createdAt     DateTime           @default(now())
+  application   BursaryApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId, createdAt])
+}
+
+model ApplicationDeadline {
+  id                       String                  @id @default(uuid())
+  institutionId            String?
+  bursaryId                String?
+  programmeId              String?
+  institutionApplicationId String?
+  title                    String                  @db.Text
+  applicationType          WorkflowApplicationType
+  academicYear             Int
+  opensAt                  DateTime?
+  closesAt                 DateTime
+  sourceUrl                String?                 @db.Text
+  isVerified               Boolean                 @default(false)
+  institution              Institution?            @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  bursary                  Bursary?                @relation(fields: [bursaryId], references: [id], onDelete: Cascade)
+  programme                InstitutionProgramme?   @relation(fields: [programmeId], references: [id], onDelete: SetNull)
+  institutionApplication   InstitutionApplication? @relation(fields: [institutionApplicationId], references: [id], onDelete: Cascade)
+  createdAt                DateTime                @default(now())
+
+  @@index([isVerified, closesAt])
+  @@index([institutionId, closesAt])
+  @@index([bursaryId, closesAt])
+}
+
+model StudentNotification {
+  id        String    @id @default(uuid())
+  userId    String
+  title     String
+  message   String    @db.Text
+  type      String
+  entityId  String?
+  dedupeKey String?   @unique
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt])
+}
+
+model ApplicationEnquiryEditHistory {
+  id            String             @id @default(uuid())
+  enquiryId     String
+  userId        String?
+  changedFields Json
+  safeChanges   Json?
+  changedAt     DateTime           @default(now())
+  enquiry       ApplicationEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  user          User?              @relation("ApplicationEnquiryEditor", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([enquiryId, changedAt])
+}
+
+model ApplicationDocument {
+  id                      String                           @id @default(uuid())
+  enquiryId               String?
+  userId                  String
+  storageKey              String                           @unique
+  originalName            String
+  category                ApplicationDocumentCategory
+  mimeType                String
+  sizeBytes               Int
+  status                  ApplicationDocumentStatus        @default(UPLOADED)
+  adminComment            String?                          @db.Text
+  uploadedById            String?
+  replacedDocumentId      String?
+  uploadedAt              DateTime                         @default(now())
+  updatedAt               DateTime                         @updatedAt
+  deletedAt               DateTime?
+  retentionExpiresAt      DateTime?
+  enquiry                 ApplicationEnquiry?              @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  owner                   User                             @relation("ApplicationDocumentOwner", fields: [userId], references: [id], onDelete: Cascade)
+  uploadedBy              User?                            @relation("ApplicationDocumentUploader", fields: [uploadedById], references: [id], onDelete: SetNull)
+  replacedDocument        ApplicationDocument?             @relation("DocumentReplacement", fields: [replacedDocumentId], references: [id], onDelete: SetNull)
+  replacementVersions     ApplicationDocument[]            @relation("DocumentReplacement")
+  history                 ApplicationDocumentHistory[]
+  accesses                ApplicationDocumentAccess[]
+  applications            ApplicationDocumentAssociation[]
+  institutionApplications InstitutionApplicationDocument[]
+  bursaryApplications     BursaryApplicationDocument[]
+
+  @@index([enquiryId, uploadedAt])
+  @@index([status])
+  @@index([retentionExpiresAt])
+}
+
+model ApplicationDocumentAssociation {
+  documentId   String
+  enquiryId    String
+  attachedById String?
+  attachedAt   DateTime            @default(now())
+  document     ApplicationDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  enquiry      ApplicationEnquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  attachedBy   User?               @relation("ApplicationDocumentAssociationActor", fields: [attachedById], references: [id], onDelete: SetNull)
+
+  @@id([documentId, enquiryId])
+  @@index([enquiryId, attachedAt])
+}
+
+model ApplicationDocumentHistory {
+  id             String                     @id @default(uuid())
+  documentId     String
+  actorId        String?
+  action         String
+  previousStatus ApplicationDocumentStatus?
+  newStatus      ApplicationDocumentStatus?
+  changedAt      DateTime                   @default(now())
+  document       ApplicationDocument        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  actor          User?                      @relation("ApplicationDocumentHistoryActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([documentId, changedAt])
+}
+
+model ApplicationDocumentAccess {
+  id         String              @id @default(uuid())
+  documentId String
+  actorId    String?
+  accessedAt DateTime            @default(now())
+  document   ApplicationDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  actor      User?               @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([documentId, accessedAt])
+}
+
+model ApplicationEnquiryStatusHistory {
+  id              String             @id @default(uuid())
+  enquiryId       String
+  administratorId String?
+  previousStatus  ApplicationStatus?
+  newStatus       ApplicationStatus
+  changedAt       DateTime           @default(now())
+  enquiry         ApplicationEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  administrator   User?              @relation(fields: [administratorId], references: [id], onDelete: SetNull)
+
+  @@index([enquiryId, changedAt])
+}
+
+model ApplicationEnquiryAdminNote {
+  id              String             @id @default(uuid())
+  enquiryId       String
+  administratorId String?
+  note            String             @db.Text
+  createdAt       DateTime           @default(now())
+  enquiry         ApplicationEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  administrator   User?              @relation(fields: [administratorId], references: [id], onDelete: SetNull)
+
+  @@index([enquiryId, createdAt])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  STUDENT
+}
+
+model AdministratorActivity {
+  id        String   @id @default(uuid())
+  actorId   String?
+  targetId  String?
+  action    String
+  details   Json?
+  createdAt DateTime @default(now())
+  actor     User?    @relation("ActivityActor", fields: [actorId], references: [id], onDelete: SetNull)
+  target    User?    @relation("ActivityTarget", fields: [targetId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([actorId])
+}

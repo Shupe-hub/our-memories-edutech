@@ -1,0 +1,26 @@
+{
+  "name": "our-memories-edutech-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "prisma generate --schema prisma/mariadb/schema.prisma",
+    "prisma:generate:mariadb": "prisma generate --schema prisma/mariadb/schema.prisma",
+    "prisma:validate:mariadb": "prisma validate --schema prisma/mariadb/schema.prisma",
+    "prisma:deploy:mariadb": "prisma migrate deploy --schema prisma/mariadb/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "resend": "^6.40.0",
+    "prisma": "^6.19.0"
+  },
+  "engines": {
+    "node": ">=22.12 <23"
+  }
+}

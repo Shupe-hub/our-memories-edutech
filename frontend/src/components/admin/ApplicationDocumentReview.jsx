@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../../services/apiRequest';
+import { apiBaseUrl } from '../../services/apiBase.js';
 
 const labels = { ID_COPY: 'ID copy or birth certificate', ACADEMIC_RESULTS: 'Academic results', CERTIFICATE: 'Certificate or qualification', GUARDIAN_ID: 'Guardian ID', PROOF_OF_RESIDENCE: 'Proof of residence', UPGRADING_LETTER: 'Upgrading letter', OTHER: 'Other' };
 const statuses = ['UPLOADED', 'UNDER_REVIEW', 'VERIFIED', 'REJECTED', 'REPLACEMENT_REQUIRED'];
-const apiBase = import.meta.env.VITE_API_BASE_URL || '/api';
+const apiBase = apiBaseUrl;
 
 export default function ApplicationDocumentReview({ applicationId }) {
   const [items, setItems] = useState([]);

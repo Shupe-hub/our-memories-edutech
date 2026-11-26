@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '../config/prisma.js';
 import { authCookieName } from '../middleware/authenticate.js';
 import { sendPasswordResetEmail } from '../services/email.service.js';
+import { sendStudentWelcome } from '../services/email.service.js';
 
 const userFields = {
     id: true,
@@ -38,7 +39,7 @@ const setAuthCookie = (res, user) => {
     });
 };
 
-const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const isValidEmail = (email) => typeof email === 'string' && email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const resetTokenHash = (token) => createHash('sha256').update(token).digest('hex');
 const isStrongResetPassword = (password) => typeof password === 'string' && password.length >= 12 && /[a-z]/.test(password) && /[A-Z]/.test(password) && /\d/.test(password);
 
@@ -63,7 +64,8 @@ export async function forgotPassword(req, res, next) {
         try {
             await sendPasswordResetEmail(user, rawToken);
         } catch {
-            await prisma.passwordResetToken.deleteMany({ where: { tokenHash } });
+            try { await prisma.passwordResetToken.deleteMany({ where: { tokenHash } }); }
+            catch { console.warn('Unsent password reset token cleanup failed; token expires automatically.'); }
             console.warn('Password reset email delivery failed.');
         }
         return res.status(202).json(genericResponse);
@@ -128,6 +130,7 @@ export async function register(req, res, next) {
         });
 
         setAuthCookie(res, user);
+        void sendStudentWelcome(user).catch(() => console.warn('Student welcome email could not be sent.'));
         return res.status(201).json({ user });
     } catch (error) {
         if (error?.code === 'P2002') {

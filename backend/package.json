@@ -3,24 +3,41 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch server.js",
-    "start": "node server.js",
-    "test": "node --test",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:deploy": "prisma migrate deploy"
+    "dev": "node --experimental-strip-types --env-file=.env.development --watch server.js",
+    "start": "node --experimental-strip-types server.js",
+    "build": "prisma generate --config prisma.config.ts",
+    "test": "node --experimental-strip-types --env-file-if-exists=.env.development --test",
+    "prisma:generate": "prisma generate --config prisma.config.ts",
+    "prisma:validate": "prisma validate --config prisma.config.ts",
+    "prisma:migrate:dev": "prisma migrate dev --config prisma.config.ts",
+    "prisma:deploy": "prisma migrate deploy --config prisma.config.ts",
+    "prisma:generate:mariadb": "prisma generate --config prisma.mariadb.config.ts",
+    "prisma:validate:mariadb": "prisma validate --config prisma.mariadb.config.ts",
+    "transfer:mariadb-to-postgres": "prisma generate --config prisma.mariadb.config.ts && node --experimental-strip-types --env-file-if-exists=.env.development scripts/transfer-mariadb-to-postgres.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/adapter-mariadb": "7.10.1",
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^10.6.1"
+    "mariadb": "3.5.5",
+    "pg": "8.16.3",
+    "resend": "^6.40.0"
+  },
+  "engines": {
+    "node": ">=22.12 <23"
   },
   "devDependencies": {
-    "prisma": "^6.19.0"
+    "prisma": "7.10.1"
+  },
+  "overrides": {
+    "@prisma/config": {
+      "effect": "3.22.1"
+    }
   }
 }

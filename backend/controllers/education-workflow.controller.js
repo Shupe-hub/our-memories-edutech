@@ -1,5 +1,6 @@
 import prisma from '../config/prisma.js';
 import crypto from 'node:crypto';
+import { sendDocumentNotification, sendWorkflowApplicationNotification } from '../services/email.service.js';
 
 const reference = (prefix) => `${prefix}-${new Date().getFullYear()}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
 const error = (res, message, status = 400) => res.status(status).json({ error: message });
@@ -19,6 +20,7 @@ export async function createInstitutionApplication(req, res) {
   try {
     const app = await prisma.institutionApplication.create({ data: { referenceNumber: reference('UNI'), userId: req.userId, institutionId, parentEnquiryId: parentEnquiryId || null, academicYear: Number(academicYear), qualificationLevel: String(qualificationLevel || '').slice(0, 120) || null, firstChoice: String(firstChoice || '').slice(0, 200) || null, secondChoice: String(secondChoice || '').slice(0, 200) || null, thirdChoice: String(thirdChoice || '').slice(0, 200) || null, history: { create: { actorId: req.userId, action: 'SUBMITTED' } } }, include: studentAppInclude });
     res.status(201).json({ application: app });
+    void prisma.user.findUnique({ where: { id: req.userId }, select: { email: true } }).then((user) => user && sendWorkflowApplicationNotification(user.email, { referenceNumber: app.referenceNumber, organisation: app.institution?.name, status: 'SUBMITTED', kind: 'institution' })).catch(() => console.warn('Institution application email could not be sent.'));
   } catch (e) { return error(res, e.code === 'P2002' ? 'An application for this institution and year already exists.' : 'Unable to submit the institution application.', e.code === 'P2002' ? 409 : 500); }
 }
 
@@ -48,6 +50,7 @@ export async function createBursaryApplication(req, res) {
   try {
     const application = await prisma.bursaryApplication.create({ data: { referenceNumber: reference('BUR'), userId: req.userId, bursaryId, academicYear: year, history: { create: { actorId: req.userId, action: 'SUBMITTED' } } }, include: { bursary: true, documents: { include: { document: { select: { id: true, originalName: true, category: true, status: true, sizeBytes: true } } } }, history: { orderBy: { createdAt: 'desc' } } } });
     res.status(201).json({ application });
+    void prisma.user.findUnique({ where: { id: req.userId }, select: { email: true } }).then((user) => user && sendWorkflowApplicationNotification(user.email, { referenceNumber: application.referenceNumber, organisation: application.bursary?.name || 'Bursary', status: 'SUBMITTED', kind: 'bursary' })).catch(() => console.warn('Bursary application email could not be sent.'));
   } catch (e) { return error(res, e.code === 'P2002' ? 'You have already applied for this bursary in that year.' : 'Unable to submit the bursary application.', e.code === 'P2002' ? 409 : 500); }
 }
 
@@ -117,15 +120,17 @@ export async function updateWorkflowDocumentStatus(req, res) {
   if (!['UNDER_REVIEW', 'VERIFIED', 'REJECTED', 'REPLACEMENT_REQUIRED'].includes(status)) return error(res, 'Invalid document status.');
   const model = kind === 'bursary' ? prisma.bursaryApplication : kind === 'university' ? prisma.institutionApplication : null;
   if (!model) return error(res, 'Unknown application type.');
-  const application = await model.findFirst({ where: { id, documents: { some: { documentId } } }, select: { id: true, userId: true } });
+  const application = await model.findFirst({ where: { id, documents: { some: { documentId } } }, select: { id: true, userId: true, referenceNumber: true, ...(kind === 'bursary' ? { bursary: { select: { name: true } } } : { institution: { select: { name: true } } }) } });
   if (!application) return error(res, 'Document was not found on this application.', 404);
   const document = await prisma.applicationDocument.findFirst({ where: { id: documentId, userId: application.userId, deletedAt: null } });
   if (!document) return error(res, 'Document was not found.', 404);
+  const changed = document.status !== status || (typeof req.body?.adminComment === 'string' && document.adminComment !== req.body.adminComment.slice(0, 1000));
   await prisma.$transaction([
     prisma.applicationDocument.update({ where: { id: documentId }, data: { status, adminComment: typeof req.body?.adminComment === 'string' ? req.body.adminComment.slice(0, 1000) : undefined } }),
     prisma.applicationDocumentHistory.create({ data: { documentId, actorId: req.userId, action: `STATUS_${status}`, previousStatus: document.status, newStatus: status } }),
     prisma.studentNotification.create({ data: { userId: application.userId, title: 'Document status updated', message: `An administrator updated the status of ${document.originalName} to ${status.replaceAll('_', ' ').toLowerCase()}.`, type: 'DOCUMENT_STATUS', entityId: id } }),
   ]);
+  if (changed) void prisma.user.findUnique({ where: { id: application.userId }, select: { email: true } }).then((user) => user && sendDocumentNotification(user.email, { referenceNumber: application.referenceNumber, status, feedback: req.body?.adminComment })).catch(() => console.warn('Document status email could not be sent.'));
   res.json({ success: true });
 }
 
@@ -135,7 +140,7 @@ export async function updateAdminWorkflowApplication(req, res) {
   const { status, adminFeedback, requestedDocuments, assignedAdminId } = req.body || {};
   const valid = ['SUBMITTED', 'UNDER_REVIEW', 'AWAITING_DOCUMENTS', 'IN_PROGRESS', 'APPROVED', 'REJECTED', 'CANCELLED'];
   if (status && !valid.includes(status)) return error(res, 'Invalid application status.');
-  const current = await model.findUnique({ where: { id: req.params.id } });
+  const current = await model.findUnique({ where: { id: req.params.id }, select: { id: true, userId: true, referenceNumber: true, status: true, adminFeedback: true, requestedDocuments: true, ...(kind === 'bursary' ? { bursary: { select: { name: true } } } : { institution: { select: { name: true } } }) } });
   if (!current) return error(res, 'Application was not found.', 404);
   const data = {};
   if (status) data.status = status;
@@ -150,6 +155,11 @@ export async function updateAdminWorkflowApplication(req, res) {
     return result;
   });
   res.json({ application: updated });
+  const notificationChanged = (status && status !== current.status) || (typeof adminFeedback === 'string' && adminFeedback !== current.adminFeedback) || (Array.isArray(requestedDocuments) && JSON.stringify(requestedDocuments) !== JSON.stringify(current.requestedDocuments));
+  if (notificationChanged) {
+    const organisation = kind === 'bursary' ? current.bursary.name : current.institution.name;
+    void prisma.user.findUnique({ where: { id: current.userId }, select: { email: true } }).then((user) => user && sendWorkflowApplicationNotification(user.email, { referenceNumber: current.referenceNumber, organisation, status: updated.status, feedback: adminFeedback, requestedDocuments, kind })).catch(() => console.warn('Application workflow email could not be sent.'));
+  }
 }
 
 export async function updateAdminApplicationFee(req, res) {
@@ -172,6 +182,15 @@ export async function adminCatalogue(req, res) {
 export async function saveCatalogue(req, res) {
   const { entity, id } = req.params;
   const body = req.body || {};
+  const validText = (value, max) => typeof value === 'string' && Boolean(value.trim()) && value.length <= max;
+  if (entity === 'institutions' && (
+    (!id && !validText(body.name, 255)) ||
+    (body.name !== undefined && !validText(body.name, 255)) ||
+    (body.officialName !== undefined && body.officialName !== null && !validText(body.officialName, 255)) ||
+    (body.province !== undefined && body.province !== null && (typeof body.province !== 'string' || body.province.length > 191))
+  )) return error(res, 'Institution name and official name must be at most 255 characters; province must be at most 191 characters.');
+  if (entity === 'programmes' && ((!id && !validText(body.name, 255)) || (body.name !== undefined && !validText(body.name, 255)))) return error(res, 'Programme name is required and must be at most 255 characters.');
+  if (entity === 'bursaries' && ((!id && !validText(body.name, 10000)) || (body.name !== undefined && !validText(body.name, 10000)))) return error(res, 'Bursary name is required.');
   try {
     let result;
     if (entity === 'institutions') result = id ? await prisma.institution.update({ where: { id }, data: pick(body, ['name', 'officialName', 'aliases', 'type', 'province', 'website', 'websiteVerified', 'locationVerified', 'sourceUrl']) }) : await prisma.institution.create({ data: { name: body.name, officialName: body.officialName || body.name, type: body.type || 'UNIVERSITY', province: body.province || null, website: body.website || null, websiteVerified: body.websiteVerified === true, locationVerified: body.locationVerified === true, sourceUrl: body.sourceUrl || null, isLegacy: false } });

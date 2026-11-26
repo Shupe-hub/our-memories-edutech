@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
+import { isDedicatedLocalDatabase } from './local-database-guard.js';
 
-const enabled = process.env.RUN_EDUCATION_INTEGRATION === '1';
+const enabled = process.env.RUN_EDUCATION_INTEGRATION === '1' && isDedicatedLocalDatabase();
 
 test('institution and bursary applications enforce ownership and verified catalogue visibility', { skip: !enabled }, async () => {
   await import('dotenv/config');

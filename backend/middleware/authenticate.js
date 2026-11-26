@@ -9,20 +9,19 @@ export async function authenticate(req, res, next) {
         return res.status(401).json({ error: 'Authentication required.' });
     }
 
+    let payload;
+    try { payload = jwt.verify(token, process.env.JWT_SECRET); }
+    catch {
+        return res.status(401).json({ error: 'Invalid or expired authentication token.' });
+    }
+    if (typeof payload !== 'object' || typeof payload.sub !== 'string') return res.status(401).json({ error: 'Invalid authentication token.' });
     try {
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        if (typeof payload !== 'object' || typeof payload.sub !== 'string') {
-            return res.status(401).json({ error: 'Invalid authentication token.' });
-        }
-
         const user = await prisma.user.findUnique({ where: { id: payload.sub }, select: { id: true, role: true, isActive: true, mustChangePassword: true, authVersion: true } });
         if (!user || !user.isActive || payload.ver !== user.authVersion) return res.status(401).json({ error: 'Authentication required.' });
         req.userId = user.id;
         req.user = user;
         return next();
-    } catch {
-        return res.status(401).json({ error: 'Invalid or expired authentication token.' });
-    }
+    } catch (error) { return next(error); }
 }
 
 export const requireRole = (...roles) => (req, res, next) => {
@@ -48,7 +47,8 @@ export function rateLimit({ windowMs = 15 * 60 * 1000, max = 10 } = {}) {
 
 export function sameOrigin(req, res, next) {
     const origin = req.get('origin');
-    if (origin && origin !== (process.env.CLIENT_URL || 'http://localhost:5173')) return res.status(403).json({ error: 'Request origin is not allowed.' });
+    const origins = (process.env.CORS_ORIGINS || process.env.CLIENT_URL || 'http://localhost:5173').split(',').map((value) => value.trim().replace(/\/$/, ''));
+    if (origin && !origins.includes(origin.replace(/\/$/, ''))) return res.status(403).json({ error: 'Request origin is not allowed.' });
     next();
 }
 

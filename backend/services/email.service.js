@@ -1,64 +1,66 @@
-import nodemailer from 'nodemailer';
+import { emailConfiguration, getResendClient } from './email/resend.client.js';
+import { brandedEmail } from './email/email.layout.js';
+import { emailSubjects } from './email/email.templates.js';
 
-export async function sendAdminInvitation(user, temporaryPassword) {
-    const { SMTP_HOST='smtp.gmail.com', SMTP_PORT='587', SMTP_SECURE='false', SMTP_USER, SMTP_PASS, SMTP_FROM_NAME='Our Memories EduTech', SMTP_FROM_EMAIL=SMTP_USER, CLIENT_URL='http://localhost:5173' } = process.env;
-    if (!SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) throw new Error('SMTP is not configured.');
-    const transporter = nodemailer.createTransport({ host: SMTP_HOST, port: Number(SMTP_PORT), secure: SMTP_SECURE === 'true', auth: { user: SMTP_USER, pass: SMTP_PASS } });
-    const loginUrl = `${CLIENT_URL.replace(/\/$/, '')}/login`;
-    const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    await transporter.sendMail({ from: `"${SMTP_FROM_NAME}" <${SMTP_FROM_EMAIL}>`, to: user.email, subject: 'Welcome to Our Memories EduTech – Administrator Account Created', text: `Hello ${user.name},\n\nYour administrator account has been created. Email: ${user.email}\nTemporary password: ${temporaryPassword}\nSign in at ${loginUrl}. You must change your password after signing in.`, html: `<div style="font-family:Arial,sans-serif;color:#202b3c;max-width:600px;margin:auto"><div style="background:#2689ed;color:white;padding:24px;border-radius:12px 12px 0 0"><h1 style="margin:0">Our Memories EduTech</h1><p>Administrator access</p></div><div style="padding:26px;border:1px solid #e5eaf1"><h2>Welcome, ${esc(user.name)} ${esc(user.surname)}</h2><p>Your administrator account is ready.</p><p><b>Email:</b> ${esc(user.email)}<br><b>Temporary password:</b> <code>${esc(temporaryPassword)}</code></p><p><a href="${esc(loginUrl)}" style="background:#2689ed;color:white;padding:12px 18px;text-decoration:none;border-radius:6px">Sign in</a></p><p>For your security, you must change this temporary password on your first sign in. Do not forward this email. If you did not expect this invitation, contact your system administrator.</p></div></div>` });
+const validEmail = (value) => typeof value === 'string' && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+export async function sendEmail({ to, subject, html, text, replyTo }) {
+  const recipients = Array.isArray(to) ? to : [to];
+  if (!recipients.length || recipients.some((address) => !validEmail(address))) throw new Error('Email recipient is invalid.');
+  if (replyTo && !validEmail(replyTo)) throw new Error('Email reply-to address is invalid.');
+  if (typeof subject !== 'string' || !subject.trim() || typeof html !== 'string' || typeof text !== 'string') throw new Error('Email subject, HTML, and text are required.');
+  const config = emailConfiguration();
+  try {
+    const { data, error } = await getResendClient().emails.send({ from: config.from, to: recipients, subject, html, text, replyTo: replyTo || config.replyTo });
+    if (error) { console.warn('Resend rejected an email request.', { name: error.name, statusCode: error.statusCode }); throw new Error('Email provider rejected the request.'); }
+    if (!data?.id) { console.warn('Resend returned no message ID for an email request.'); throw new Error('Email provider returned an incomplete response.'); }
+    return { id: data.id, status: 'accepted' };
+  } catch (error) {
+    if (error?.message === 'Email provider rejected the request.') throw error;
+    console.warn('Email request failed.', { name: error?.name || 'Error', statusCode: error?.statusCode });
+    throw new Error('Email request failed.');
+  }
 }
 
-export async function sendPasswordResetEmail(user, rawToken) {
-    const { SMTP_HOST='smtp.gmail.com', SMTP_PORT='587', SMTP_SECURE='false', SMTP_USER, SMTP_PASS, SMTP_FROM_NAME='Our Memories EduTech', SMTP_FROM_EMAIL=SMTP_USER, CLIENT_URL='http://localhost:5173' } = process.env;
-    if (!SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) throw new Error('SMTP is not configured.');
-    const transporter = nodemailer.createTransport({ host: SMTP_HOST, port: Number(SMTP_PORT), secure: SMTP_SECURE === 'true', auth: { user: SMTP_USER, pass: SMTP_PASS } });
-    const resetUrl = `${CLIENT_URL.replace(/\/$/, '')}/reset-password?token=${encodeURIComponent(rawToken)}`;
-    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
-    await transporter.sendMail({
-        from: `"${SMTP_FROM_NAME}" <${SMTP_FROM_EMAIL}>`,
-        to: user.email,
-        subject: 'Reset Your Our Memories EduTech Password',
-        text: `Hello ${user.name},\n\nA password reset was requested for your Our Memories EduTech account. Reset your password here: ${resetUrl}\nThis link expires in 30 minutes. If you did not request this, you can ignore this email.`,
-        html: `<div style="font-family:Arial,sans-serif;color:#202b3c;max-width:600px;margin:auto"><div style="background:#2689ed;color:white;padding:24px;border-radius:12px 12px 0 0"><h1 style="margin:0">Our Memories EduTech</h1><p>Account security</p></div><div style="padding:26px;border:1px solid #e5eaf1"><h2>Password reset</h2><p>Hello ${escapeHtml(user.name)},</p><p>We received a request to reset the password for your account. Use the button below to choose a new password.</p><p><a href="${escapeHtml(resetUrl)}" style="display:inline-block;background:#2689ed;color:#fff;padding:13px 18px;text-decoration:none;border-radius:7px;font-weight:bold">Reset password</a></p><p>This secure link expires in 30 minutes and can only be used once.</p><p>If you did not request a password reset, ignore this email. Your password will not change.</p></div></div>`,
-    });
+async function sendBranded(to, subject, content) {
+  const config = emailConfiguration();
+  const { html, text } = brandedEmail({ ...content, config });
+  return sendEmail({ to, subject, html, text });
 }
+const greeting = (name) => `Hello ${name || 'there'},`;
+const route = (path) => `${emailConfiguration().appUrl}${path}`;
 
-const enquiryMailer = () => {
-    const { SMTP_HOST='smtp.gmail.com', SMTP_PORT='587', SMTP_SECURE='false', SMTP_USER, SMTP_PASS, SMTP_FROM_NAME='Our Memories EduTech', SMTP_FROM_EMAIL=SMTP_USER } = process.env;
-    if (!SMTP_USER || !SMTP_PASS || !SMTP_FROM_EMAIL) throw new Error('SMTP is not configured.');
-    return { transporter: nodemailer.createTransport({ host: SMTP_HOST, port: Number(SMTP_PORT), secure: SMTP_SECURE === 'true', auth: { user: SMTP_USER, pass: SMTP_PASS } }), from: `"${SMTP_FROM_NAME}" <${SMTP_FROM_EMAIL}>` };
+export const sendStudentWelcome = async (user) => sendBranded(user.email, emailSubjects.welcome, { heading: 'Welcome to Our Memories EduTech!', greeting: greeting(user.name), message: 'We are glad you are here. Use your dashboard to manage your learning and application journey. Our application assistance services can help you prepare and track institution and funding applications.', actionLabel: 'Open your dashboard', actionUrl: route('/account') });
+
+export const sendPasswordResetEmail = async (user, rawToken) => {
+  const url = `${route('/reset-password')}?token=${encodeURIComponent(rawToken)}`;
+  return sendBranded(user.email, emailSubjects.reset, { heading: 'Reset your password', greeting: greeting(user.name), message: 'We received a request to reset your account password. This secure link expires in 30 minutes and can only be used once. If you did not request this, ignore this message; your password will not change.', actionLabel: 'Reset password', actionUrl: url });
 };
 
-export async function sendStudentEnquiryAcknowledgement(enquiry) {
-    const { transporter, from } = enquiryMailer();
-    await transporter.sendMail({
-        from, to: enquiry.email, subject: `Application enquiry received: ${enquiry.referenceNumber}`,
-        text: `Your application enquiry ${enquiry.referenceNumber} has been received. You can view updates from your student dashboard. Our target feedback timeframe is 5–10 working days.`,
-        html: `<div style="font-family:Arial,sans-serif;color:#202b3c;max-width:600px;margin:auto"><div style="background:#2689ed;color:white;padding:22px"><h1 style="margin:0">Our Memories EduTech</h1></div><div style="padding:24px;border:1px solid #e5eaf1"><h2>Enquiry received</h2><p>Your application enquiry has been received.</p><p><b>Reference number:</b> ${enquiry.referenceNumber}</p><p>Check your student dashboard for status and feedback. Our target feedback timeframe is 5–10 working days; institution processing times are separate.</p></div></div>`,
-    });
+export const sendAdminInvitation = async (user, rawToken) => sendBranded(user.email, emailSubjects.invitation, { heading: "You're invited to Our Memories EduTech", greeting: greeting(`${user.name} ${user.surname}`), message: 'Your administrator account is ready. Use the secure link below to set your password. The single use link expires in 72 hours. If you were not expecting this invitation, contact your system administrator.', actionLabel: 'Set administrator password', actionUrl: `${route('/reset-password')}?token=${encodeURIComponent(rawToken)}`, details: [['Account email', user.email], ['Link expiry', '72 hours']] });
+
+export const sendStudentEnquiryAcknowledgement = async (enquiry) => sendBranded(enquiry.email, emailSubjects.enquiry, { heading: 'Application assistance request received', greeting: greeting(enquiry.fullNames || enquiry.name), message: 'Your application assistance request has been received. Sign in to review its progress and feedback. Please do not reply with identity numbers or sensitive documents.', details: [['Reference number', enquiry.referenceNumber], ['Application type', enquiry.applicationType], ['Submitted', new Date(enquiry.submittedAt || Date.now()).toLocaleDateString('en-ZA')], ...(enquiry.selectedInstitutions || []).map((item, i) => [`Institution ${i + 1}`, item.institution?.name || item.name])], actionLabel: 'View My Applications', actionUrl: route('/account/applications') });
+
+export const sendAdministratorEnquiryNotice = async (to, referenceNumber, applicationType) => sendBranded(to, `New application enquiry: ${referenceNumber}`, { heading: 'New application enquiry', message: `A new ${applicationType} enquiry is ready for review in the administrator dashboard.`, details: [['Reference number', referenceNumber]], actionLabel: 'Open administrator dashboard', actionUrl: route('/admin') });
+export const sendAdministratorEnquiryUpdateNotice = async (to, referenceNumber, changedFieldCount) => sendBranded(to, `Student update to application ${referenceNumber}`, { heading: 'Student updated an enquiry', message: `A student updated ${Number(changedFieldCount) || 0} fields. Review the changes in the administrator dashboard. No applicant details are included in this email.`, details: [['Reference number', referenceNumber]], actionLabel: 'Review application', actionUrl: route('/admin') });
+export const sendStudentEnquiryUpdate = async (enquiry) => sendBranded(enquiry.email, emailSubjects.status, { heading: 'There is an update to your application', greeting: greeting(enquiry.fullNames || enquiry.name), message: enquiry.requestedDocuments?.length ? `Please provide the requested documents: ${enquiry.requestedDocuments.join(', ')}.` : 'Sign in to view your current status and any feedback intended for you.', details: [['Reference number', enquiry.referenceNumber], ...(enquiry.status ? [['Status', enquiry.status]] : []), ...(enquiry.adminFeedback ? [['Feedback', enquiry.adminFeedback]] : [])], actionLabel: 'View application', actionUrl: route('/account/applications') });
+
+export const sendDocumentNotification = async (to, { referenceNumber, status, feedback }) => sendBranded(to, emailSubjects.document, { heading: 'Document status updated', message: `The status of a document is now ${String(status).replaceAll('_', ' ').toLowerCase()}.${feedback ? ` Administrator feedback: ${feedback}` : ''}`, details: referenceNumber ? [['Application reference', referenceNumber]] : [], actionLabel: referenceNumber ? 'View application' : 'View your documents', actionUrl: route(referenceNumber ? '/account/applications' : '/account/documents') });
+export const sendWorkflowApplicationNotification = async (to, { referenceNumber, organisation, status, feedback, requestedDocuments, kind }) => {
+  const isBursary = kind === 'bursary';
+  const submitted = status === 'SUBMITTED';
+  const subject = submitted ? emailSubjects.enquiry : emailSubjects.status;
+  const entity = isBursary ? 'bursary' : 'institution';
+  return sendBranded(to, subject, { heading: submitted ? `${isBursary ? 'Bursary' : 'Institution'} application received` : `${isBursary ? 'Bursary' : 'Institution'} application update`, message: requestedDocuments?.length ? `Additional documents have been requested: ${requestedDocuments.join(', ')}.` : feedback || (submitted ? `Your ${entity} application has been received.` : `There is an update to your ${entity} application.`), details: [[isBursary ? 'Bursary' : 'Institution', organisation], ['Reference number', referenceNumber], ...(status ? [['Status', String(status).replaceAll('_', ' ')]] : [])], actionLabel: 'View application', actionUrl: route(isBursary ? '/account/bursary-applications' : '/account/university-applications') });
+};
+export const sendDeadlineReminder = async (to, { title, organisation, closesAt, referenceNumber, daysRemaining }) => sendBranded(to, emailSubjects.deadline, { heading: 'Application deadline reminder', message: 'A deadline for an application you started is approaching.', details: [['Application', title], ...(organisation ? [['Institution or funding organisation', organisation]] : []), ['Closing date', new Date(closesAt).toLocaleDateString('en-ZA')], ...(Number.isInteger(daysRemaining) ? [['Time remaining', `${daysRemaining} days`]] : []), ['Reference number', referenceNumber]], actionLabel: 'Review application', actionUrl: route('/account/applications') });
+export const sendContactNotification = async (to, { name, email, subject, message, service }) => sendBranded(to, emailSubjects.contact, { heading: 'New contact form message', message: 'A visitor submitted a contact form message.', details: [['Name', name], ['Reply email', email], ['Service', service || 'Not specified'], ['Subject', subject], ['Message', message]] });
+
+export function getEmailReadiness() {
+  const missing = ['RESEND_API_KEY', 'EMAIL_FROM', 'APP_PUBLIC_URL'].filter((key) => !process.env[key]);
+  let invalidConfiguration = false;
+  try { emailConfiguration(); } catch { invalidConfiguration = true; }
+  return { configured: missing.length === 0 && !invalidConfiguration, missing, invalidConfiguration };
 }
 
-export async function sendAdministratorEnquiryNotice(to, referenceNumber, applicationType) {
-    const { transporter, from } = enquiryMailer();
-    await transporter.sendMail({ from, to, subject: `New application enquiry: ${referenceNumber}`, text: `A new ${applicationType} enquiry (${referenceNumber}) is ready for review in the administrator dashboard.`, html: `<p>A new <b>${applicationType}</b> enquiry (<b>${referenceNumber}</b>) is ready for review in the administrator dashboard.</p>` });
-}
-
-export async function sendAdministratorEnquiryUpdateNotice(to, referenceNumber, changedFieldCount) {
-    const { transporter, from } = enquiryMailer();
-    const count = Number.isInteger(changedFieldCount) ? changedFieldCount : 0;
-    await transporter.sendMail({
-        from, to, subject: `Student update to application ${referenceNumber}`,
-        text: `A student updated ${count} field${count === 1 ? '' : 's'} on application ${referenceNumber}. Review the changes in the administrator dashboard. No applicant details are included in this email.`,
-        html: `<p>A student updated <b>${count}</b> field${count === 1 ? '' : 's'} on application <b>${referenceNumber}</b>.</p><p>Review the changes in the administrator dashboard. No applicant details are included in this email.</p>`,
-    });
-}
-
-export async function sendStudentEnquiryUpdate(enquiry) {
-    const { transporter, from } = enquiryMailer();
-    await transporter.sendMail({
-        from, to: enquiry.email, subject: `Application enquiry update: ${enquiry.referenceNumber}`,
-        text: `There is an update to application enquiry ${enquiry.referenceNumber}. Sign in to your student dashboard to view the current status and any feedback.`,
-        html: `<div style="font-family:Arial,sans-serif;color:#202b3c;max-width:600px;margin:auto"><div style="background:#2689ed;color:white;padding:22px"><h1 style="margin:0">Our Memories EduTech</h1></div><div style="padding:24px;border:1px solid #e5eaf1"><h2>Enquiry update</h2><p>There is an update to enquiry <b>${enquiry.referenceNumber}</b>.</p><p>Sign in to your student dashboard to view the current status and any feedback.</p></div></div>`,
-    });
-}
+export const sendTestEmail = async (to) => sendBranded(to, 'Our Memories EduTech email test', { heading: 'Email setup test', message: 'This controlled message confirms that the Resend API accepted a branded test email.' });

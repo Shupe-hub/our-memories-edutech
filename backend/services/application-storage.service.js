@@ -6,6 +6,12 @@ import { randomUUID } from 'node:crypto';
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const projectRoot = path.resolve(backendRoot, '..');
 
+function assertOutsidePublicHtml(candidatePath) {
+    if (path.resolve(candidatePath).split(path.sep).some((segment) => /^public_html$/i.test(segment))) {
+        throw new Error('PRIVATE_STORAGE_PATH_IS_PUBLIC');
+    }
+}
+
 const maxBytes = () => {
     const configured = Number.parseInt(process.env.APPLICATION_MAX_FILE_BYTES || '5242880', 10);
     return Number.isFinite(configured) && configured > 0 ? Math.min(configured, 5 * 1024 * 1024) : 5 * 1024 * 1024;
@@ -15,6 +21,7 @@ function storageRoot() {
     const configured = process.env.APPLICATION_STORAGE_PATH;
     if (!configured && process.env.NODE_ENV === 'production') throw new Error('PRIVATE_STORAGE_NOT_CONFIGURED');
     const root = path.resolve(configured || path.join(backendRoot, '.private-application-documents'));
+    assertOutsidePublicHtml(root);
     const publicRoots = ['frontend/public', 'frontend/dist', 'frontend/public_html'].map((item) => path.resolve(projectRoot, item));
     if (publicRoots.some((publicRoot) => root === publicRoot || root.startsWith(publicRoot + path.sep))) throw new Error('PRIVATE_STORAGE_PATH_IS_PUBLIC');
     return root;
@@ -71,6 +78,7 @@ export async function ensurePrivateStorageConfigured() {
     const root = storageRoot();
     await mkdir(root, { recursive: true, mode: 0o700 });
     const realRoot = await realpath(root);
+    assertOutsidePublicHtml(realRoot);
     const publicRoots = ['frontend/public', 'frontend/dist', 'frontend/public_html'].map((item) => path.resolve(projectRoot, item));
     for (const publicRoot of publicRoots) {
         try {

@@ -1,5 +1,6 @@
+import { apiBaseUrl } from './apiBase.js';
+
 export async function apiRequest(path, options = {}) {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
     let response;
     try {
         response = await fetch(`${apiBaseUrl}${path}`, {

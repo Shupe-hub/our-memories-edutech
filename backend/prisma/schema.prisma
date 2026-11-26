@@ -1,11 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/our-memories-document-client"
+  provider = "prisma-client"
+  output   = "../generated/postgres"
+  moduleFormat = "esm"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
